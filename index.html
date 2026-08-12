@@ -963,8 +963,7 @@ button:active{transform:scale(.98)}
    QUORA BETS CONFIGURATION
 ========================================================= */
 
-const API_URL =
-  "https://quora-bets-back-end1.onrender.com";
+const API_URL = "https://quora-bets-back-end1.onrender.com";
 
 
 /* =========================================================
@@ -1358,10 +1357,9 @@ async function loadGames(sportKey="soccer_epl"){
 
   try{
 
-    const response =
-      await fetch(
-        `${API_URL}/api/odds?sport=${encodeURIComponent(sportKey)}`
-      );
+    const response = await fetch(
+  `${API_URL}/api/odds?sport=${encodeURIComponent(key)}`
+);
 
 
     const result =
