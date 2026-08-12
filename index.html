@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Quora Bets</title>
 
@@ -17,6 +18,7 @@
   --bg: #07110d;
   --panel: #0d1b15;
   --panel2: #11231b;
+  --panel3: #16291f;
   --green: #16d66b;
   --green2: #0fa957;
   --text: #ffffff;
@@ -26,6 +28,10 @@
   --yellow: #ffd43b;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: var(--bg);
@@ -33,8 +39,17 @@ body {
   min-height: 100vh;
 }
 
-button {
+button,
+input {
   font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 .app {
@@ -84,7 +99,7 @@ button {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
 }
 
 .balance {
@@ -99,6 +114,19 @@ button {
   color: var(--green);
 }
 
+.header-btn {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: white;
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-weight: 800;
+}
+
+.header-btn:hover {
+  border-color: var(--green);
+}
+
 .login {
   background: var(--green);
   color: #041008;
@@ -106,7 +134,11 @@ button {
   padding: 10px 16px;
   border-radius: 7px;
   font-weight: 800;
-  cursor: pointer;
+}
+
+.logout {
+  background: transparent;
+  color: var(--danger);
 }
 
 /* ================= NAV ================= */
@@ -125,7 +157,6 @@ button {
   border: none;
   background: transparent;
   color: var(--muted);
-  cursor: pointer;
   font-weight: 700;
   border-bottom: 3px solid transparent;
 }
@@ -186,7 +217,8 @@ button {
   outline: none;
 }
 
-.search input:focus {
+.search input:focus,
+.form-input:focus {
   border-color: var(--green);
 }
 
@@ -197,7 +229,6 @@ button {
   padding: 0 17px;
   border-radius: 7px;
   font-weight: 800;
-  cursor: pointer;
 }
 
 /* ================= STATUS ================= */
@@ -307,12 +338,11 @@ button {
 }
 
 .odd {
-  background: #16291f;
+  background: var(--panel3);
   border: 1px solid #274235;
   color: white;
   min-height: 50px;
   border-radius: 6px;
-  cursor: pointer;
   transition: .15s;
 }
 
@@ -329,7 +359,6 @@ button {
 
 .odd:disabled {
   opacity: .45;
-  cursor: not-allowed;
 }
 
 .odd-label {
@@ -409,7 +438,6 @@ button {
   border: none;
   background: transparent;
   color: var(--danger);
-  cursor: pointer;
   font-size: 18px;
 }
 
@@ -462,10 +490,6 @@ button {
   outline: none;
 }
 
-.stake:focus {
-  border-color: var(--green);
-}
-
 .place {
   width: 100%;
   padding: 14px;
@@ -475,13 +499,170 @@ button {
   font-size: 15px;
   font-weight: 900;
   border-radius: 7px;
-  cursor: pointer;
 }
 
 .place:disabled {
   background: #26372e;
   color: #718178;
-  cursor: not-allowed;
+}
+
+/* ================= MODALS ================= */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 430px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 20px;
+  box-shadow: 0 20px 70px rgba(0,0,0,.5);
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modal-head h2 {
+  font-size: 20px;
+}
+
+.close {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 25px;
+}
+
+.form-group {
+  margin-bottom: 13px;
+}
+
+.form-label {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  background: #07110d;
+  border: 1px solid var(--border);
+  color: white;
+  border-radius: 7px;
+  padding: 12px;
+  outline: none;
+}
+
+.form-button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  background: var(--green);
+  color: #041008;
+  font-weight: 900;
+  border-radius: 7px;
+  margin-top: 6px;
+}
+
+.switch {
+  margin-top: 15px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.switch button {
+  background: none;
+  border: none;
+  color: var(--green);
+  font-weight: 800;
+}
+
+.info-box {
+  background: #102119;
+  border: 1px solid var(--border);
+  padding: 13px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.info-box strong {
+  color: var(--green);
+}
+
+.user-name {
+  color: var(--green);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* ================= HISTORY ================= */
+
+.history-item {
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 9px;
+  background: #102119;
+}
+
+.history-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.history-id {
+  font-weight: 900;
+}
+
+.history-status {
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.status-open {
+  color: var(--yellow);
+}
+
+.status-won {
+  color: var(--green);
+}
+
+.status-lost {
+  color: var(--danger);
+}
+
+.status-void {
+  color: var(--muted);
+}
+
+.history-details {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
 }
 
 /* ================= LOADING ================= */
@@ -506,6 +687,35 @@ button {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* ================= TOAST ================= */
+
+.toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2000;
+  background: #102119;
+  border: 1px solid var(--border);
+  color: white;
+  padding: 13px 16px;
+  border-radius: 8px;
+  max-width: 350px;
+  display: none;
+  box-shadow: 0 10px 35px rgba(0,0,0,.4);
+}
+
+.toast.show {
+  display: block;
+}
+
+.toast.success {
+  border-color: var(--green);
+}
+
+.toast.error {
+  border-color: var(--danger);
 }
 
 /* ================= MOBILE ================= */
@@ -558,6 +768,10 @@ button {
   body {
     padding-bottom: 70px;
   }
+
+  .header-btn {
+    display: none;
+  }
 }
 
 @media(max-width: 500px) {
@@ -587,6 +801,18 @@ button {
   .odd {
     min-height: 46px;
   }
+
+  .search {
+    flex-direction: column;
+  }
+
+  .refresh {
+    padding: 12px;
+  }
+
+  .modal-box {
+    padding: 16px;
+  }
 }
 </style>
 </head>
@@ -594,6 +820,8 @@ button {
 <body>
 
 <div class="app">
+
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
@@ -608,8 +836,35 @@ button {
       Balance: <strong>KES 0.00</strong>
     </div>
 
-    <button class="login" onclick="loginMessage()">
+    <button
+      id="walletBtn"
+      class="header-btn"
+      onclick="openDeposit()"
+      style="display:none">
+      Deposit
+    </button>
+
+    <button
+      id="historyBtn"
+      class="header-btn"
+      onclick="openHistory()"
+      style="display:none">
+      Bets
+    </button>
+
+    <button
+      id="loginBtn"
+      class="login"
+      onclick="openLogin()">
       Login
+    </button>
+
+    <button
+      id="logoutBtn"
+      class="header-btn logout"
+      onclick="logout()"
+      style="display:none">
+      Logout
     </button>
 
   </div>
@@ -617,26 +872,35 @@ button {
 </header>
 
 
+<!-- ================= NAV ================= -->
+
 <nav class="nav">
 
-  <button class="active" onclick="changeSport('soccer_epl', this)">
+  <button
+    class="active"
+    onclick="changeSport('soccer_epl', this)">
     ⚽ Football
   </button>
 
-  <button onclick="changeSport('basketball_nba', this)">
+  <button
+    onclick="changeSport('basketball_nba', this)">
     🏀 Basketball
   </button>
 
-  <button onclick="changeSport('tennis_atp', this)">
+  <button
+    onclick="changeSport('tennis_atp', this)">
     🎾 Tennis
   </button>
 
-  <button onclick="changeSport('icehockey_nhl', this)">
+  <button
+    onclick="changeSport('icehockey_nhl', this)">
     🏒 Hockey
   </button>
 
 </nav>
 
+
+<!-- ================= MAIN ================= -->
 
 <main class="main">
 
@@ -656,10 +920,11 @@ button {
         id="search"
         type="text"
         placeholder="Search teams..."
-        oninput="renderGames()"
-      >
+        oninput="renderGames()">
 
-      <button class="refresh" onclick="loadOdds()">
+      <button
+        class="refresh"
+        onclick="loadOdds()">
         ↻ Refresh
       </button>
 
@@ -668,7 +933,9 @@ button {
   </div>
 
 
-  <div id="status" class="status">
+  <div
+    id="status"
+    class="status">
     Connecting to Quora Bets...
   </div>
 
@@ -688,23 +955,30 @@ button {
 </section>
 
 
-<aside id="betslip" class="betslip">
+<!-- ================= BET SLIP ================= -->
+
+<aside
+  id="betslip"
+  class="betslip">
 
   <div
     class="betslip-title"
-    onclick="toggleBetslip()"
-  >
+    onclick="toggleBetslip()">
 
     <span>Bet Slip</span>
 
-    <span id="betCount" class="count">
+    <span
+      id="betCount"
+      class="count">
       0
     </span>
 
   </div>
 
 
-  <div id="bets" class="bets">
+  <div
+    id="bets"
+    class="bets">
 
     <div class="empty">
 
@@ -753,10 +1027,10 @@ button {
       id="stake"
       class="stake"
       type="number"
-      min="0"
+      min="10"
+      step="1"
       placeholder="Enter stake (KES)"
-      oninput="calculate()"
-    >
+      oninput="calculate()">
 
 
     <div class="row total">
@@ -774,8 +1048,7 @@ button {
       id="placeBet"
       class="place"
       disabled
-      onclick="placeBet()"
-    >
+      onclick="placeBet()">
       PLACE BET
     </button>
 
@@ -788,14 +1061,328 @@ button {
 </div>
 
 
+<!-- ================= LOGIN MODAL ================= -->
+
+<div
+  id="loginModal"
+  class="modal"
+  onclick="closeModalOutside(event, 'loginModal')">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>Login</h2>
+
+      <button
+        class="close"
+        onclick="closeModal('loginModal')">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Email
+      </label>
+
+      <input
+        id="loginEmail"
+        class="form-input"
+        type="email"
+        placeholder="you@example.com">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Password
+      </label>
+
+      <input
+        id="loginPassword"
+        class="form-input"
+        type="password"
+        placeholder="Your password">
+
+    </div>
+
+
+    <button
+      id="loginSubmit"
+      class="form-button"
+      onclick="login()">
+      LOGIN
+    </button>
+
+
+    <div class="switch">
+
+      Don't have an account?
+
+      <button onclick="switchToRegister()">
+        Create account
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= REGISTER MODAL ================= -->
+
+<div
+  id="registerModal"
+  class="modal"
+  onclick="closeModalOutside(event, 'registerModal')">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>Create Account</h2>
+
+      <button
+        class="close"
+        onclick="closeModal('registerModal')">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Full name
+      </label>
+
+      <input
+        id="registerName"
+        class="form-input"
+        type="text"
+        placeholder="Your name">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Email
+      </label>
+
+      <input
+        id="registerEmail"
+        class="form-input"
+        type="email"
+        placeholder="you@example.com">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label class="form-label">
+        M-Pesa phone
+      </label>
+
+      <input
+        id="registerPhone"
+        class="form-input"
+        type="tel"
+        placeholder="0712345678">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Password
+      </label>
+
+      <input
+        id="registerPassword"
+        class="form-input"
+        type="password"
+        placeholder="Minimum 8 characters">
+
+    </div>
+
+
+    <button
+      id="registerSubmit"
+      class="form-button"
+      onclick="register()">
+      CREATE ACCOUNT
+    </button>
+
+
+    <div class="switch">
+
+      Already have an account?
+
+      <button onclick="switchToLogin()">
+        Login
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= DEPOSIT MODAL ================= -->
+
+<div
+  id="depositModal"
+  class="modal"
+  onclick="closeModalOutside(event, 'depositModal')">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>Deposit via M-Pesa</h2>
+
+      <button
+        class="close"
+        onclick="closeModal('depositModal')">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="info-box">
+
+      Current balance:
+
+      <strong id="depositBalance">
+        KES 0.00
+      </strong>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label class="form-label">
+        M-Pesa phone number
+      </label>
+
+      <input
+        id="depositPhone"
+        class="form-input"
+        type="tel"
+        placeholder="0712345678">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Amount (KES)
+      </label>
+
+      <input
+        id="depositAmount"
+        class="form-input"
+        type="number"
+        min="10"
+        step="1"
+        placeholder="Enter amount">
+
+    </div>
+
+
+    <button
+      id="depositSubmit"
+      class="form-button"
+      onclick="deposit()">
+      SEND M-PESA REQUEST
+    </button>
+
+
+    <p style="
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.6;
+      margin-top:13px;
+      text-align:center;
+    ">
+      After submitting, check your phone and enter your
+      M-Pesa PIN on the official M-Pesa prompt.
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- ================= HISTORY MODAL ================= -->
+
+<div
+  id="historyModal"
+  class="modal"
+  onclick="closeModalOutside(event, 'historyModal')">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>My Bets</h2>
+
+      <button
+        class="close"
+        onclick="closeModal('historyModal')">
+        ×
+      </button>
+
+    </div>
+
+
+    <div id="historyContent">
+
+      <div class="loading">
+        Loading...
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div
+  id="toast"
+  class="toast">
+</div>
+
+
 <script>
 
 /* =========================================================
    QUORA BETS FRONTEND
+   BACKEND
 ========================================================= */
 
 const API_BASE =
   "https://quora-bets-back-end1.onrender.com";
+
 
 let currentSport = "soccer_epl";
 
@@ -805,769 +1392,195 @@ let selections = [];
 
 
 /* =========================================================
-   LOAD ODDS
+   API HELPER
 ========================================================= */
 
-async function loadOdds() {
-
-  const gamesContainer =
-    document.getElementById("games");
-
-  const status =
-    document.getElementById("status");
-
-  gamesContainer.innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      Loading real-time odds...
-    </div>
-  `;
-
-  status.className = "status";
-
-  status.textContent =
-    "Connecting to Quora Bets backend...";
-
-  try {
-
-    const url =
-      API_BASE +
-      "/api/odds?sport=" +
-      encodeURIComponent(currentSport);
-
-    const response =
-      await fetch(url);
-
-    const data =
-      await response.json();
-
-    if (!response.ok || !data.success) {
-
-      throw new Error(
-        data.error ||
-        "Backend failed to return odds"
-      );
-
-    }
-
-    games =
-      Array.isArray(data.games)
-        ? data.games
-        : [];
-
-    status.className = "status ok";
-
-    status.textContent =
-      "● Connected — " +
-      games.length +
-      " games loaded";
-
-    renderGames();
-
-  } catch(error) {
-
-    console.error(error);
-
-    gamesContainer.innerHTML = `
-      <div class="league">
-
-        <div class="game">
-
-          <h3 style="margin-bottom:10px">
-            Unable to load games
-          </h3>
-
-          <p style="color:#8fa79a;font-size:13px;line-height:1.6">
-            ${escapeHtml(error.message)}
-          </p>
-
-          <button
-            class="refresh"
-            style="margin-top:15px;padding:11px 18px"
-            onclick="loadOdds()"
-          >
-            Try Again
-          </button>
-
-        </div>
-
-      </div>
-    `;
-
-    status.className = "status error";
-
-    status.textContent =
-      "● Connection/API error";
-  }
-}
-
-
-/* =========================================================
-   RENDER GAMES
-========================================================= */
-
-function renderGames() {
-
-  const container =
-    document.getElementById("games");
-
-  const search =
-    document
-      .getElementById("search")
-      .value
-      .toLowerCase()
-      .trim();
-
-
-  const filtered =
-    games.filter(game => {
-
-      const home =
-        game.home_team || "";
-
-      const away =
-        game.away_team || "";
-
-      return (
-        home.toLowerCase().includes(search) ||
-        away.toLowerCase().includes(search)
-      );
-
-    });
-
-
-  if (!filtered.length) {
-
-    container.innerHTML = `
-      <div class="league">
-
-        <div class="game">
-
-          <div style="
-            text-align:center;
-            padding:35px 10px;
-            color:#8fa79a;
-          ">
-            No games found.
-          </div>
-
-        </div>
-
-      </div>
-    `;
-
-    return;
-  }
-
-
-  const groups = {};
-
-
-  filtered.forEach(game => {
-
-    const key =
-      game.sport_title ||
-      game.sport_key ||
-      "Football";
-
-    if (!groups[key]) {
-      groups[key] = [];
-    }
-
-    groups[key].push(game);
-
-  });
-
-
-  let html = "";
-
-
-  Object.keys(groups).forEach(league => {
-
-    html += `
-      <div class="league">
-
-        <div class="league-header">
-
-          <div class="league-name">
-            🏆 ${escapeHtml(league)}
-          </div>
-
-          <div class="country">
-            ${groups[league].length} matches
-          </div>
-
-        </div>
-    `;
-
-
-    groups[league].forEach(game => {
-
-      html += createGame(game);
-
-    });
-
-
-    html += `
-      </div>
-    `;
-
-  });
-
-
-  container.innerHTML = html;
-}
-
-
-/* =========================================================
-   CREATE GAME
-========================================================= */
-
-function createGame(game) {
-
-  const id =
-    game.id ||
-    (
-      game.home_team +
-      "_" +
-      game.away_team +
-      "_" +
-      game.commence_time
-    );
-
-
-  const home =
-    game.home_team || "Home";
-
-  const away =
-    game.away_team || "Away";
-
-
-  const date =
-    game.commence_time
-      ? new Date(game.commence_time)
-      : null;
-
-
-  let time = "TBA";
-
-
-  if (date && !isNaN(date)) {
-
-    time =
-      date.toLocaleDateString([], {
-        day: "2-digit",
-        month: "short"
-      }) +
-      " " +
-      date.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-
-  }
-
-
-  const odds =
-    extractOdds(game);
-
-
-  return `
-    <div
-      class="game"
-      data-game="${escapeAttr(id)}"
-    >
-
-      <div class="game-top">
-
-        <span class="game-time">
-          ${time}
-        </span>
-
-        <span class="live">
-          ● UPCOMING
-        </span>
-
-      </div>
-
-
-      <div class="teams">
-
-        <div class="team home">
-          ${escapeHtml(home)}
-        </div>
-
-        <div class="vs">
-          VS
-        </div>
-
-        <div class="team">
-          ${escapeHtml(away)}
-        </div>
-
-      </div>
-
-
-      <div class="odds">
-
-        ${createOddButton(
-          id,
-          currentSport,
-          home,
-          away,
-          "home",
-          "1",
-          odds.home
-        )}
-
-        ${createOddButton(
-          id,
-          currentSport,
-          home,
-          away,
-          "draw",
-          "X",
-          odds.draw
-        )}
-
-        ${createOddButton(
-          id,
-          currentSport,
-          home,
-          away,
-          "away",
-          "2",
-          odds.away
-        )}
-
-      </div>
-
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   EXTRACT ODDS
-========================================================= */
-
-function extractOdds(game) {
-
-  let result = {
-    home: null,
-    draw: null,
-    away: null
-  };
-
-
-  if (
-    !game.bookmakers ||
-    !game.bookmakers.length
-  ) {
-    return result;
-  }
-
-
-  for (
-    const bookmaker of game.bookmakers
-  ) {
-
-    if (
-      !bookmaker.markets ||
-      !bookmaker.markets.length
-    ) {
-      continue;
-    }
-
-
-    const market =
-      bookmaker.markets.find(
-        m => m.key === "h2h"
-      );
-
-
-    if (!market || !market.outcomes) {
-      continue;
-    }
-
-
-    market.outcomes.forEach(outcome => {
-
-      const name =
-        outcome.name;
-
-      const price =
-        Number(outcome.price);
-
-
-      if (!price || price <= 1) {
-        return;
-      }
-
-
-      if (name === game.home_team) {
-
-        if (!result.home) {
-          result.home = price;
-        }
-
-      } else if (name === game.away_team) {
-
-        if (!result.away) {
-          result.away = price;
-        }
-
-      } else if (name === "Draw") {
-
-        if (!result.draw) {
-          result.draw = price;
-        }
-
-      }
-
-    });
-
-
-    if (
-      result.home ||
-      result.away ||
-      result.draw
-    ) {
-      break;
-    }
-
-  }
-
-
-  return result;
-}
-
-
-/* =========================================================
-   ODD BUTTON
-========================================================= */
-
-function createOddButton(
-  gameId,
-  sportKey,
-  home,
-  away,
-  type,
-  label,
-  price
+async function apiRequest(
+  endpoint,
+  options = {}
 ) {
-
-  const selected =
-    selections.some(
-      s =>
-        s.gameId === gameId &&
-        s.type === type
-    );
-
-
-  const disabled =
-    !price;
-
-
-  const outcomeName =
-    type === "home"
-      ? home
-      : type === "away"
-        ? away
-        : "Draw";
-
-
-  return `
-    <button
-      class="odd ${selected ? "selected" : ""}"
-      ${disabled ? "disabled" : ""}
-      onclick='selectOdd(
-        ${JSON.stringify(gameId)},
-        ${JSON.stringify(sportKey)},
-        ${JSON.stringify(home)},
-        ${JSON.stringify(away)},
-        ${JSON.stringify(type)},
-        ${JSON.stringify(label)},
-        ${JSON.stringify(outcomeName)},
-        ${price || "null"}
-      )'
-    >
-
-      <span class="odd-label">
-        ${escapeHtml(outcomeName)}
-      </span>
-
-      <span class="odd-price">
-        ${price
-          ? Number(price).toFixed(2)
-          : "-"
-        }
-      </span>
-
-    </button>
-  `;
-}
-
-
-/* =========================================================
-   SELECT ODD
-========================================================= */
-
-function selectOdd(
-  gameId,
-  sportKey,
-  home,
-  away,
-  type,
-  label,
-  outcomeName,
-  price
-) {
-
-  if (!price) {
-    return;
-  }
-
-
-  /*
-    Only one selection is allowed
-    from each match.
-  */
-
-  selections =
-    selections.filter(
-      s => s.gameId !== gameId
-    );
-
-
-  selections.push({
-
-    gameId,
-    sportKey,
-    home,
-    away,
-    type,
-    label,
-    outcomeName,
-    odds: Number(price)
-
-  });
-
-
-  renderGames();
-
-  renderBetslip();
-}
-
-
-/* =========================================================
-   REMOVE BET
-========================================================= */
-
-function removeBet(gameId) {
-
-  selections =
-    selections.filter(
-      s => s.gameId !== gameId
-    );
-
-
-  renderGames();
-
-  renderBetslip();
-}
-
-
-/* =========================================================
-   BETSLIP
-========================================================= */
-
-function renderBetslip() {
-
-  const bets =
-    document.getElementById("bets");
-
-  const count =
-    document.getElementById("betCount");
-
-
-  count.textContent =
-    selections.length;
-
-
-  if (!selections.length) {
-
-    bets.innerHTML = `
-      <div class="empty">
-
-        <div class="empty-icon">
-          🧾
-        </div>
-
-        <div>
-          Your bet slip is empty
-        </div>
-
-        <small>
-          Click an odd to add it here
-        </small>
-
-      </div>
-    `;
-
-    calculate();
-
-    return;
-  }
-
-
-  bets.innerHTML =
-    selections.map(
-      selection => `
-
-        <div class="bet">
-
-          <div class="bet-head">
-
-            <div class="bet-match">
-
-              ${escapeHtml(selection.home)}
-              vs
-              ${escapeHtml(selection.away)}
-
-            </div>
-
-            <button
-              class="remove"
-              onclick='removeBet(
-                ${JSON.stringify(selection.gameId)}
-              )'
-            >
-              ×
-            </button>
-
-          </div>
-
-
-          <div class="bet-info">
-
-            <span>
-              ${selection.label === "1"
-                ? "Home"
-                : selection.label === "2"
-                  ? "Away"
-                  : "Draw"
-              }
-            </span>
-
-            <span class="bet-price">
-              ${selection.odds.toFixed(2)}
-            </span>
-
-          </div>
-
-        </div>
-
-      `
-    ).join("");
-
-
-  calculate();
-}
-
-
-/* =========================================================
-   CALCULATE
-========================================================= */
-
-function calculate() {
-
-  const stakeInput =
-    document.getElementById("stake");
-
-
-  const stake =
-    Number(stakeInput.value) || 0;
-
-
-  let totalOdds = 1;
-
-
-  selections.forEach(selection => {
-
-    totalOdds *=
-      Number(selection.odds);
-
-  });
-
-
-  if (!selections.length) {
-    totalOdds = 0;
-  }
-
-
-  const potential =
-    stake * totalOdds;
-
-
-  document.getElementById("totalOdds")
-    .textContent =
-      totalOdds.toFixed(2);
-
-
-  document.getElementById("stakeDisplay")
-    .textContent =
-      stake.toFixed(2);
-
-
-  document.getElementById("potential")
-    .textContent =
-      potential.toFixed(2);
-
-
-  document.getElementById("placeBet")
-    .disabled =
-      selections.length === 0 ||
-      stake <= 0;
-}
-
-
-/* =========================================================
-   PLACE REAL BET
-========================================================= */
-
-async function placeBet() {
-
-  if (!selections.length) {
-    alert("Select at least one outcome.");
-    return;
-  }
-
 
   const token =
     localStorage.getItem("quora_token");
 
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
 
-  if (!token) {
 
-    alert(
-      "Please login before placing a bet."
+  if (token) {
+    headers.Authorization =
+      `Bearer ${token}`;
+  }
+
+
+  const response =
+    await fetch(
+      API_BASE + endpoint,
+      {
+        ...options,
+        headers
+      }
+    );
+
+
+  let data = {};
+
+  try {
+    data = await response.json();
+  } catch {
+    data = {};
+  }
+
+
+  if (!response.ok) {
+
+    const error =
+      new Error(
+        data.error ||
+        "Request failed"
+      );
+
+    error.status =
+      response.status;
+
+    throw error;
+  }
+
+
+  return data;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+  message,
+  type = "success"
+) {
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.className =
+    `toast show ${type}`;
+
+  setTimeout(() => {
+    toast.className =
+      "toast";
+  }, 3500);
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function openModal(id) {
+  document
+    .getElementById(id)
+    .classList.add("show");
+}
+
+
+function closeModal(id) {
+  document
+    .getElementById(id)
+    .classList.remove("show");
+}
+
+
+function closeModalOutside(
+  event,
+  id
+) {
+
+  if (event.target.id === id) {
+    closeModal(id);
+  }
+}
+
+
+/* =========================================================
+   LOGIN / REGISTER SWITCH
+========================================================= */
+
+function openLogin() {
+  openModal("loginModal");
+}
+
+
+function switchToRegister() {
+
+  closeModal("loginModal");
+
+  openModal("registerModal");
+}
+
+
+function switchToLogin() {
+
+  closeModal("registerModal");
+
+  openModal("loginModal");
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function register() {
+
+  const name =
+    document
+      .getElementById("registerName")
+      .value
+      .trim();
+
+  const email =
+    document
+      .getElementById("registerEmail")
+      .value
+      .trim();
+
+  const phone =
+    document
+      .getElementById("registerPhone")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("registerPassword")
+      .value;
+
+
+  if (!name ||
+      !email ||
+      !phone ||
+      !password) {
+
+    showToast(
+      "Please fill in all fields.",
+      "error"
     );
 
     return;
   }
 
 
-  const stake =
-    Number(
-      document.getElementById("stake").value
-    );
+  if (password.length < 8) {
 
-
-  if (!stake || stake <= 0) {
-
-    alert(
-      "Please enter a valid stake."
+    showToast(
+      "Password must be at least 8 characters.",
+      "error"
     );
 
     return;
@@ -1575,358 +1588,33 @@ async function placeBet() {
 
 
   const button =
-    document.getElementById("placeBet");
-
+    document.getElementById(
+      "registerSubmit"
+    );
 
   button.disabled = true;
 
   button.textContent =
-    "PLACING BET...";
+    "CREATING ACCOUNT...";
 
 
   try {
-
-    const idempotencyKey =
-      crypto.randomUUID();
-
-
-    const payload = {
-
-      stake,
-
-      idempotencyKey,
-
-      selections:
-        selections.map(selection => ({
-
-          eventId:
-            selection.gameId,
-
-          sportKey:
-            selection.sportKey,
-
-          outcomeName:
-            selection.outcomeName,
-
-          odds:
-            selection.odds,
-
-          marketKey:
-            "h2h"
-
-        }))
-
-    };
-
-
-    const response =
-      await fetch(
-        `${API_BASE}/api/bets`,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-
-            "Authorization":
-              `Bearer ${token}`
-          },
-
-          body:
-            JSON.stringify(payload)
-        }
-      );
-
 
     const data =
-      await response.json();
-
-
-    if (
-      !response.ok ||
-      !data.success
-    ) {
-
-      throw new Error(
-        data.error ||
-        "Unable to place bet"
-      );
-
-    }
-
-
-    alert(
-      "BET PLACED SUCCESSFULLY!\n\n" +
-
-      "Bet ID: #" +
-      data.bet.id +
-
-      "\nStake: KES " +
-      Number(
-        data.bet.stake
-      ).toFixed(2) +
-
-      "\nTotal Odds: " +
-      Number(
-        data.bet.totalOdds
-      ).toFixed(2) +
-
-      "\nPotential Win: KES " +
-      Number(
-        data.bet.potentialPayout
-      ).toFixed(2)
-    );
-
-
-    selections = [];
-
-
-    document.getElementById(
-      "stake"
-    ).value = "";
-
-
-    renderGames();
-
-    renderBetslip();
-
-
-    await refreshWallet();
-
-  } catch(error) {
-
-    console.error(
-      "PLACE BET:",
-      error
-    );
-
-
-    alert(
-      error.message
-    );
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent =
-      "PLACE BET";
-
-    calculate();
-  }
-}
-
-
-/* =========================================================
-   REFRESH WALLET
-========================================================= */
-
-async function refreshWallet() {
-
-  const token =
-    localStorage.getItem(
-      "quora_token"
-    );
-
-
-  if (!token) {
-    return;
-  }
-
-
-  try {
-
-    const response =
-      await fetch(
-        `${API_BASE}/api/me`,
-        {
-          headers: {
-            "Authorization":
-              `Bearer ${token}`
-          }
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if (
-      response.ok &&
-      data.success
-    ) {
-
-      updateBalance(
-        data.wallet?.balance || 0
-      );
-
-    }
-
-  } catch(error) {
-
-    console.error(
-      "Wallet refresh failed:",
-      error
-    );
-
-  }
-}
-
-
-/* =========================================================
-   UPDATE BALANCE
-========================================================= */
-
-function updateBalance(balance) {
-
-  const balanceElement =
-    document.querySelector(
-      ".balance"
-    );
-
-
-  if (!balanceElement) {
-    return;
-  }
-
-
-  balanceElement.innerHTML =
-    `Balance: <strong>KES ${
-      Number(balance).toFixed(2)
-    }</strong>`;
-}
-
-
-/* =========================================================
-   CHANGE SPORT
-========================================================= */
-
-function changeSport(
-  sport,
-  button
-) {
-
-  currentSport =
-    sport;
-
-
-  document
-    .querySelectorAll(
-      ".nav button"
-    )
-    .forEach(btn =>
-      btn.classList.remove(
-        "active"
-      )
-    );
-
-
-  button.classList.add(
-    "active"
-  );
-
-
-  selections = [];
-
-
-  renderBetslip();
-
-
-  loadOdds();
-}
-
-
-/* =========================================================
-   MOBILE BETSLIP
-========================================================= */
-
-function toggleBetslip() {
-
-  const slip =
-    document.getElementById(
-      "betslip"
-    );
-
-
-  if (
-    window.innerWidth <= 850
-  ) {
-
-    slip.classList.toggle(
-      "collapsed"
-    );
-
-  }
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function loginMessage() {
-
-  const email =
-    prompt(
-      "Enter your email:"
-    );
-
-
-  if (!email) {
-    return;
-  }
-
-
-  const password =
-    prompt(
-      "Enter your password:"
-    );
-
-
-  if (!password) {
-    return;
-  }
-
-
-  try {
-
-    const response =
-      await fetch(
-        `${API_BASE}/api/auth/login`,
+      await apiRequest(
+        "/api/auth/register",
         {
           method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
 
           body:
             JSON.stringify({
+              name,
               email,
+              phone,
               password
             })
         }
       );
-
-
-    const data =
-      await response.json();
-
-
-    if (
-      !response.ok ||
-      !data.success
-    ) {
-
-      throw new Error(
-        data.error ||
-        "Login failed"
-      );
-
-    }
 
 
     localStorage.setItem(
@@ -1937,9 +1625,17 @@ async function loginMessage() {
 
     localStorage.setItem(
       "quora_user",
-      JSON.stringify(
-        data.user
-      )
+      JSON.stringify(data.user)
+    );
+
+
+    closeModal(
+      "registerModal"
+    );
+
+
+    updateLoggedInUI(
+      data.user
     );
 
 
@@ -1948,76 +1644,5 @@ async function loginMessage() {
     );
 
 
-    alert(
-      `Welcome back, ${
-        data.user.name
-      }!`
-    );
-
-
-    refreshWallet();
-
-  } catch(error) {
-
-    console.error(
-      "LOGIN:",
-      error
-    );
-
-
-    alert(
-      error.message
-    );
-
-  }
-}
-
-
-/* =========================================================
-   ESCAPE HELPERS
-========================================================= */
-
-function escapeHtml(value) {
-
-  return String(value)
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-}
-
-
-function escapeAttr(value) {
-
-  return escapeHtml(value);
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-loadOdds();
-
-refreshWallet();
-
-</script>
-
-</body>
-</html>
+    showToast(
+      `Welcome
