@@ -2265,113 +2265,296 @@ async function changeSport(sport,btn){
    LOAD ALL SPORTS
 ========================================================= */
 
-async function loadAllSports(){
+async function loadAllSports() {
 
   const sportKeys = [
-
     "soccer_epl",
-
     "basketball_nba",
-
     "tennis_atp"
-
   ];
 
+  selectedSport = "All";
 
-  const oldSport =
-    selectedSport;
+  const homeBox = document.getElementById("homeMatches");
 
-
-  selectedSport =
-    "All";
-
-
-  const homeBox =
-    document.getElementById(
-      "homeMatches"
-    );
-
-
-  if(homeBox){
-
-    homeBox.innerHTML =
-      `<div class="loading">
+  if (homeBox) {
+    homeBox.innerHTML = `
+      <div class="loading">
         Loading football, basketball and tennis...
-      </div>`;
+      </div>
+    `;
   }
 
+  try {
 
-  try{
+    const responses = await Promise.all(
 
-    const responses =
-      await Promise.all(
-        sportKeys.map(
-          key =>
-            fetch(
-              `${API_URL}/api/odds?sport=${encodeURIComponent(key)}`
-            )
-              .then(r => r.json())
-              .then(data => ({
-                key,
-                data
-              }))
-        )
-      );
+      sportKeys.map(async key => {
 
+        const response = await fetch(
+          `${API_URL}/api/odds?sport=${encodeURIComponent(key)}`
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `${key} returned HTTP ${response.status}`
+          );
+        }
+
+        const data = await response.json();
+
+        return {
+          key,
+          data
+        };
+
+      })
+
+    );
 
     const combined = [];
 
+    responses.forEach(result => {
 
-    responses.forEach(
-      result => {
+      const data = result.data;
 
-        if(
-          result.data &&
-          result.data.success &&
-          Array.isArray(
-            result.data.games
-          )
-        ){
+      /*
+       * Your backend may return:
+       *
+       * { success:true, games:[...] }
+       *
+       * OR directly:
+       *
+       * [...]
+       */
 
-          result.data.games
-            .map(convertApiGame)
-            .filter(Boolean)
-            .forEach(
-              game =>
-                combined.push(game)
-            );
-        }
+      let apiGames = [];
+
+      if (
+        data &&
+        data.success &&
+        Array.isArray(data.games)
+      ) {
+
+        apiGames = data.games;
+
+      } else if (Array.isArray(data)) {
+
+        apiGames = data;
+
+      } else if (
+        data &&
+        Array.isArray(data.data)
+      ) {
+
+        apiGames = data.data;
 
       }
+
+      apiGames.forEach((game, index) => {
+
+        if (!game) return;
+
+        const home =
+          game.home_team ||
+          game.home ||
+          "";
+
+        const away =
+          game.away_team ||
+          game.away ||
+          "";
+
+        if (!home || !away) return;
+
+
+        /*
+         * Find the first bookmaker
+         * containing a normal h2h market.
+         */
+
+        let outcomes = [];
+
+        const bookmakers =
+          Array.isArray(game.bookmakers)
+            ? game.bookmakers
+            : [];
+
+
+        for (const bookmaker of bookmakers) {
+
+          const markets =
+            Array.isArray(bookmaker.markets)
+              ? bookmaker.markets
+              : [];
+
+          const h2h =
+            markets.find(
+              market => market.key === "h2h"
+            );
+
+          if (
+            h2h &&
+            Array.isArray(h2h.outcomes)
+          ) {
+
+            outcomes = h2h.outcomes;
+
+            break;
+          }
+
+        }
+
+
+        /*
+         * Find the three normal 1X2 outcomes.
+         */
+
+        const homeOutcome =
+          outcomes.find(
+            outcome =>
+              outcome.name === home
+          );
+
+
+        const awayOutcome =
+          outcomes.find(
+            outcome =>
+              outcome.name === away
+          );
+
+
+        const drawOutcome =
+          outcomes.find(
+            outcome =>
+              String(outcome.name).toLowerCase() === "draw"
+          );
+
+
+        const homeOdd =
+          homeOutcome
+            ? Number(homeOutcome.price)
+            : null;
+
+
+        const drawOdd =
+          drawOutcome
+            ? Number(drawOutcome.price)
+            : null;
+
+
+        const awayOdd =
+          awayOutcome
+            ? Number(awayOutcome.price)
+            : null;
+
+
+        /*
+         * Convert API game into the format
+         * your existing frontend expects.
+         */
+
+        combined.push({
+
+          id:
+            game.id ||
+            `${result.key}-${index}-${home}-${away}`,
+
+          sport:
+            result.key.startsWith("soccer")
+              ? "Football"
+              : result.key.startsWith("basketball")
+                ? "Basketball"
+                : result.key.startsWith("tennis")
+                  ? "Tennis"
+                  : game.sport_title || "Sports",
+
+          league:
+            game.sport_title ||
+            result.key,
+
+          time:
+            game.commence_time
+              ? new Date(
+                  game.commence_time
+                ).toLocaleTimeString(
+                  [],
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                  }
+                )
+              : "TBD",
+
+          home: home,
+
+          away: away,
+
+          odds: [
+            homeOdd,
+            drawOdd,
+            awayOdd
+          ]
+
+        });
+
+      });
+
+    });
+
+
+    /*
+     * Remove games that don't have
+     * at least one usable odd.
+     */
+
+    games = combined.filter(game => {
+
+      return (
+        game.home &&
+        game.away &&
+        Array.isArray(game.odds) &&
+        game.odds.some(
+          odd =>
+            Number.isFinite(odd) &&
+            odd > 0
+        )
+      );
+
+    });
+
+
+    /*
+     * Remove duplicate matches.
+     */
+
+    const seen = new Set();
+
+    games = games.filter(game => {
+
+      const id =
+        String(game.id);
+
+      if (seen.has(id)) {
+        return false;
+      }
+
+      seen.add(id);
+
+      return true;
+
+    });
+
+
+    console.log(
+      "LIVE GAMES:",
+      games
     );
 
 
     /*
-      Remove duplicate event IDs.
-    */
-
-    const seen =
-      new Set();
-
-
-    games =
-      combined.filter(
-        game => {
-
-          const id =
-            String(game.id);
-
-          if(seen.has(id)){
-            return false;
-          }
-
-          seen.add(id);
-
-          return true;
-
-        }
-      );
-
+     * Render the live games.
+     */
 
     renderAll();
 
@@ -2382,29 +2565,31 @@ async function loadAllSports(){
       );
 
 
-    if(status){
+    if (status) {
 
       status.textContent =
         games.length +
         " matches";
+
     }
 
 
-    if(!games.length){
+    if (!games.length) {
 
       toast(
         "No matches available right now"
       );
 
-    }else{
+    } else {
 
       toast(
         `${games.length} matches loaded`
       );
+
     }
 
 
-  }catch(error){
+  } catch (error) {
 
     console.error(
       "All sports error:",
@@ -2421,7 +2606,9 @@ async function loadAllSports(){
     toast(
       "Unable to load sports"
     );
+
   }
+
 }
 
 
