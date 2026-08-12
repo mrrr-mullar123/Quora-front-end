@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quora Bets</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #06130e;
+      color: #f2f7f4;
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #071710;
+      border-bottom: 1px solid #173327;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: #18d86b;
+      color: #062011;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .brand span {
+      color: #18d86b;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 13px 21px;
+      font-weight: 800;
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #18d86b;
+      color: #04140c;
+    }
+
+    .btn-secondary {
+      background: #10271c;
+      color: white;
+      border: 1px solid #244335;
+    }
+
+    .btn-danger {
+      background: #9d2732;
+      color: white;
+    }
+
+    .sports {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 12px;
+      display: flex;
+      overflow-x: auto;
+      gap: 5px;
+      scrollbar-width: none;
+    }
+
+    .sports::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sport {
+      white-space: nowrap;
+      background: transparent;
+      color: #9caea5;
+      border: 0;
+      padding: 15px 20px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .sport.active {
+      color: #18d86b;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px 80px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0d3321, #071a12);
+      border: 1px solid #1c3d2d;
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: #9aada4;
+      font-size: 19px;
+      margin-bottom: 25px;
+    }
+
+    .search {
+      width: 100%;
+      background: #06120d;
+      border: 1px solid #234235;
+      color: white;
+      border-radius: 12px;
+      padding: 17px;
+      outline: none;
+      margin-bottom: 14px;
+    }
+
+    .search:focus,
+    input:focus {
+      border-color: #18d86b;
+    }
+
+    .refresh {
+      width: 100%;
+      padding: 17px;
+      border-radius: 12px;
+      border: 0;
+      background: #18d86b;
+      color: #03140b;
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .status {
+      padding: 18px 25px;
+      border-radius: 12px;
+      border: 1px solid #1c3d2d;
+      background: #091c14;
+      color: #18d86b;
+      margin-bottom: 25px;
+    }
+
+    .league {
+      border: 1px solid #1c382b;
+      background: #091b14;
+      border-radius: 17px;
+      overflow: hidden;
+      margin-bottom: 25px;
+    }
+
+    .league-header {
+      padding: 22px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #1d382b;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .match {
+      padding: 22px;
+      border-bottom: 1px solid #183126;
+    }
+
+    .match:last-child {
+      border-bottom: 0;
+    }
+
+    .match-time {
+      color: #879a91;
+      margin-bottom: 20px;
+    }
+
+    .teams {
+      text-align: center;
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .vs {
+      color: #82958c;
+      margin: 0 10px;
+      font-weight: 400;
+    }
+
+    .odds {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .odd {
+      border: 1px solid #274838;
+      background: #11291e;
+      color: white;
+      border-radius: 10px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .odd:hover {
+      border-color: #18d86b;
+      background: #163624;
+    }
+
+    .odd-name {
+      display: block;
+      color: #bbc7c2;
+      margin-bottom: 6px;
+    }
+
+    .odd-price {
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .empty {
+      text-align: center;
+      color: #8fa198;
+      padding: 45px 15px;
+    }
+
+    /* BET SLIP */
+
+    .slip {
+      position: fixed;
+      z-index: 200;
+      right: 20px;
+      bottom: 20px;
+      width: 390px;
+      max-width: calc(100% - 40px);
+      background: #081b13;
+      border: 1px solid #244535;
+      border-radius: 18px;
+      box-shadow: 0 20px 70px rgba(0,0,0,.45);
+      overflow: hidden;
+      display: none;
+    }
+
+    .slip.open {
+      display: block;
+    }
+
+    .slip-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      background: #0d241a;
+      border-bottom: 1px solid #19382a;
+    }
+
+    .slip-header h2 {
+      font-size: 22px;
+    }
+
+    .count {
+      background: #18d86b;
+      color: #04140b;
+      min-width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .slip-body {
+      max-height: 390px;
+      overflow-y: auto;
+    }
+
+    .slip-empty {
+      text-align: center;
+      padding: 45px 15px;
+      color: #9aaba3;
+    }
+
+    .selection {
+      padding: 15px;
+      border-bottom: 1px solid #193428;
+    }
+
+    .selection-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .selection-title {
+      font-weight: 800;
+    }
+
+    .remove {
+      color: #ff7777;
+      background: transparent;
+      border: 0;
+      font-weight: bold;
+    }
+
+    .selection-info {
+      color: #99aaa2;
+      font-size: 13px;
+      margin-top: 7px;
+    }
+
+    .slip-footer {
+      padding: 18px;
+      border-top: 1px solid #193428;
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      color: #9daea6;
+    }
+
+    .summary strong {
+      color: white;
+    }
+
+    .potential {
+      display: flex;
+      justify-content: space-between;
+      font-size: 20px;
+      font-weight: 900;
+      margin: 17px 0;
+    }
+
+    .potential span:last-child {
+      color: #18d86b;
+    }
+
+    .stake {
+      width: 100%;
+      padding: 15px;
+      background: #06130e;
+      border: 1px solid #274638;
+      border-radius: 10px;
+      color: white;
+      outline: none;
+    }
+
+    .place {
+      width: 100%;
+      padding: 16px;
+      background: #18d86b;
+      color: #03130a;
+      border: 0;
+      border-radius: 11px;
+      font-weight: 900;
+      font-size: 17px;
+    }
+
+    .place:disabled {
+      background: #294036;
+      color: #819087;
+      cursor: not-allowed;
+    }
+
+    /* MODALS */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 430px;
+      background: #0a1d15;
+      border: 1px solid #294737;
+      border-radius: 18px;
+      padding: 25px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .modal-title h2 {
+      font-size: 25px;
+    }
+
+    .close {
+      background: transparent;
+      border: 0;
+      color: #aebbb5;
+      font-size: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      color: #aebbb5;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      background: #06130e;
+      color: white;
+      border: 1px solid #294638;
+      outline: none;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 15px;
+      margin-top: 5px;
+      background: #18d86b;
+      border: 0;
+      border-radius: 10px;
+      font-weight: 900;
+    }
+
+    .switch {
+      text-align: center;
+      color: #9aaba3;
+      margin-top: 17px;
+    }
+
+    .switch button {
+      color: #18d86b;
+      border: 0;
+      background: transparent;
+      font-weight: 800;
+    }
+
+    .wallet-card {
+      background: #0d2a1d;
+      border: 1px solid #28503a;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .wallet-balance {
+      font-size: 30px;
+      font-weight: 900;
+      color: #18d86b;
+      margin-top: 7px;
+    }
+
+    .user-panel {
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-panel.show {
+      display: flex;
+    }
+
+    .username {
+      color: #dce7e2;
+      font-weight: 700;
+    }
+
+    .account-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid #284536;
+      background: #10271c;
+      color: white;
+      font-weight: 700;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: 25px;
+      transform: translateX(-50%) translateY(100px);
+      background: #152b20;
+      border: 1px solid #355743;
+      padding: 14px 20px;
+      border-radius: 10px;
+      opacity: 0;
+      transition: .3s;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .loading {
+      text-align: center;
+      color: #9baea4;
+      padding: 40px;
+    }
+
+    @media (max-width: 700px) {
+      .nav {
+        padding: 14px 12px;
+      }
+
+      .brand {
+        font-size: 20px;
+      }
+
+      .logo {
+        width: 44px;
+        height: 44px;
+        font-size: 25px;
+      }
+
+      .nav-buttons .btn {
+        padding: 11px 13px;
+      }
+
+      .username {
+        display: none;
+      }
+
+      .hero {
+        padding: 25px 18px;
+      }
+
+      .hero h1 {
+        font-size: 29px;
+      }
+
+      .odds {
+        gap: 7px;
+      }
+
+      .odd {
+        padding: 10px 4px;
+      }
+
+      .odd-price {
+        font-size: 19px;
+      }
+
+      .slip {
+        right: 10px;
+        bottom: 10px;
+        max-width: calc(100% - 20px);
+        width: 420px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <nav class="nav">
+
+    <div class="brand">
+      <div class="logo">Q</div>
+      QUORA <span>BETS</span>
+    </div>
+
+    <div class="nav-buttons">
+
+      <div id="loggedOutButtons">
+        <button class="btn btn-primary" onclick="openLogin()">
+          Login
+        </button>
+
+        <button class="btn btn-secondary" onclick="openRegister()">
+          Register
+        </button>
+      </div>
+
+      <div id="userPanel" class="user-panel">
+        <span id="username" class="username"></span>
+
+        <button class="small-btn" onclick="openWallet()">
+          Wallet
+        </button>
+
+        <button class="small-btn" onclick="logout()">
+          Logout
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="sports">
+
+    <button class="sport active" onclick="changeSport('soccer_epl', this)">
+      ⚽ Football
+    </button>
+
+    <button class="sport" onclick="changeSport('basketball_nba', this)">
+      🏀 Basketball
+    </button>
+
+    <button class="sport" onclick="changeSport('tennis_atp_us_open', this)">
+      🎾 Tennis
+    </button>
+
+    <button class="sport" onclick="changeSport('icehockey_nhl', this)">
+      🏒 Hockey
+    </button>
+
+  </div>
+</header>
+
+
+<main class="container">
+
+  <section class="hero">
+
+    <h1>Bet on today's games</h1>
+
+    <p>
+      Real-time fixtures and odds powered by Quora Bets.
+    </p>
+
+    <input
+      id="search"
+      class="search"
+      type="text"
+      placeholder="Search teams..."
+      oninput="filterGames()"
+    >
+
+    <button class="refresh" onclick="loadOdds()">
+      ↻ &nbsp; Refresh
+    </button>
+
+  </section>
+
+
+  <div id="status" class="status">
+    ● Connecting to Quora Bets...
+  </div>
+
+
+  <div id="games">
+    <div class="loading">
+      Loading games...
+    </div>
+  </div>
+
+</main>
+
+
+<!-- BET SLIP -->
+
+<div id="slip" class="slip">
+
+  <div class="slip-header">
+
+    <h2>Bet Slip</h2>
+
+    <div id="slipCount" class="count">
+      0
+    </div>
+
+  </div>
+
+  <div id="slipBody" class="slip-body">
+
+    <div class="slip-empty">
+      <div style="font-size:45px;margin-bottom:12px;">🧾</div>
+      Your bet slip is empty
+      <br>
+      <small>Click an odd to add it here</small>
+    </div>
+
+  </div>
+
+  <div class="slip-footer">
+
+    <div class="summary">
+      <span>Total Odds</span>
+      <strong id="totalOdds">0.00</strong>
+    </div>
+
+    <div class="summary">
+      <span>Stake</span>
+      <strong>KES <span id="stakeDisplay">0.00</span></strong>
+    </div>
+
+    <input
+      id="stake"
+      class="stake"
+      type="number"
+      min="10"
+      step="1"
+      placeholder="Enter stake (KES)"
+      oninput="updateSlip()"
+    >
+
+    <div class="potential">
+      <span>Potential Win</span>
+      <span id="potential">KES 0.00</span>
+    </div>
+
+    <button
+      id="placeBetButton"
+      class="place"
+      onclick="placeBet()"
+      disabled
+    >
+      PLACE BET
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- LOGIN MODAL -->
+
+<div id="loginModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+      <h2>Login</h2>
+      <button class="close" onclick="closeModal('loginModal')">×</button>
+    </div>
+
+    <form onsubmit="login(event)">
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          id="loginEmail"
+          type="email"
+          required
+          placeholder="you@example.com"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          id="loginPassword"
+          type="password"
+          required
+          placeholder="Your password"
+        >
+      </div>
+
+      <button class="form-submit">
+        LOGIN
+      </button>
+
+    </form>
+
+    <div class="switch">
+      Don't have an account?
+      <button onclick="switchToRegister()">
+        Register
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- REGISTER MODAL -->
+
+<div id="registerModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+      <h2>Create account</h2>
+      <button class="close" onclick="closeModal('registerModal')">×</button>
+    </div>
+
+    <form onsubmit="register(event)">
+
+      <div class="form-group">
+        <label>Full name</label>
+        <input
+          id="registerName"
+          type="text"
+          required
+          placeholder="Your name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          id="registerEmail"
+          type="email"
+          required
+          placeholder="you@example.com"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Phone number</label>
+        <input
+          id="registerPhone"
+          type="tel"
+          required
+          placeholder="0712345678"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          id="registerPassword"
+          type="password"
+          minlength="8"
+          required
+          placeholder="Minimum 8 characters"
+        >
+      </div>
+
+      <button class="form-submit">
+        CREATE ACCOUNT
+      </button>
+
+    </form>
+
+    <div class="switch">
+      Already have an account?
+      <button onclick="switchToLogin()">
+        Login
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- WALLET MODAL -->
+
+<div id="walletModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+      <h2>My Wallet</h2>
+      <button class="close" onclick="closeModal('walletModal')">×</button>
+    </div>
+
+    <div class="wallet-card">
+
+      <div style="color:#a5b7ae;">
+        Available balance
+      </div>
+
+      <div id="walletBalance" class="wallet-balance">
+        KES 0.00
+      </div>
+
+    </div>
+
+    <form onsubmit="deposit(event)">
+
+      <div class="form-group">
+
+        <label>
+          M-Pesa phone number
+        </label>
+
+        <input
+          id="depositPhone"
+          type="tel"
+          placeholder="0712345678"
+          required
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Amount
+        </label>
+
+        <input
+          id="depositAmount"
+          type="number"
+          min="10"
+          step="1"
+          placeholder="Amount in KES"
+          required
+        >
+
+      </div>
+
+      <button class="form-submit">
+        DEPOSIT WITH M-PESA
+      </button>
+
+    </form>
+
+    <div style="margin-top:25px;">
+
+      <h3 style="margin-bottom:12px;">
+        Recent transactions
+      </h3>
+
+      <div id="transactions">
+        Loading...
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/*
+========================================================
+QUORA BETS FRONTEND CONFIGURATION
+========================================================
+
+CHANGE THIS TO YOUR BACKEND RENDER URL.
+
+Example:
+
+const API_BASE = "https://quora-bets-backend.onrender.com";
+
+DO NOT put the frontend URL here.
+*/
+
+const API_BASE =
+  "https://YOUR-BACKEND-URL.onrender.com";
+
+
+/* ======================================================
+   GLOBAL STATE
+====================================================== */
+
+let token = localStorage.getItem("quora_token") || "";
+
+let currentUser = null;
+
+let currentSport = "soccer_epl";
+
+let games = [];
+
+let betSlip = [];
+
+
+/* ======================================================
+   API HELPER
+====================================================== */
+
+async function api(path, options = {}) {
+
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+
+  const response = await fetch(API_BASE + path, {
+    ...options,
+    headers
+  });
+
+  let data;
+
+  try {
+    data = await response.json();
+  } catch {
+    data = {
+      success: false,
+      error: "Invalid server response"
+    };
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      data.error ||
+      data.message ||
+      "Request failed"
+    );
+  }
+
+  return data;
+}
+
+
+/* ======================================================
+   TOAST
+====================================================== */
+
+function toast(message) {
+
+  const el = document.getElementById("toast");
+
+  el.textContent = message;
+
+  el.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(() => {
+    el.classList.remove("show");
+  }, 3000);
+}
+
+
+/* ======================================================
+   MODALS
+====================================================== */
+
+function openLogin() {
+  document.getElementById("loginModal").classList.add("show");
+}
+
+function openRegister() {
+  document.getElementById("registerModal").classList.add("show");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
+
+function switchToRegister() {
+  closeModal("loginModal");
+  openRegister();
+}
+
+function switchToLogin() {
+  closeModal("registerModal");
+  openLogin();
+}
+
+function openWallet() {
+
+  if (!token) {
+    openLogin();
+    return;
+  }
+
+  document.getElementById("walletModal").classList.add("show");
+
+  loadWallet();
+}
+
+
+/* ======================================================
+   AUTH
+====================================================== */
+
+async function register(event) {
+
+  event.preventDefault();
+
+  const button = event.submitter;
+
+  button.disabled = true;
+  button.textContent = "CREATING...";
+
+  try {
+
+    const data = await api("/api/auth/register", {
+      method: "POST",
+
+      body: JSON.stringify({
+
+        name:
+          document.getElementById("registerName").value.trim(),
+
+        email:
+          document.getElementById("registerEmail").value.trim(),
+
+        phone:
+          document.getElementById("registerPhone").value.trim(),
+
+        password:
+          document.getElementById("registerPassword").value
+
+      })
+
+    });
+
+    token = data.token;
+
+    localStorage.setItem("quora_token", token);
+
+    currentUser = data.user;
+
+    closeModal("registerModal");
+
+    updateAuthUI();
+
+    toast("Account created successfully.");
+
+  } catch (error) {
+
+    toast(error.message);
+
+  } finally {
+
+    button.disabled = false;
+    button.textContent = "CREATE ACCOUNT";
+
+  }
+}
+
+
+async function login(event) {
+
+  event.preventDefault();
+
+  const button = event.submitter;
+
+  button.disabled = true;
+  button.textContent = "LOGGING IN...";
+
+  try {
+
+    const data = await api("/api/auth/login", {
+      method: "POST",
+
+      body: JSON.stringify({
+
+        email:
+          document.getElementById("loginEmail").value.trim(),
+
+        password:
+          document.getElementById("loginPassword").value
+
+      })
+
+    });
+
+    token = data.token;
+
+    localStorage.setItem("quora_token", token);
+
+    currentUser = data.user;
+
+    closeModal("loginModal");
+
+    updateAuthUI();
+
+    toast("Login successful.");
+
+  } catch (error) {
+
+    toast(error.message);
+
+  } finally {
+
+    button.disabled = false;
+    button.textContent = "LOGIN";
+
+  }
+}
+
+
+async function loadCurrentUser() {
+
+  if (!token) {
+    updateAuthUI();
+    return;
+  }
+
+  try {
+
+    const data = await api("/api/me");
+
+    currentUser = data.user;
+
+    updateAuthUI();
+
+  } catch {
+
+    logout(false);
+
+  }
+}
+
+
+function updateAuthUI() {
+
+  const loggedOut =
+    document.getElementById("loggedOutButtons");
+
+  const userPanel =
+    document.getElementById("userPanel");
+
+  const username =
+    document.getElementById("username");
+
+  if (token && currentUser) {
+
+    loggedOut.style.display = "none";
+
+    userPanel.classList.add("show");
+
+    username.textContent =
+      currentUser.name ||
+      currentUser.email;
+
+  } else {
+
+    loggedOut.style.display = "block";
+
+    userPanel.classList.remove("show");
+
+  }
+}
+
+
+function logout(showMessage = true) {
+
+  token = "";
+
+  currentUser = null;
+
+  localStorage.removeItem("quora_token");
+
+  updateAuthUI();
+
+  if (showMessage) {
+    toast("You have been logged out.");
+  }
+}
+
+
+/* ======================================================
+   SPORTS
+====================================================== */
+
+function changeSport(sport, button) {
+
+  currentSport = sport;
+
+  document
+    .querySelectorAll(".sport")
+    .forEach(x => x.classList.remove("active"));
+
+  button.classList.add("active");
+
+  loadOdds();
+}
+
+
+/* ======================================================
+   LOAD ODDS
+====================================================== */
+
+async function loadOdds() {
+
+  const status =
+    document.getElementById("status");
+
+  const gamesEl =
+    document.getElementById("games");
+
+  status.textContent =
+    "● Loading live odds...";
+
+  gamesEl.innerHTML =
+    `<div class="loading">Loading games...</div>`;
+
+  try {
+
+    const data =
+      await api(
+        "/api/odds?sport=" +
+        encodeURIComponent(currentSport)
+      );
+
+    games = data.games || [];
+
+    status.textContent =
+      `● Connected — ${games.length} games loaded`;
+
+    renderGames();
+
+  } catch (error) {
+
+    games = [];
+
+    status.textContent =
+      "● Connection error";
+
+    gamesEl.innerHTML = `
+      <div class="league">
+        <div class="empty">
+          <h3>Unable to load games</h3>
+          <p style="margin-top:10px;">
+            ${escapeHtml(error.message)}
+          </p>
+          <button
+            class="btn btn-primary"
+            style="margin-top:20px;"
+            onclick="loadOdds()"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* ======================================================
+   FIND BEST H2H MARKET
+====================================================== */
+
+function getH2HOutcomes(game) {
+
+  const outcomes = {};
+
+  for (const bookmaker of game.bookmakers || []) {
+
+    for (const market of bookmaker.markets || []) {
+
+      if (market.key !== "h2h") {
+        continue;
+      }
+
+      for (const outcome of market.outcomes || []) {
+
+        const name = String(outcome.name);
+
+        if (!outcomes[name]) {
+
+          outcomes[name] = {
+            name,
+            price: Number(outcome.price)
+          };
+
+        }
+
+      }
+
+    }
+
+  }
+
+  return Object.values(outcomes);
+}
+
+
+/* ======================================================
+   RENDER GAMES
+====================================================== */
+
+function renderGames() {
+
+  const container =
+    document.getElementById("games");
+
+  const search =
+    document.getElementById("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+  let filtered = games.filter(game => {
+
+    if (!search) return true;
+
+    return (
+      String(game.home_team || "")
+        .toLowerCase()
+        .includes(search) ||
+
+      String(game.away_team || "")
+        .toLowerCase()
+        .includes(search)
+    );
+
+  });
+
+
+  if (!filtered.length) {
+
+    container.innerHTML = `
+      <div class="league">
+        <div class="empty">
+          No games found.
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const leagueName =
+    currentSport === "soccer_epl"
+      ? "🏆 EPL"
+      : currentSport === "basketball_nba"
+        ? "🏀 NBA"
+        : currentSport === "tennis_atp_us_open"
+          ? "🎾 Tennis"
+          : currentSport === "icehockey_nhl"
+            ? "🏒 NHL"
+            : "🎯 Sports";
+
+
+  let html = `
+
+    <section class="league">
+
+      <div class="league-header">
+
+        <span>${leagueName}</span>
+
+        <span style="color:#84978e;font-size:16px;">
+          ${filtered.length} matches
+        </span>
+
+      </div>
+
+  `;
+
+
+  filtered.forEach(game => {
+
+    const outcomes =
+      getH2HOutcomes(game);
+
+    if (!outcomes.length) {
+      return;
+    }
+
+    const home =
+      game.home_team || "Home";
+
+    const away =
+      game.away_team || "Away";
+
+    const date =
+      game.commence_time
+        ? new Date(game.commence_time)
+            .toLocaleString([], {
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit"
+            })
+        : "Upcoming";
+
+
+    html += `
+
+      <div class="match">
+
+        <div class="match-time">
+          ${escapeHtml(date)}
+        </div>
+
+        <div class="teams">
+          ${escapeHtml(home)}
+
+          <span class="vs">VS</span>
+
+          ${escapeHtml(away)}
+        </div>
+
+        <div class="odds">
+
+    `;
+
+
+    outcomes.slice(0, 3).forEach(outcome => {
+
+      html += `
+
+        <button
+          class="odd"
+          onclick='addSelection(
+            ${JSON.stringify(game).replace(/'/g, "&#39;")},
+            ${JSON.stringify(outcome).replace(/'/g, "&#39;")}
+          )'
+        >
+
+          <span class="odd-name">
+            ${escapeHtml(outcome.name)}
+          </span>
+
+          <span class="odd-price">
+            ${Number(outcome.price).toFixed(2)}
+          </span>
+
+        </button>
+
+      `;
+
+    });
+
+
+    html += `
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  html += `</section>`;
+
+  container.innerHTML = html;
+
+}
+
+
+/* ======================================================
+   SEARCH
+====================================================== */
+
+function filterGames() {
+  renderGames();
+}
+
+
+/* ======================================================
+   BET SLIP
+====================================================== */
+
+function addSelection(game, outcome) {
+
+  const existing =
+    betSlip.find(
+      s =>
+        s.eventId === game.id &&
+        s.outcomeName === outcome.name
+    );
+
+  if (existing) {
+
+    removeSelection(
+      game.id,
+      outcome.name
+    );
+
+    return;
+  }
+
+
+  /*
+    Remove another outcome from the same event.
+    Example: Arsenal and Draw cannot both be selected.
+  */
+
+  betSlip =
+    betSlip.filter(
+      s => s.eventId !== game.id
+    );
+
+
+  betSlip.push({
+
+    eventId: String(game.id),
+
+    sportKey:
+      currentSport,
+
+    homeTeam:
+      game.home_team,
+
+    awayTeam:
+      game.away_team,
+
+    commenceTime:
+      game.commence_time,
+
+    marketKey:
+      "h2h",
+
+    outcomeName:
+      outcome.name,
+
+    odds:
+      Number(outcome.price)
+
+  });
+
+
+  updateSlip();
+
+  toast(
+    `${outcome.name} added to bet slip`
+  );
+
+}
+
+
+function removeSelection(eventId, outcomeName) {
+
+  betSlip =
+    betSlip.filter(
+      s =>
+        !(
+          s.eventId === eventId &&
+          s.outcomeName === outcomeName
+        )
+    );
+
+  updateSlip();
+}
+
+
+function updateSlip() {
+
+  const slip =
+    document.getElementById("slip");
+
+  const body =
+    document.getElementById("slipBody");
+
+  const count =
+    document.getElementById("slipCount");
+
+  count.textContent =
+    betSlip.length;
+
+
+  if (!betSlip.length) {
+
+    slip.classList.remove("open");
+
+    body.innerHTML = `
+      <div class="slip-empty">
+        <div style="font-size:45px;margin-bottom:12px;">
+          🧾
+        </div>
+
+        Your bet slip is empty
+
+        <br>
+
+        <small>
+          Click an odd to add it here
+        </small>
+      </div>
+    `;
+
+  } else {
+
+    slip.classList.add("open");
+
+    body.innerHTML =
+      betSlip.map((selection, index) => `
+
+        <div class="selection">
+
+          <div class="selection-top">
+
+            <div class="selection-title">
+              ${escapeHtml(selection.outcomeName)}
+            </div>
+
+            <button
+              class="remove"
+              onclick="removeSelection(
+                '${escapeJs(selection.eventId)}',
+                '${escapeJs(selection.outcomeName)}'
+              )"
+            >
+              ×
+            </button>
+
+          </div>
+
+          <div class="selection-info">
+
+            ${escapeHtml(selection.homeTeam)}
+            vs
+            ${escapeHtml(selection.awayTeam)}
+
+            <br>
+
+            Odds:
+            <strong style="color:#18d86b;">
+              ${Number(selection.odds).toFixed(2)}
+            </strong>
+
+          </div>
+
+        </div>
+
+      `).join("");
+
+  }
+
+
+  const totalOdds =
+    betSlip.reduce(
+      (total, item) =>
+        total * Number(item.odds),
+      1
+    );
+
+
+  const stake =
+    Number(
+      document.getElementById("stake").value
+    ) || 0;
+
+
+  document.getElementById("totalOdds")
+    .textContent =
+      betSlip.length
+        ? totalOdds.toFixed(2)
+        : "0.00";
+
+
+  document.getElementById("stakeDisplay")
+    .textContent =
+      stake.toFixed(2);
+
+
+  document.getElementById("potential")
+    .textContent =
+      "KES " +
+      (
+        stake *
+        (betSlip.length ? totalOdds : 0)
+      ).toFixed(2);
+
+
+  const button =
+    document.getElementById("placeBetButton");
+
+
+  button.disabled =
+    !(
+      token &&
+      betSlip.length &&
+      stake >= 10
+    );
+
+}
+
+
+/* ======================================================
+   PLACE BET
+====================================================== */
+
+async function placeBet() {
+
+  if (!token) {
+
+    toast("Please login before placing a bet.");
+
+    openLogin();
+
+    return;
+  }
+
+
+  if (!betSlip.length) {
+
+    toast("Your bet slip is empty.");
+
+    return;
+  }
+
+
+  const stake =
+    Number(
+      document.getElementById("stake").value
+    );
+
+
+  if (!Number.isFinite(stake) || stake < 10) {
+
+    toast("Minimum stake is KES 10.");
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById("placeBetButton");
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "PLACING BET...";
+
+
+  try {
+
+    const idempotencyKey =
+      crypto.randomUUID
+        ? crypto.randomUUID()
+        : (
+          Date.now() +
+          "-" +
+          Math.random()
+            .toString(36)
+            .substring(2)
+        );
+
+
+    const data =
+      await api("/api/bets", {
+
+        method: "POST",
+
+        body: JSON.stringify({
+
+          stake,
+
+          selections:
+            betSlip,
+
+          idempotencyKey
+
+        })
+
+      });
+
+
+    toast(
+      `Bet #${data.bet.id} placed successfully.`
+    );
+
+
+    betSlip = [];
+
+    document.getElementById("stake").value = "";
+
+    updateSlip();
+
+  } catch (error) {
+
+    toast(error.message);
+
+  } finally {
+
+    button.textContent =
+      "PLACE BET";
+
+    updateSlip();
+
+  }
+
+}
+
+
+/* ======================================================
+   WALLET
+====================================================== */
+
+async function loadWallet() {
+
+  try {
+
+    const data =
+      await api("/api/wallet");
+
+
+    document.getElementById("walletBalance")
+      .textContent =
+        "KES " +
+        Number(data.balance || 0)
+          .toFixed(2);
+
+
+    const transactions =
+      data.transactions || [];
+
+
+    const element =
+      document.getElementById("transactions");
+
+
+    if (!transactions.length) {
+
+      element.innerHTML =
+        `<div style="color:#879a91;">
+          No transactions yet.
+        </div>`;
+
+      return;
+    }
+
+
+    element.innerHTML =
+      transactions
+        .slice(0, 10)
+        .map(tx => `
+
+          <div style="
+            padding:12px 0;
+            border-bottom:1px solid #1b3428;
+          ">
+
+            <div style="
+              display:flex;
+              justify-content:space-between;
+            ">
+
+              <strong>
+                ${escapeHtml(tx.description || tx.type)}
+              </strong>
+
+              <span style="color:#18d86b;">
+                KES ${Number(tx.amount || 0).toFixed(2)}
+              </span>
+
+            </div>
+
+            <small style="color:#82958c;">
+              ${escapeHtml(tx.reference || "")}
+            </small>
+
+          </div>
+
+        `)
+        .join("");
+
+  } catch (error) {
+
+    toast(error.message);
+
+  }
+
+}
+
+
+/* ======================================================
+   MPESA DEPOSIT
+====================================================== */
+
+async function deposit(event) {
+
+  event.preventDefault();
+
+
+  if (!token) {
+
+    toast("Please login first.");
+
+    return;
+  }
+
+
+  const phone =
+    document.getElementById("depositPhone")
+      .value
+      .trim();
+
+
+  const amount =
+    Number(
+      document.getElementById("depositAmount")
+        .value
+    );
+
+
+  if (!phone || amount < 10) {
+
+    toast(
+      "Enter a valid phone number and amount."
+    );
+
+    return;
+  }
+
+
+  const button =
+    event.submitter;
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "SENDING STK...";
+
+
+  try {
+
+    const data =
+      await api(
+        "/api/mpesa/deposit",
+        {
+
+          method: "POST",
+
+          body: JSON.stringify({
+
+            phone,
+
+            amount
+
+          })
+
+        }
+      );
+
+
+    toast(
+      data.message ||
+      "Check your phone for the M-Pesa prompt."
+    );
+
+
+    document.getElementById(
+      "depositAmount"
+    ).value = "";
+
+
+    setTimeout(
+      loadWallet,
+      3000
+    );
+
+  } catch (error) {
+
+    toast(error.message);
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      "DEPOSIT WITH M-PESA";
+
+  }
+
+}
+
+
+/* ======================================================
+   ESCAPE HTML
+====================================================== */
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+function escapeJs(value) {
+
+  return String(value ?? "")
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'");
+}
+
+
+/* ======================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+====================================================== */
+
+document.querySelectorAll(".modal")
+  .forEach(modal => {
+
+    modal.addEventListener(
+      "click",
+      event => {
+
+        if (event.target === modal) {
+
+          modal.classList.remove("show");
+
+        }
+
+      }
+    );
+
+  });
+
+
+/* ======================================================
+   START APP
+====================================================== */
+
+async function startApp() {
+
+  await loadCurrentUser();
+
+  await loadOdds();
+
+}
+
+
+startApp();
+
+</script>
+
+</body>
+  </html>
