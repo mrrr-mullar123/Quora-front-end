@@ -144,11 +144,11 @@ button {
   padding: 18px;
 }
 
-/* ================= CONTENT ================= */
-
 .content {
   min-width: 0;
 }
+
+/* ================= HERO ================= */
 
 .hero {
   background:
@@ -327,6 +327,11 @@ button {
   border-color: var(--green);
 }
 
+.odd:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
 .odd-label {
   display: block;
   font-size: 11px;
@@ -357,6 +362,7 @@ button {
   font-weight: 900;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .count {
@@ -597,6 +603,7 @@ button {
   </div>
 
   <div class="header-right">
+
     <div class="balance">
       Balance: <strong>KES 0.00</strong>
     </div>
@@ -604,6 +611,7 @@ button {
     <button class="login" onclick="loginMessage()">
       Login
     </button>
+
   </div>
 
 </header>
@@ -668,8 +676,11 @@ button {
   <div id="games">
 
     <div class="loading">
+
       <div class="spinner"></div>
+
       Loading games...
+
     </div>
 
   </div>
@@ -683,11 +694,13 @@ button {
     class="betslip-title"
     onclick="toggleBetslip()"
   >
+
     <span>Bet Slip</span>
 
     <span id="betCount" class="count">
       0
     </span>
+
   </div>
 
 
@@ -715,14 +728,24 @@ button {
   <div class="summary">
 
     <div class="row">
+
       <span>Total Odds</span>
-      <strong id="totalOdds">0.00</strong>
+
+      <strong id="totalOdds">
+        0.00
+      </strong>
+
     </div>
 
 
     <div class="row">
+
       <span>Stake</span>
-      <strong>KES <span id="stakeDisplay">0.00</span></strong>
+
+      <strong>
+        KES <span id="stakeDisplay">0.00</span>
+      </strong>
+
     </div>
 
 
@@ -737,11 +760,13 @@ button {
 
 
     <div class="row total">
+
       <span>Potential Win</span>
 
       <span>
         KES <span id="potential">0.00</span>
       </span>
+
     </div>
 
 
@@ -767,12 +792,10 @@ button {
 
 /* =========================================================
    QUORA BETS FRONTEND
-   YOUR RENDER BACKEND
 ========================================================= */
 
 const API_BASE =
   "https://quora-bets-back-end1.onrender.com";
-
 
 let currentSport = "soccer_epl";
 
@@ -801,6 +824,7 @@ async function loadOdds() {
   `;
 
   status.className = "status";
+
   status.textContent =
     "Connecting to Quora Bets backend...";
 
@@ -895,7 +919,7 @@ function renderGames() {
       .trim();
 
 
-  let filtered =
+  const filtered =
     games.filter(game => {
 
       const home =
@@ -924,9 +948,7 @@ function renderGames() {
             padding:35px 10px;
             color:#8fa79a;
           ">
-
             No games found.
-
           </div>
 
         </div>
@@ -937,10 +959,6 @@ function renderGames() {
     return;
   }
 
-
-  /*
-    Group games by sport/league
-  */
 
   const groups = {};
 
@@ -998,7 +1016,6 @@ function renderGames() {
 
 
   container.innerHTML = html;
-
 }
 
 
@@ -1095,6 +1112,7 @@ function createGame(game) {
 
         ${createOddButton(
           id,
+          currentSport,
           home,
           away,
           "home",
@@ -1104,6 +1122,7 @@ function createGame(game) {
 
         ${createOddButton(
           id,
+          currentSport,
           home,
           away,
           "draw",
@@ -1113,6 +1132,7 @@ function createGame(game) {
 
         ${createOddButton(
           id,
+          currentSport,
           home,
           away,
           "away",
@@ -1128,7 +1148,7 @@ function createGame(game) {
 
 
 /* =========================================================
-   EXTRACT ODDS FROM ODDS API
+   EXTRACT ODDS
 ========================================================= */
 
 function extractOdds(game) {
@@ -1139,11 +1159,6 @@ function extractOdds(game) {
     away: null
   };
 
-
-  /*
-    The Odds API returns bookmakers[]
-    with markets[]
-  */
 
   if (
     !game.bookmakers ||
@@ -1196,17 +1211,13 @@ function extractOdds(game) {
           result.home = price;
         }
 
-      }
-
-      else if (name === game.away_team) {
+      } else if (name === game.away_team) {
 
         if (!result.away) {
           result.away = price;
         }
 
-      }
-
-      else if (name === "Draw") {
+      } else if (name === "Draw") {
 
         if (!result.draw) {
           result.draw = price;
@@ -1216,10 +1227,6 @@ function extractOdds(game) {
 
     });
 
-
-    /*
-      Stop after finding usable odds
-    */
 
     if (
       result.home ||
@@ -1242,6 +1249,7 @@ function extractOdds(game) {
 
 function createOddButton(
   gameId,
+  sportKey,
   home,
   away,
   type,
@@ -1261,31 +1269,39 @@ function createOddButton(
     !price;
 
 
+  const outcomeName =
+    type === "home"
+      ? home
+      : type === "away"
+        ? away
+        : "Draw";
+
+
   return `
     <button
       class="odd ${selected ? "selected" : ""}"
       ${disabled ? "disabled" : ""}
       onclick='selectOdd(
         ${JSON.stringify(gameId)},
+        ${JSON.stringify(sportKey)},
         ${JSON.stringify(home)},
         ${JSON.stringify(away)},
         ${JSON.stringify(type)},
         ${JSON.stringify(label)},
+        ${JSON.stringify(outcomeName)},
         ${price || "null"}
       )'
     >
 
       <span class="odd-label">
-        ${label === "1"
-          ? escapeHtml(home)
-          : label === "2"
-            ? escapeHtml(away)
-            : "Draw"
-        }
+        ${escapeHtml(outcomeName)}
       </span>
 
       <span class="odd-price">
-        ${price ? Number(price).toFixed(2) : "-"}
+        ${price
+          ? Number(price).toFixed(2)
+          : "-"
+        }
       </span>
 
     </button>
@@ -1299,10 +1315,12 @@ function createOddButton(
 
 function selectOdd(
   gameId,
+  sportKey,
   home,
   away,
   type,
   label,
+  outcomeName,
   price
 ) {
 
@@ -1312,8 +1330,8 @@ function selectOdd(
 
 
   /*
-    Remove any existing selection
-    from the same game.
+    Only one selection is allowed
+    from each match.
   */
 
   selections =
@@ -1325,11 +1343,13 @@ function selectOdd(
   selections.push({
 
     gameId,
+    sportKey,
     home,
     away,
     type,
     label,
-    price: Number(price)
+    outcomeName,
+    odds: Number(price)
 
   });
 
@@ -1337,7 +1357,6 @@ function selectOdd(
   renderGames();
 
   renderBetslip();
-
 }
 
 
@@ -1356,7 +1375,6 @@ function removeBet(gameId) {
   renderGames();
 
   renderBetslip();
-
 }
 
 
@@ -1443,7 +1461,7 @@ function renderBetslip() {
             </span>
 
             <span class="bet-price">
-              ${selection.price.toFixed(2)}
+              ${selection.odds.toFixed(2)}
             </span>
 
           </div>
@@ -1455,7 +1473,6 @@ function renderBetslip() {
 
 
   calculate();
-
 }
 
 
@@ -1479,7 +1496,7 @@ function calculate() {
   selections.forEach(selection => {
 
     totalOdds *=
-      Number(selection.price);
+      Number(selection.odds);
 
   });
 
@@ -1512,17 +1529,31 @@ function calculate() {
     .disabled =
       selections.length === 0 ||
       stake <= 0;
-
 }
 
 
 /* =========================================================
-   PLACE BET
+   PLACE REAL BET
 ========================================================= */
 
-function placeBet() {
+async function placeBet() {
 
   if (!selections.length) {
+    alert("Select at least one outcome.");
+    return;
+  }
+
+
+  const token =
+    localStorage.getItem("quora_token");
+
+
+  if (!token) {
+
+    alert(
+      "Please login before placing a bet."
+    );
+
     return;
   }
 
@@ -1536,28 +1567,235 @@ function placeBet() {
   if (!stake || stake <= 0) {
 
     alert(
-      "Please enter your stake."
+      "Please enter a valid stake."
     );
 
     return;
   }
 
 
-  /*
-    This is frontend-only for now.
-    Your current backend has no betting
-    endpoint or user wallet system yet.
-  */
+  const button =
+    document.getElementById("placeBet");
 
-  alert(
-    "Bet slip created successfully!\n\n" +
-    "Stake: KES " +
-    stake.toFixed(2) +
-    "\nPotential win: KES " +
-    document.getElementById("potential").textContent +
-    "\n\nYour betting/payment backend still needs to be connected before real bets can be placed."
-  );
 
+  button.disabled = true;
+
+  button.textContent =
+    "PLACING BET...";
+
+
+  try {
+
+    const idempotencyKey =
+      crypto.randomUUID();
+
+
+    const payload = {
+
+      stake,
+
+      idempotencyKey,
+
+      selections:
+        selections.map(selection => ({
+
+          eventId:
+            selection.gameId,
+
+          sportKey:
+            selection.sportKey,
+
+          outcomeName:
+            selection.outcomeName,
+
+          odds:
+            selection.odds,
+
+          marketKey:
+            "h2h"
+
+        }))
+
+    };
+
+
+    const response =
+      await fetch(
+        `${API_BASE}/api/bets`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            "Authorization":
+              `Bearer ${token}`
+          },
+
+          body:
+            JSON.stringify(payload)
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+
+      throw new Error(
+        data.error ||
+        "Unable to place bet"
+      );
+
+    }
+
+
+    alert(
+      "BET PLACED SUCCESSFULLY!\n\n" +
+
+      "Bet ID: #" +
+      data.bet.id +
+
+      "\nStake: KES " +
+      Number(
+        data.bet.stake
+      ).toFixed(2) +
+
+      "\nTotal Odds: " +
+      Number(
+        data.bet.totalOdds
+      ).toFixed(2) +
+
+      "\nPotential Win: KES " +
+      Number(
+        data.bet.potentialPayout
+      ).toFixed(2)
+    );
+
+
+    selections = [];
+
+
+    document.getElementById(
+      "stake"
+    ).value = "";
+
+
+    renderGames();
+
+    renderBetslip();
+
+
+    await refreshWallet();
+
+  } catch(error) {
+
+    console.error(
+      "PLACE BET:",
+      error
+    );
+
+
+    alert(
+      error.message
+    );
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      "PLACE BET";
+
+    calculate();
+  }
+}
+
+
+/* =========================================================
+   REFRESH WALLET
+========================================================= */
+
+async function refreshWallet() {
+
+  const token =
+    localStorage.getItem(
+      "quora_token"
+    );
+
+
+  if (!token) {
+    return;
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        `${API_BASE}/api/me`,
+        {
+          headers: {
+            "Authorization":
+              `Bearer ${token}`
+          }
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      response.ok &&
+      data.success
+    ) {
+
+      updateBalance(
+        data.wallet?.balance || 0
+      );
+
+    }
+
+  } catch(error) {
+
+    console.error(
+      "Wallet refresh failed:",
+      error
+    );
+
+  }
+}
+
+
+/* =========================================================
+   UPDATE BALANCE
+========================================================= */
+
+function updateBalance(balance) {
+
+  const balanceElement =
+    document.querySelector(
+      ".balance"
+    );
+
+
+  if (!balanceElement) {
+    return;
+  }
+
+
+  balanceElement.innerHTML =
+    `Balance: <strong>KES ${
+      Number(balance).toFixed(2)
+    }</strong>`;
 }
 
 
@@ -1570,36 +1808,46 @@ function changeSport(
   button
 ) {
 
-  currentSport = sport;
+  currentSport =
+    sport;
 
 
   document
-    .querySelectorAll(".nav button")
+    .querySelectorAll(
+      ".nav button"
+    )
     .forEach(btn =>
-      btn.classList.remove("active")
+      btn.classList.remove(
+        "active"
+      )
     );
 
 
-  button.classList.add("active");
+  button.classList.add(
+    "active"
+  );
 
 
   selections = [];
 
+
   renderBetslip();
 
-  loadOdds();
 
+  loadOdds();
 }
 
 
 /* =========================================================
-   BETSLIP MOBILE
+   MOBILE BETSLIP
 ========================================================= */
 
 function toggleBetslip() {
 
   const slip =
-    document.getElementById("betslip");
+    document.getElementById(
+      "betslip"
+    );
 
 
   if (
@@ -1611,7 +1859,6 @@ function toggleBetslip() {
     );
 
   }
-
 }
 
 
@@ -1619,13 +1866,110 @@ function toggleBetslip() {
    LOGIN
 ========================================================= */
 
-function loginMessage() {
+async function loginMessage() {
 
-  alert(
-    "Login / registration is not connected yet.\n\n" +
-    "We can add user accounts, M-Pesa deposits, wallet balance and withdrawals to the backend next."
-  );
+  const email =
+    prompt(
+      "Enter your email:"
+    );
 
+
+  if (!email) {
+    return;
+  }
+
+
+  const password =
+    prompt(
+      "Enter your password:"
+    );
+
+
+  if (!password) {
+    return;
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        `${API_BASE}/api/auth/login`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              email,
+              password
+            })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+
+      throw new Error(
+        data.error ||
+        "Login failed"
+      );
+
+    }
+
+
+    localStorage.setItem(
+      "quora_token",
+      data.token
+    );
+
+
+    localStorage.setItem(
+      "quora_user",
+      JSON.stringify(
+        data.user
+      )
+    );
+
+
+    updateBalance(
+      data.wallet?.balance || 0
+    );
+
+
+    alert(
+      `Welcome back, ${
+        data.user.name
+      }!`
+    );
+
+
+    refreshWallet();
+
+  } catch(error) {
+
+    console.error(
+      "LOGIN:",
+      error
+    );
+
+
+    alert(
+      error.message
+    );
+
+  }
 }
 
 
@@ -1636,19 +1980,32 @@ function loginMessage() {
 function escapeHtml(value) {
 
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 }
 
 
 function escapeAttr(value) {
 
   return escapeHtml(value);
-
 }
 
 
@@ -1658,7 +2015,9 @@ function escapeAttr(value) {
 
 loadOdds();
 
+refreshWallet();
+
 </script>
 
 </body>
-        </html>
+</html>
