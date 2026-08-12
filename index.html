@@ -1667,97 +1667,51 @@ function renderAll(){
    PICK ODDS
 ========================================================= */
 
-function isPicked(id,market){
+function pick(id, market) {
+  const game = games.find(g => String(g.id) === String(id));
 
-  return picks.some(
-    p =>
-      String(p.gameId) === String(id) &&
-      p.market === market
-  );
-}
-
-
-function pick(id,market){
-
-  const game =
-    games.find(
-      g =>
-        String(g.id) === String(id)
-    );
-
-
-  if(!game){
-    toast("Match unavailable");
+  if (!game) {
+    toast("Game not found");
     return;
   }
 
+  const odd = Number(game.odds[market]);
 
-  if(
-    market === 1 &&
-    game.odds[1] === null
-  ){
-
-    toast(
-      "Draw is not available for this match"
-    );
-
+  if (!odd || odd <= 0) {
+    toast("This odd is unavailable");
     return;
   }
 
+  // Remove an existing selection from this match
+  picks = picks.filter(p => String(p.gameId) !== String(game.id));
 
-  picks =
-    picks.filter(
-      p =>
-        String(p.gameId) !== String(id)
-    );
+  let selection;
 
-
-  const odd =
-    Number(game.odds[market]);
-
-
-  if(
-    !Number.isFinite(odd)
-  ){
-
-    toast(
-      "Invalid odds"
-    );
-
-    return;
+  if (market === 0) {
+    selection = game.home;
+  } else if (market === 1) {
+    selection = "Draw";
+  } else {
+    selection = game.away;
   }
-
-
-  const label =
-    market === 0
-      ? game.home
-      : market === 1
-        ? "Draw"
-        : game.away;
-
 
   picks.push({
-
-    gameId:id,
-
-    market,
-
-    name:
-      `${game.home} vs ${game.away}`,
-
-    pick:label,
-
-    odd
-
+    gameId: game.id,
+    market: market,
+    name: game.home + " vs " + game.away,
+    pick: selection,
+    odd: odd
   });
 
+  // Immediately update the betslip
+  renderSlip();
 
-  renderAll();
+  // Update the odds buttons
+  renderMatches("homeMatches");
+  renderMatches("sportsMatches");
 
-  toast(
-    "Selection added to betslip"
-  );
-}
+  toast(selection + " @ " + odd.toFixed(2) + " added");
+    }
 
 
 /* =========================================================
