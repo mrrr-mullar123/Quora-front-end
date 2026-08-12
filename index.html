@@ -1,1 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+<title>Quora Bets</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #07110d;
+  --panel: #0d1b15;
+  --panel2: #11231b;
+  --green: #16d66b;
+  --green2: #0fa957;
+  --text: #ffffff;
+  --muted: #8fa79a;
+  --border: #1d3428;
+  --danger: #ff4d5f;
+  --yellow: #ffd43b;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+}
+
+.app {
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+  height: 64px;
+  background: #08150f;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.logo span {
+  color: var(--green);
+}
+
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  background: var(--green);
+  color: #06100b;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.balance {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 9px 13px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.balance strong {
+  color: var(--green);
+}
+
+.login {
+  background: var(--green);
+  color: #041008;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 7px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ================= NAV ================= */
+
+.nav {
+  background: #0b1913;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+}
+
+.nav button {
+  flex: 1;
+  min-width: 110px;
+  padding: 15px 12px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 700;
+  border-bottom: 3px solid transparent;
+}
+
+.nav button.active {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+/* ================= MAIN ================= */
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 370px;
+  gap: 18px;
+  padding: 18px;
+}
+
+/* ================= CONTENT ================= */
+
+.content {
+  min-width: 0;
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 90% 20%, rgba(22,214,107,.18), transparent 35%),
+    linear-gradient(135deg, #10251a, #09150f);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-size: 27px;
+  margin-bottom: 7px;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.search {
+  margin-top: 18px;
+  display: flex;
+  gap: 8px;
+}
+
+.search input {
+  flex: 1;
+  background: #07110d;
+  border: 1px solid var(--border);
+  color: white;
+  border-radius: 7px;
+  padding: 12px;
+  outline: none;
+}
+
+.search input:focus {
+  border-color: var(--green);
+}
+
+.refresh {
+  border: none;
+  background: var(--green);
+  color: #041008;
+  padding: 0 17px;
+  border-radius: 7px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ================= STATUS ================= */
+
+.status {
+  padding: 11px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.status.ok {
+  color: var(--green);
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+/* ================= LEAGUE ================= */
+
+.league {
+  margin-bottom: 17px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.league-header {
+  padding: 13px 15px;
+  background: #102119;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.league-name {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.country {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ================= GAME ================= */
+
+.game {
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.game:last-child {
+  border-bottom: none;
+}
+
+.game-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.game-time {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.live {
+  color: var(--green);
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.team {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.team.home {
+  text-align: right;
+}
+
+.vs {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.odds {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+
+.odd {
+  background: #16291f;
+  border: 1px solid #274235;
+  color: white;
+  min-height: 50px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.odd:hover {
+  border-color: var(--green);
+  background: #193526;
+}
+
+.odd.selected {
+  background: var(--green);
+  color: #041008;
+  border-color: var(--green);
+}
+
+.odd-label {
+  display: block;
+  font-size: 11px;
+  opacity: .75;
+  margin-bottom: 4px;
+}
+
+.odd-price {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+/* ================= BETSLIP ================= */
+
+.betslip {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: sticky;
+  top: 82px;
+  height: fit-content;
+}
+
+.betslip-title {
+  background: #102119;
+  padding: 16px;
+  font-weight: 900;
+  display: flex;
+  justify-content: space-between;
+}
+
+.count {
+  background: var(--green);
+  color: #041008;
+  border-radius: 20px;
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+.bets {
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+.empty {
+  padding: 45px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-icon {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.bet {
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.bet-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.bet-match {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.remove {
+  border: none;
+  background: transparent;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.bet-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 9px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.bet-price {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.summary {
+  padding: 15px;
+  border-top: 1px solid var(--border);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.row span:first-child {
+  color: var(--muted);
+}
+
+.total {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.total span:last-child {
+  color: var(--green);
+}
+
+.stake {
+  width: 100%;
+  background: #07110d;
+  border: 1px solid var(--border);
+  color: white;
+  padding: 13px;
+  border-radius: 7px;
+  margin: 5px 0 12px;
+  outline: none;
+}
+
+.stake:focus {
+  border-color: var(--green);
+}
+
+.place {
+  width: 100%;
+  padding: 14px;
+  background: var(--green);
+  border: none;
+  color: #041008;
+  font-size: 15px;
+  font-weight: 900;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.place:disabled {
+  background: #26372e;
+  color: #718178;
+  cursor: not-allowed;
+}
+
+/* ================= LOADING ================= */
+
+.loading {
+  padding: 50px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.spinner {
+  width: 35px;
+  height: 35px;
+  border: 3px solid #294034;
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin: 0 auto 14px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width: 850px) {
+
+  .header {
+    padding: 0 12px;
+  }
+
+  .balance {
+    display: none;
+  }
+
+  .main {
+    display: block;
+    padding: 10px;
+  }
+
+  .hero {
+    padding: 18px;
+  }
+
+  .hero h1 {
+    font-size: 22px;
+  }
+
+  .betslip {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .bets {
+    max-height: 280px;
+  }
+
+  .betslip.collapsed .bets,
+  .betslip.collapsed .summary {
+    display: none;
+  }
+
+  .betslip.collapsed .betslip-title {
+    cursor: pointer;
+  }
+
+  body {
+    padding-bottom: 70px;
+  }
+}
+
+@media(max-width: 500px) {
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .logo-mark {
+    width: 30px;
+    height: 30px;
+  }
+
+  .login {
+    padding: 8px 11px;
+    font-size: 12px;
+  }
+
+  .teams {
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .team {
+    font-size: 12px;
+  }
+
+  .odd {
+    min-height: 46px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+  <div class="logo">
+    <div class="logo-mark">Q</div>
+    QUORA <span>BETS</span>
+  </div>
+
+  <div class="header-right">
+    <div class="balance">
+      Balance: <strong>KES 0.00</strong>
+    </div>
+
+    <button class="login" onclick="loginMessage()">
+      Login
+    </button>
+  </div>
+
+</header>
+
+
+<nav class="nav">
+
+  <button class="active" onclick="changeSport('soccer_epl', this)">
+    ⚽ Football
+  </button>
+
+  <button onclick="changeSport('basketball_nba', this)">
+    🏀 Basketball
+  </button>
+
+  <button onclick="changeSport('tennis_atp', this)">
+    🎾 Tennis
+  </button>
+
+  <button onclick="changeSport('icehockey_nhl', this)">
+    🏒 Hockey
+  </button>
+
+</nav>
+
+
+<main class="main">
+
+<section class="content">
+
+  <div class="hero">
+
+    <h1>Bet on today's games</h1>
+
+    <p>
+      Real-time fixtures and odds powered by Quora Bets.
+    </p>
+
+    <div class="search">
+
+      <input
+        id="search"
+        type="text"
+        placeholder="Search teams..."
+        oninput="renderGames()"
+      >
+
+      <button class="refresh" onclick="loadOdds()">
+        ↻ Refresh
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div id="status" class="status">
+    Connecting to Quora Bets...
+  </div>
+
+
+  <div id="games">
+
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading games...
+    </div>
+
+  </div>
+
+</section>
+
+
+<aside id="betslip" class="betslip">
+
+  <div
+    class="betslip-title"
+    onclick="toggleBetslip()"
+  >
+    <span>Bet Slip</span>
+
+    <span id="betCount" class="count">
+      0
+    </span>
+  </div>
+
+
+  <div id="bets" class="bets">
+
+    <div class="empty">
+
+      <div class="empty-icon">
+        🧾
+      </div>
+
+      <div>
+        Your bet slip is empty
+      </div>
+
+      <small>
+        Click an odd to add it here
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <div class="summary">
+
+    <div class="row">
+      <span>Total Odds</span>
+      <strong id="totalOdds">0.00</strong>
+    </div>
+
+
+    <div class="row">
+      <span>Stake</span>
+      <strong>KES <span id="stakeDisplay">0.00</span></strong>
+    </div>
+
+
+    <input
+      id="stake"
+      class="stake"
+      type="number"
+      min="0"
+      placeholder="Enter stake (KES)"
+      oninput="calculate()"
+    >
+
+
+    <div class="row total">
+      <span>Potential Win</span>
+
+      <span>
+        KES <span id="potential">0.00</span>
+      </span>
+    </div>
+
+
+    <button
+      id="placeBet"
+      class="place"
+      disabled
+      onclick="placeBet()"
+    >
+      PLACE BET
+    </button>
+
+  </div>
+
+</aside>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   QUORA BETS FRONTEND
+   YOUR RENDER BACKEND
+========================================================= */
+
+const API_BASE =
+  "https://quora-bets-back-end1.onrender.com";
+
+
+let currentSport = "soccer_epl";
+
+let games = [];
+
+let selections = [];
+
+
+/* =========================================================
+   LOAD ODDS
+========================================================= */
+
+async function loadOdds() {
+
+  const gamesContainer =
+    document.getElementById("games");
+
+  const status =
+    document.getElementById("status");
+
+  gamesContainer.innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading real-time odds...
+    </div>
+  `;
+
+  status.className = "status";
+  status.textContent =
+    "Connecting to Quora Bets backend...";
+
+  try {
+
+    const url =
+      API_BASE +
+      "/api/odds?sport=" +
+      encodeURIComponent(currentSport);
+
+    const response =
+      await fetch(url);
+
+    const data =
+      await response.json();
+
+    if (!response.ok || !data.success) {
+
+      throw new Error(
+        data.error ||
+        "Backend failed to return odds"
+      );
+
+    }
+
+    games =
+      Array.isArray(data.games)
+        ? data.games
+        : [];
+
+    status.className = "status ok";
+
+    status.textContent =
+      "● Connected — " +
+      games.length +
+      " games loaded";
+
+    renderGames();
+
+  } catch(error) {
+
+    console.error(error);
+
+    gamesContainer.innerHTML = `
+      <div class="league">
+
+        <div class="game">
+
+          <h3 style="margin-bottom:10px">
+            Unable to load games
+          </h3>
+
+          <p style="color:#8fa79a;font-size:13px;line-height:1.6">
+            ${escapeHtml(error.message)}
+          </p>
+
+          <button
+            class="refresh"
+            style="margin-top:15px;padding:11px 18px"
+            onclick="loadOdds()"
+          >
+            Try Again
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    status.className = "status error";
+
+    status.textContent =
+      "● Connection/API error";
+  }
+}
+
+
+/* =========================================================
+   RENDER GAMES
+========================================================= */
+
+function renderGames() {
+
+  const container =
+    document.getElementById("games");
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  let filtered =
+    games.filter(game => {
+
+      const home =
+        game.home_team || "";
+
+      const away =
+        game.away_team || "";
+
+      return (
+        home.toLowerCase().includes(search) ||
+        away.toLowerCase().includes(search)
+      );
+
+    });
+
+
+  if (!filtered.length) {
+
+    container.innerHTML = `
+      <div class="league">
+
+        <div class="game">
+
+          <div style="
+            text-align:center;
+            padding:35px 10px;
+            color:#8fa79a;
+          ">
+
+            No games found.
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  /*
+    Group games by sport/league
+  */
+
+  const groups = {};
+
+
+  filtered.forEach(game => {
+
+    const key =
+      game.sport_title ||
+      game.sport_key ||
+      "Football";
+
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+
+    groups[key].push(game);
+
+  });
+
+
+  let html = "";
+
+
+  Object.keys(groups).forEach(league => {
+
+    html += `
+      <div class="league">
+
+        <div class="league-header">
+
+          <div class="league-name">
+            🏆 ${escapeHtml(league)}
+          </div>
+
+          <div class="country">
+            ${groups[league].length} matches
+          </div>
+
+        </div>
+    `;
+
+
+    groups[league].forEach(game => {
+
+      html += createGame(game);
+
+    });
+
+
+    html += `
+      </div>
+    `;
+
+  });
+
+
+  container.innerHTML = html;
+
+}
+
+
+/* =========================================================
+   CREATE GAME
+========================================================= */
+
+function createGame(game) {
+
+  const id =
+    game.id ||
+    (
+      game.home_team +
+      "_" +
+      game.away_team +
+      "_" +
+      game.commence_time
+    );
+
+
+  const home =
+    game.home_team || "Home";
+
+  const away =
+    game.away_team || "Away";
+
+
+  const date =
+    game.commence_time
+      ? new Date(game.commence_time)
+      : null;
+
+
+  let time = "TBA";
+
+
+  if (date && !isNaN(date)) {
+
+    time =
+      date.toLocaleDateString([], {
+        day: "2-digit",
+        month: "short"
+      }) +
+      " " +
+      date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+  }
+
+
+  const odds =
+    extractOdds(game);
+
+
+  return `
+    <div
+      class="game"
+      data-game="${escapeAttr(id)}"
+    >
+
+      <div class="game-top">
+
+        <span class="game-time">
+          ${time}
+        </span>
+
+        <span class="live">
+          ● UPCOMING
+        </span>
+
+      </div>
+
+
+      <div class="teams">
+
+        <div class="team home">
+          ${escapeHtml(home)}
+        </div>
+
+        <div class="vs">
+          VS
+        </div>
+
+        <div class="team">
+          ${escapeHtml(away)}
+        </div>
+
+      </div>
+
+
+      <div class="odds">
+
+        ${createOddButton(
+          id,
+          home,
+          away,
+          "home",
+          "1",
+          odds.home
+        )}
+
+        ${createOddButton(
+          id,
+          home,
+          away,
+          "draw",
+          "X",
+          odds.draw
+        )}
+
+        ${createOddButton(
+          id,
+          home,
+          away,
+          "away",
+          "2",
+          odds.away
+        )}
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   EXTRACT ODDS FROM ODDS API
+========================================================= */
+
+function extractOdds(game) {
+
+  let result = {
+    home: null,
+    draw: null,
+    away: null
+  };
+
+
+  /*
+    The Odds API returns bookmakers[]
+    with markets[]
+  */
+
+  if (
+    !game.bookmakers ||
+    !game.bookmakers.length
+  ) {
+    return result;
+  }
+
+
+  for (
+    const bookmaker of game.bookmakers
+  ) {
+
+    if (
+      !bookmaker.markets ||
+      !bookmaker.markets.length
+    ) {
+      continue;
+    }
+
+
+    const market =
+      bookmaker.markets.find(
+        m => m.key === "h2h"
+      );
+
+
+    if (!market || !market.outcomes) {
+      continue;
+    }
+
+
+    market.outcomes.forEach(outcome => {
+
+      const name =
+        outcome.name;
+
+      const price =
+        Number(outcome.price);
+
+
+      if (!price || price <= 1) {
+        return;
+      }
+
+
+      if (name === game.home_team) {
+
+        if (!result.home) {
+          result.home = price;
+        }
+
+      }
+
+      else if (name === game.away_team) {
+
+        if (!result.away) {
+          result.away = price;
+        }
+
+      }
+
+      else if (name === "Draw") {
+
+        if (!result.draw) {
+          result.draw = price;
+        }
+
+      }
+
+    });
+
+
+    /*
+      Stop after finding usable odds
+    */
+
+    if (
+      result.home ||
+      result.away ||
+      result.draw
+    ) {
+      break;
+    }
+
+  }
+
+
+  return result;
+}
+
+
+/* =========================================================
+   ODD BUTTON
+========================================================= */
+
+function createOddButton(
+  gameId,
+  home,
+  away,
+  type,
+  label,
+  price
+) {
+
+  const selected =
+    selections.some(
+      s =>
+        s.gameId === gameId &&
+        s.type === type
+    );
+
+
+  const disabled =
+    !price;
+
+
+  return `
+    <button
+      class="odd ${selected ? "selected" : ""}"
+      ${disabled ? "disabled" : ""}
+      onclick='selectOdd(
+        ${JSON.stringify(gameId)},
+        ${JSON.stringify(home)},
+        ${JSON.stringify(away)},
+        ${JSON.stringify(type)},
+        ${JSON.stringify(label)},
+        ${price || "null"}
+      )'
+    >
+
+      <span class="odd-label">
+        ${label === "1"
+          ? escapeHtml(home)
+          : label === "2"
+            ? escapeHtml(away)
+            : "Draw"
+        }
+      </span>
+
+      <span class="odd-price">
+        ${price ? Number(price).toFixed(2) : "-"}
+      </span>
+
+    </button>
+  `;
+}
+
+
+/* =========================================================
+   SELECT ODD
+========================================================= */
+
+function selectOdd(
+  gameId,
+  home,
+  away,
+  type,
+  label,
+  price
+) {
+
+  if (!price) {
+    return;
+  }
+
+
+  /*
+    Remove any existing selection
+    from the same game.
+  */
+
+  selections =
+    selections.filter(
+      s => s.gameId !== gameId
+    );
+
+
+  selections.push({
+
+    gameId,
+    home,
+    away,
+    type,
+    label,
+    price: Number(price)
+
+  });
+
+
+  renderGames();
+
+  renderBetslip();
+
+}
+
+
+/* =========================================================
+   REMOVE BET
+========================================================= */
+
+function removeBet(gameId) {
+
+  selections =
+    selections.filter(
+      s => s.gameId !== gameId
+    );
+
+
+  renderGames();
+
+  renderBetslip();
+
+}
+
+
+/* =========================================================
+   BETSLIP
+========================================================= */
+
+function renderBetslip() {
+
+  const bets =
+    document.getElementById("bets");
+
+  const count =
+    document.getElementById("betCount");
+
+
+  count.textContent =
+    selections.length;
+
+
+  if (!selections.length) {
+
+    bets.innerHTML = `
+      <div class="empty">
+
+        <div class="empty-icon">
+          🧾
+        </div>
+
+        <div>
+          Your bet slip is empty
+        </div>
+
+        <small>
+          Click an odd to add it here
+        </small>
+
+      </div>
+    `;
+
+    calculate();
+
+    return;
+  }
+
+
+  bets.innerHTML =
+    selections.map(
+      selection => `
+
+        <div class="bet">
+
+          <div class="bet-head">
+
+            <div class="bet-match">
+
+              ${escapeHtml(selection.home)}
+              vs
+              ${escapeHtml(selection.away)}
+
+            </div>
+
+            <button
+              class="remove"
+              onclick='removeBet(
+                ${JSON.stringify(selection.gameId)}
+              )'
+            >
+              ×
+            </button>
+
+          </div>
+
+
+          <div class="bet-info">
+
+            <span>
+              ${selection.label === "1"
+                ? "Home"
+                : selection.label === "2"
+                  ? "Away"
+                  : "Draw"
+              }
+            </span>
+
+            <span class="bet-price">
+              ${selection.price.toFixed(2)}
+            </span>
+
+          </div>
+
+        </div>
+
+      `
+    ).join("");
+
+
+  calculate();
+
+}
+
+
+/* =========================================================
+   CALCULATE
+========================================================= */
+
+function calculate() {
+
+  const stakeInput =
+    document.getElementById("stake");
+
+
+  const stake =
+    Number(stakeInput.value) || 0;
+
+
+  let totalOdds = 1;
+
+
+  selections.forEach(selection => {
+
+    totalOdds *=
+      Number(selection.price);
+
+  });
+
+
+  if (!selections.length) {
+    totalOdds = 0;
+  }
+
+
+  const potential =
+    stake * totalOdds;
+
+
+  document.getElementById("totalOdds")
+    .textContent =
+      totalOdds.toFixed(2);
+
+
+  document.getElementById("stakeDisplay")
+    .textContent =
+      stake.toFixed(2);
+
+
+  document.getElementById("potential")
+    .textContent =
+      potential.toFixed(2);
+
+
+  document.getElementById("placeBet")
+    .disabled =
+      selections.length === 0 ||
+      stake <= 0;
+
+}
+
+
+/* =========================================================
+   PLACE BET
+========================================================= */
+
+function placeBet() {
+
+  if (!selections.length) {
+    return;
+  }
+
+
+  const stake =
+    Number(
+      document.getElementById("stake").value
+    );
+
+
+  if (!stake || stake <= 0) {
+
+    alert(
+      "Please enter your stake."
+    );
+
+    return;
+  }
+
+
+  /*
+    This is frontend-only for now.
+    Your current backend has no betting
+    endpoint or user wallet system yet.
+  */
+
+  alert(
+    "Bet slip created successfully!\n\n" +
+    "Stake: KES " +
+    stake.toFixed(2) +
+    "\nPotential win: KES " +
+    document.getElementById("potential").textContent +
+    "\n\nYour betting/payment backend still needs to be connected before real bets can be placed."
+  );
+
+}
+
+
+/* =========================================================
+   CHANGE SPORT
+========================================================= */
+
+function changeSport(
+  sport,
+  button
+) {
+
+  currentSport = sport;
+
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+
+  button.classList.add("active");
+
+
+  selections = [];
+
+  renderBetslip();
+
+  loadOdds();
+
+}
+
+
+/* =========================================================
+   BETSLIP MOBILE
+========================================================= */
+
+function toggleBetslip() {
+
+  const slip =
+    document.getElementById("betslip");
+
+
+  if (
+    window.innerWidth <= 850
+  ) {
+
+    slip.classList.toggle(
+      "collapsed"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function loginMessage() {
+
+  alert(
+    "Login / registration is not connected yet.\n\n" +
+    "We can add user accounts, M-Pesa deposits, wallet balance and withdrawals to the backend next."
+  );
+
+}
+
+
+/* =========================================================
+   ESCAPE HELPERS
+========================================================= */
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+function escapeAttr(value) {
+
+  return escapeHtml(value);
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadOdds();
+
+</script>
+
+</body>
+        </html>
