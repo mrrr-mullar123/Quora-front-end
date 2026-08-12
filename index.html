@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07140d">
+
 <title>Quora Bets</title>
 
 <style>
 :root{
-  --bg:#07140d;
-  --panel:#0d2117;
-  --panel2:#10291c;
-  --line:#1d4931;
-  --green:#21e47b;
-  --green2:#13b960;
-  --yellow:#ffd400;
+  --bg:#06110b;
+  --panel:#0b1d13;
+  --panel2:#10281a;
+  --line:#1c4930;
+  --green:#20e879;
+  --green2:#12b95c;
   --text:#f4fff8;
-  --muted:#8fa79a;
-  --danger:#ff5c6c;
+  --muted:#91a79a;
+  --red:#ff5968;
 }
 
-*{box-sizing:border-box}
-
-html{scroll-behavior:smooth}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -31,113 +31,107 @@ body{
   font-family:Arial,Helvetica,sans-serif;
 }
 
-button,input{font:inherit}
-button{cursor:pointer}
-button:active{transform:scale(.98)}
+button{
+  font-family:inherit;
+  cursor:pointer;
+}
 
 .app{
-  min-height:100vh;
-  padding-bottom:78px;
+  max-width:1100px;
+  margin:auto;
+  padding-bottom:90px;
 }
 
 /* HEADER */
 
 .header{
-  position:sticky;
-  top:0;
-  z-index:50;
-  height:68px;
+  height:65px;
   padding:0 14px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:#081811;
+  background:#071710;
   border-bottom:1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
 .logo{
-  font-size:24px;
+  font-size:23px;
   font-weight:900;
-  letter-spacing:-1px;
 }
 
-.logo span{color:var(--green)}
+.logo span{
+  color:var(--green);
+}
 
-.header-actions{
+.header-right{
   display:flex;
   align-items:center;
   gap:8px;
 }
 
-.balance-btn{
+.balance{
+  background:#10291b;
   border:1px solid #28563a;
-  background:#102b1c;
-  color:#fff;
-  padding:10px 12px;
-  border-radius:13px;
+  color:white;
+  padding:9px 12px;
+  border-radius:11px;
   font-weight:800;
 }
 
-.balance-btn small{
-  color:var(--muted);
-}
-
 .avatar{
-  width:42px;
-  height:42px;
-  border:0;
+  width:40px;
+  height:40px;
+  border:none;
   border-radius:50%;
   background:var(--green);
-  color:#03200f;
+  color:#03150b;
   font-weight:900;
-  font-size:17px;
 }
 
 /* HERO */
 
 .hero{
   margin:14px;
-  padding:22px;
-  border:1px solid #22583a;
-  border-radius:24px;
-  background:linear-gradient(135deg,#0c2518,#123d26 55%,#0b2015);
-  box-shadow:0 14px 40px rgba(0,0,0,.2);
+  padding:23px;
+  border:1px solid #245b3b;
+  border-radius:21px;
+  background:
+    linear-gradient(
+      135deg,
+      #0b2416,
+      #123b25,
+      #092015
+    );
 }
 
 .hero-tag{
-  display:inline-block;
-  background:rgba(33,228,123,.12);
   color:var(--green);
-  border:1px solid rgba(33,228,123,.25);
-  padding:6px 9px;
-  border-radius:99px;
   font-size:11px;
-  font-weight:800;
+  font-weight:900;
 }
 
 .hero h1{
-  font-size:31px;
-  line-height:1.08;
-  margin:12px 0 8px;
+  margin:9px 0;
+  font-size:30px;
 }
 
 .hero p{
-  margin:0 0 18px;
-  color:#a7baaf;
+  color:#a5b8ad;
   line-height:1.5;
 }
 
-.hero-actions{
+.hero-buttons{
   display:flex;
-  gap:9px;
+  gap:8px;
 }
 
-/* BUTTONS */
-
 .btn{
-  border:0;
-  border-radius:13px;
-  padding:12px 17px;
+  border:none;
+  border-radius:11px;
+  padding:12px 16px;
   background:var(--green);
   color:#03160b;
   font-weight:900;
@@ -145,45 +139,32 @@ button:active{transform:scale(.98)}
 
 .btn.secondary{
   background:#102a1c;
-  color:#eafff2;
-  border:1px solid #27583b;
+  color:white;
+  border:1px solid #2a5a3c;
 }
 
-.btn.yellow{
-  background:var(--yellow);
-  color:#171300;
-}
+/* TOP TABS */
 
-.btn.full{width:100%}
-
-/* CATEGORIES */
-
-.categories{
+.tabs{
   display:flex;
   gap:8px;
   overflow-x:auto;
-  padding:0 14px 12px;
-  scrollbar-width:none;
+  padding:0 14px 13px;
 }
 
-.categories::-webkit-scrollbar{
-  display:none;
-}
-
-.cat{
+.tab{
   flex:0 0 auto;
-  border:1px solid #1b3e2b;
-  background:#0b1d14;
-  color:#91a99c;
-  padding:10px 15px;
-  border-radius:12px;
+  border:1px solid #1b412b;
+  background:#0a1c12;
+  color:#8da498;
+  padding:10px 16px;
+  border-radius:11px;
   font-weight:800;
 }
 
-.cat.active{
+.tab.active{
   background:var(--green);
   color:#03160b;
-  border-color:var(--green);
 }
 
 /* PAGES */
@@ -197,69 +178,63 @@ button:active{transform:scale(.98)}
   display:block;
 }
 
-.section-title{
+.title{
   display:flex;
-  align-items:end;
   justify-content:space-between;
+  align-items:center;
   margin:10px 0 12px;
 }
 
-.section-title h2{
-  font-size:21px;
+.title h2{
   margin:0;
 }
 
-.section-title span{
-  font-size:12px;
+.muted{
   color:var(--muted);
+  font-size:12px;
 }
 
-/* SPORTS TABS */
+/* SPORTS FILTER */
 
-.sport-tabs{
+.sports-filter{
   display:flex;
   gap:7px;
   overflow-x:auto;
-  padding-bottom:8px;
+  padding-bottom:12px;
 }
 
-.sport-tab{
+.sport-btn{
   flex:0 0 auto;
-  background:#0b1e14;
-  color:#92a99d;
-  border:1px solid #1b3f2b;
+  background:#0a1d13;
+  color:#91a79a;
+  border:1px solid #1d442e;
+  padding:10px 14px;
   border-radius:10px;
-  padding:9px 14px;
   font-weight:800;
 }
 
-.sport-tab.active{
+.sport-btn.active{
   background:var(--green);
   color:#03160b;
 }
 
-/* MATCH CARDS */
+/* MATCH */
 
-.match-card{
+.match{
   background:var(--panel);
-  border:1px solid #1b402c;
-  border-radius:17px;
+  border:1px solid #1b412b;
+  border-radius:16px;
   margin-bottom:10px;
   overflow:hidden;
 }
 
-.match-head{
-  padding:11px 12px;
+.match-header{
+  padding:10px 12px;
+  border-bottom:1px solid #173526;
   display:flex;
   justify-content:space-between;
   color:var(--muted);
   font-size:11px;
-  border-bottom:1px solid #173526;
-}
-
-.live{
-  color:#ff6975;
-  font-weight:900;
 }
 
 .match-body{
@@ -278,13 +253,13 @@ button:active{transform:scale(.98)}
   font-weight:800;
 }
 
-.team:last-child{
+.team.away{
   text-align:right;
 }
 
 .vs{
-  font-size:11px;
   color:var(--muted);
+  font-size:10px;
 }
 
 .odds{
@@ -294,12 +269,11 @@ button:active{transform:scale(.98)}
 }
 
 .odd{
-  border:1px solid #27533a;
-  background:#112a1c;
-  color:#effff5;
+  border:1px solid #28553a;
+  background:#11291b;
+  color:white;
   border-radius:10px;
   padding:9px 5px;
-  text-align:center;
 }
 
 .odd small{
@@ -309,41 +283,53 @@ button:active{transform:scale(.98)}
   margin-bottom:3px;
 }
 
-.odd b{
+.odd strong{
   color:var(--green);
 }
 
 .odd.selected{
-  background:#164b2b;
+  background:#14532d;
   border-color:var(--green);
-  box-shadow:0 0 0 1px rgba(33,228,123,.2);
+  box-shadow:0 0 0 1px var(--green);
 }
 
-/* BETSLIP */
+/* LOADING */
 
-.slip{
-  margin-top:16px;
-  background:#0c2116;
-  border:1px solid #24553a;
-  border-radius:18px;
+.loading,
+.empty{
+  padding:25px;
+  text-align:center;
+  background:var(--panel);
+  border:1px solid #1b412b;
+  border-radius:15px;
+  color:var(--muted);
+}
+
+/* BET SLIP */
+
+.betslip{
+  margin-top:15px;
+  background:#0b2015;
+  border:1px solid #25563a;
+  border-radius:17px;
   padding:15px;
 }
 
-.slip-head{
+.slip-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.slip-head h3{
+.slip-header h3{
   margin:0;
 }
 
 .badge{
   background:var(--green);
-  color:#03200f;
-  border-radius:99px;
-  padding:4px 8px;
+  color:#03160b;
+  border-radius:20px;
+  padding:4px 9px;
   font-size:11px;
   font-weight:900;
 }
@@ -351,2867 +337,24 @@ button:active{transform:scale(.98)}
 .pick{
   display:flex;
   justify-content:space-between;
-  gap:8px;
-  padding:11px 0;
+  gap:10px;
+  padding:12px 0;
   border-bottom:1px solid #183829;
 }
 
 .pick-name{
-  font-size:12px;
-}
-
-.pick-odd{
-  color:var(--green);
-  font-weight:900;
-}
-
-.remove{
-  background:none;
-  border:0;
-  color:#ff7b87;
-  font-size:18px;
-}
-
-.stake{
-  width:100%;
-  margin:12px 0;
-  background:#06130c;
-  border:1px solid #245039;
-  color:white;
-  padding:12px;
-  border-radius:11px;
-  outline:none;
-}
-
-.return-row{
-  display:flex;
-  justify-content:space-between;
-  padding:6px 0;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.return-row strong{
-  color:white;
-}
-
-/* WALLET */
-
-.wallet-card{
-  background:linear-gradient(135deg,#103a24,#0c2417);
-  border:1px solid #2b6945;
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:12px;
-}
-
-.wallet-label{
-  color:#9bb2a5;
-  font-size:12px;
-}
-
-.wallet-balance{
-  font-size:34px;
-  font-weight:900;
-  margin:7px 0 18px;
-}
-
-.wallet-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.info-card{
-  background:var(--panel);
-  border:1px solid #1a3e2b;
-  border-radius:17px;
-  padding:16px;
-  margin-bottom:12px;
-}
-
-.transaction{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 0;
-  border-bottom:1px solid #183627;
-  font-size:13px;
-}
-
-.transaction:last-child{
-  border:0;
-}
-
-.plus{
-  color:var(--green);
-  font-weight:900;
-}
-
-.minus{
-  color:#ff7781;
-  font-weight:900;
-}
-
-/* FORM */
-
-.form{
-  display:grid;
-  gap:10px;
-}
-
-.form input{
-  width:100%;
-  background:#07160e;
-  border:1px solid #214b34;
-  color:#fff;
-  border-radius:11px;
-  padding:13px;
-  outline:none;
-}
-
-.form label{
-  font-size:11px;
-  color:var(--muted);
-}
-
-/* BOTTOM NAV */
-
-.bottom{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:60;
-  height:70px;
-  background:#07150e;
-  border-top:1px solid #1a3c2a;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-}
-
-.bottom button{
-  border:0;
-  background:none;
-  color:#7f978b;
-  font-size:10px;
   font-weight:800;
 }
 
-.bottom button .icon{
-  font-size:19px;
-  display:block;
-  margin-bottom:3px;
-}
-
-.bottom button.active{
-  color:var(--green);
-}
-
-/* MODAL */
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:none;
-  align-items:flex-end;
-  justify-content:center;
-  background:rgba(0,0,0,.7);
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:100%;
-  max-width:520px;
-  max-height:88vh;
-  overflow:auto;
-  background:#0a1d13;
-  border:1px solid #28573b;
-  border-radius:23px 23px 0 0;
-  padding:20px;
-  position:relative;
-}
-
-.close{
-  position:absolute;
-  right:13px;
-  top:12px;
-  width:35px;
-  height:35px;
-  border:0;
-  border-radius:50%;
-  background:#173524;
-  color:white;
-  font-size:22px;
-}
-
-.modal-box h2{
-  margin:0 0 15px;
-}
-
-/* TOAST */
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:84px;
-  z-index:200;
-  transform:translateX(-50%) translateY(20px);
-  background:#153422;
-  border:1px solid #2b6442;
-  color:white;
-  padding:11px 15px;
-  border-radius:11px;
-  font-size:12px;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  white-space:nowrap;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
-
-/* EMPTY / LOADING */
-
-.empty{
-  text-align:center;
+.pick-choice{
   color:var(--muted);
-  padding:30px 15px;
-  font-size:13px;
-  line-height:1.5;
+  font-size:12px;
+  margin-top:4px;
 }
 
-.loading{
-  text-align:center;
-  padding:30px;
-  color:var(--green);
+.pick-right{
+  text-align:right;
 }
 
-/* DESKTOP */
-
-@media(min-width:800px){
-
-  .app{
-    max-width:1100px;
-    margin:auto;
-  }
-
-  .hero{
-    margin:20px 0;
-  }
-
-  .page{
-    padding:0;
-  }
-
-  .categories{
-    padding-left:0;
-    padding-right:0;
-  }
-
-  .bottom{
-    max-width:1100px;
-    left:50%;
-    right:auto;
-    width:100%;
-    transform:translateX(-50%);
-    border-radius:18px 18px 0 0;
-  }
-
-  .modal{
-    align-items:center;
-  }
-
-  .modal-box{
-    border-radius:23px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-<header class="header">
-
-  <div class="logo">
-    Quora<span>Bets!</span>
-  </div>
-
-  <div class="header-actions">
-
-    <button class="balance-btn" onclick="go('wallet')">
-      <small>KES</small>
-      <span id="balanceTop">0.00</span>
-    </button>
-
-    <button class="avatar" onclick="openModal('profile')">
-      Q
-    </button>
-
-  </div>
-
-</header>
-
-
-<section class="hero">
-
-  <span class="hero-tag">
-    QUORA BETS!
-  </span>
-
-  <h1>
-    Bet smarter. Play better.
-  </h1>
-
-  <p>
-    Live football, basketball, tennis and more — real odds delivered through your Quora Bets sports API.
-  </p>
-
-  <div class="hero-actions">
-
-    <button class="btn" onclick="openModal('auth')">
-      Register
-    </button>
-
-    <button class="btn secondary" onclick="openModal('auth')">
-      Log in
-    </button>
-
-  </div>
-
-</section>
-
-
-<nav class="categories">
-
-  <button class="cat active"
-          data-page="home"
-          onclick="go('home',this)">
-    Home
-  </button>
-
-  <button class="cat"
-          data-page="sports"
-          onclick="go('sports',this)">
-    Sports
-  </button>
-
-  <button class="cat"
-          data-page="bets"
-          onclick="go('bets',this)">
-    My Bets
-  </button>
-
-  <button class="cat"
-          data-page="wallet"
-          onclick="go('wallet',this)">
-    Wallet
-  </button>
-
-  <button class="cat"
-          data-page="profile"
-          onclick="openModal('profile')">
-    Account
-  </button>
-
-</nav>
-
-
-<main>
-
-
-<!-- HOME -->
-
-<section id="home" class="page active">
-
-  <div class="section-title">
-
-    <h2>
-      Live & upcoming
-    </h2>
-
-    <span id="homeStatus">
-      Loading...
-    </span>
-
-  </div>
-
-  <div id="homeMatches">
-
-    <div class="loading">
-      Loading real matches...
-    </div>
-
-  </div>
-
-  <div id="homeSlip" class="slip"></div>
-
-</section>
-
-
-<!-- SPORTS -->
-
-<section id="sports" class="page">
-
-  <div class="section-title">
-
-    <h2>
-      Sports
-    </h2>
-
-    <span>
-      Live odds
-    </span>
-
-  </div>
-
-
-  <div class="sport-tabs">
-
-    <button class="sport-tab active"
-            onclick="changeSport('All',this)">
-      All
-    </button>
-
-    <button class="sport-tab"
-            onclick="changeSport('Football',this)">
-      ⚽ Football
-    </button>
-
-    <button class="sport-tab"
-            onclick="changeSport('Basketball',this)">
-      🏀 Basketball
-    </button>
-
-    <button class="sport-tab"
-            onclick="changeSport('Tennis',this)">
-      🎾 Tennis
-    </button>
-
-  </div>
-
-
-  <div id="sportsMatches">
-
-    <div class="loading">
-      Loading sports...
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- MY BETS -->
-
-<section id="bets" class="page">
-
-  <div class="section-title">
-
-    <h2>
-      My Bets
-    </h2>
-
-    <span>
-      Bet history
-    </span>
-
-  </div>
-
-  <div class="info-card">
-
-    <div id="betHistory"></div>
-
-  </div>
-
-</section>
-
-
-<!-- WALLET -->
-
-<section id="wallet" class="page">
-
-  <div class="wallet-card">
-
-    <div class="wallet-label">
-      AVAILABLE BALANCE
-    </div>
-
-    <div class="wallet-balance">
-      KES <span id="balanceWallet">0.00</span>
-    </div>
-
-    <div class="wallet-actions">
-
-      <button class="btn"
-              onclick="openModal('deposit')">
-        Deposit
-      </button>
-
-      <button class="btn secondary"
-              onclick="openModal('withdraw')">
-        Withdraw
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="info-card">
-
-    <h3>
-      Transactions
-    </h3>
-
-    <div id="transactions"></div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<!-- BOTTOM NAV -->
-
-<nav class="bottom">
-
-  <button class="active"
-          data-page="home"
-          onclick="go('home',this)">
-
-    <span class="icon">⌂</span>
-    Home
-
-  </button>
-
-
-  <button data-page="sports"
-          onclick="go('sports',this)">
-
-    <span class="icon">⚽</span>
-    Sports
-
-  </button>
-
-
-  <button data-page="bets"
-          onclick="go('bets',this)">
-
-    <span class="icon">🎟</span>
-    My Bets
-
-  </button>
-
-
-  <button data-page="wallet"
-          onclick="go('wallet',this)">
-
-    <span class="icon">💰</span>
-    Wallet
-
-  </button>
-
-
-  <button onclick="openModal('profile')">
-
-    <span class="icon">👤</span>
-    Profile
-
-  </button>
-
-</nav>
-
-</div>
-
-
-<!-- MODAL -->
-
-<div class="modal" id="modal">
-
-  <div class="modal-box">
-
-    <button class="close"
-            onclick="closeModal()">
-      ×
-    </button>
-
-    <div id="modalContent"></div>
-
-  </div>
-
-</div>
-
-
-<!-- TOAST -->
-
-<div class="toast" id="toast"></div>
-
-
-<script>
-
-/* =========================================================
-   QUORA BETS CONFIGURATION
-========================================================= */
-
-const API_URL = "https://quora-bets-back-end1.onrender.com";
-
-
-/* =========================================================
-   APP STATE
-========================================================= */
-
-let games = [];
-
-let selectedSport = "All";
-
-let picks = [];
-
-let balance =
-  Number(localStorage.getItem("quoraBalance") || 0);
-
-let history =
-  JSON.parse(
-    localStorage.getItem("quoraHistory") || "[]"
-  );
-
-let transactions =
-  JSON.parse(
-    localStorage.getItem("quoraTransactions") || "[]"
-  );
-
-
-/* =========================================================
-   MONEY
-========================================================= */
-
-function money(n){
-
-  const value = Number(n);
-
-  if(!Number.isFinite(value)){
-    return "0.00";
-  }
-
-  return value.toFixed(2);
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-function toast(message){
-
-  const t =
-    document.getElementById("toast");
-
-  if(!t) return;
-
-  t.textContent = message;
-
-  t.classList.add("show");
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer =
-    setTimeout(
-      () => t.classList.remove("show"),
-      2500
-    );
-}
-
-
-/* =========================================================
-   BALANCE
-========================================================= */
-
-function updateBalance(){
-
-  const top =
-    document.getElementById("balanceTop");
-
-  const wallet =
-    document.getElementById("balanceWallet");
-
-  if(top){
-    top.textContent = money(balance);
-  }
-
-  if(wallet){
-    wallet.textContent = money(balance);
-  }
-
-  localStorage.setItem(
-    "quoraBalance",
-    balance
-  );
-}
-
-
-/* =========================================================
-   PAGE NAVIGATION
-========================================================= */
-
-function go(id,btn){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      p => p.classList.remove("active")
-    );
-
-  const page =
-    document.getElementById(id);
-
-  if(page){
-    page.classList.add("active");
-  }
-
-
-  document
-    .querySelectorAll(".cat")
-    .forEach(
-      b => b.classList.remove("active")
-    );
-
-
-  document
-    .querySelectorAll(".bottom button")
-    .forEach(
-      b => b.classList.remove("active")
-    );
-
-
-  document
-    .querySelectorAll(
-      `[data-page="${id}"]`
-    )
-    .forEach(
-      b => b.classList.add("active")
-    );
-
-
-  if(btn){
-    btn.classList.add("active");
-  }
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-
-/* =========================================================
-   SPORT NAME
-========================================================= */
-
-function getSportName(key,title){
-
-  const value =
-    String(key || "").toLowerCase();
-
-  const text =
-    String(title || "").toLowerCase();
-
-
-  if(
-    value.includes("soccer") ||
-    value.includes("football") ||
-    text.includes("soccer") ||
-    text.includes("football") ||
-    text.includes("epl") ||
-    text.includes("premier")
-  ){
-    return "Football";
-  }
-
-
-  if(
-    value.includes("basketball") ||
-    text.includes("basketball") ||
-    text.includes("nba")
-  ){
-    return "Basketball";
-  }
-
-
-  if(
-    value.includes("tennis") ||
-    text.includes("tennis")
-  ){
-    return "Tennis";
-  }
-
-
-  if(
-    value.includes("baseball") ||
-    text.includes("baseball") ||
-    text.includes("mlb")
-  ){
-    return "Baseball";
-  }
-
-
-  return "Sports";
-}
-
-
-/* =========================================================
-   FORMAT API GAME
-========================================================= */
-
-function convertApiGame(game,index){
-
-  if(!game){
-    return null;
-  }
-
-
-  let outcomes = [];
-
-  let bookmakerName = "";
-
-
-  for(
-    const bookmaker of
-    (game.bookmakers || [])
-  ){
-
-    const market =
-      (bookmaker.markets || [])
-      .find(
-        m => m.key === "h2h"
-      );
-
-
-    if(
-      market &&
-      Array.isArray(market.outcomes) &&
-      market.outcomes.length
-    ){
-
-      outcomes =
-        market.outcomes;
-
-      bookmakerName =
-        bookmaker.title || "";
-
-      break;
-    }
-  }
-
-
-  if(!outcomes.length){
-    return null;
-  }
-
-
-  const home =
-    outcomes.find(
-      o => o.name === game.home_team
-    );
-
-
-  const away =
-    outcomes.find(
-      o => o.name === game.away_team
-    );
-
-
-  const draw =
-    outcomes.find(
-      o => o.name === "Draw"
-    );
-
-
-  if(!home || !away){
-    return null;
-  }
-
-
-  const sport =
-    getSportName(
-      game.sport_key,
-      game.sport_title
-    );
-
-
-  const date =
-    new Date(game.commence_time);
-
-
-  let time = "TBA";
-
-
-  if(
-    !Number.isNaN(date.getTime())
-  ){
-
-    time =
-      date.toLocaleTimeString(
-        [],
-        {
-          hour:"2-digit",
-          minute:"2-digit"
-        }
-      );
-  }
-
-
-  return {
-
-    id:
-      String(game.id || `${sport}-${index}`),
-
-    sport,
-
-    league:
-      game.sport_title ||
-      "Sports",
-
-    time,
-
-    home:
-      game.home_team,
-
-    away:
-      game.away_team,
-
-    bookmaker:
-      bookmakerName,
-
-    odds:[
-
-      Number(home.price),
-
-      draw
-        ? Number(draw.price)
-        : null,
-
-      Number(away.price)
-
-    ]
-
-  };
-}
-
-
-/* =========================================================
-   LOAD SPORTS
-========================================================= */
-
-async function loadAllSports() {
-
-  const sportKeys = [
-    "soccer_epl",
-    "basketball_nba",
-    "tennis_atp"
-  ];
-
-  selectedSport = "All";
-
-  const homeBox = document.getElementById("homeMatches");
-
-  if (homeBox) {
-    homeBox.innerHTML = `
-      <div class="loading">
-        Loading football, basketball and tennis...
-      </div>
-    `;
-  }
-
-  const combined = [];
-
-  /*
-   * LOAD EACH SPORT
-   */
-  for (const sportKey of sportKeys) {
-
-    try {
-
-      const url =
-        `${API_URL}/api/odds?sport=${encodeURIComponent(sportKey)}`;
-
-      console.log("REQUEST:", url);
-
-      const response = await fetch(url);
-
-      console.log(
-        sportKey,
-        "HTTP STATUS:",
-        response.status
-      );
-
-      if (!response.ok) {
-
-        console.error(
-          sportKey,
-          "HTTP ERROR:",
-          response.status
-        );
-
-        continue;
-      }
-
-      const data = await response.json();
-
-      console.log(
-        sportKey,
-        "BACKEND DATA:",
-        data
-      );
-
-      if (
-        !data ||
-        data.success !== true ||
-        !Array.isArray(data.games)
-      ) {
-
-        console.error(
-          sportKey,
-          "INVALID RESPONSE:",
-          data
-        );
-
-        continue;
-      }
-
-      /*
-       * CONVERT GAMES
-       */
-
-      data.games.forEach(game => {
-
-        if (
-          !game ||
-          !game.id ||
-          !game.home_team ||
-          !game.away_team
-        ) {
-          return;
-        }
-
-        let outcomes = [];
-
-        /*
-         * Find first bookmaker
-         * containing h2h.
-         */
-
-        for (
-          const bookmaker
-          of (game.bookmakers || [])
-        ) {
-
-          const market =
-            (bookmaker.markets || []).find(
-              market =>
-                market.key === "h2h"
-            );
-
-          if (
-            market &&
-            Array.isArray(market.outcomes) &&
-            market.outcomes.length > 0
-          ) {
-
-            outcomes =
-              market.outcomes;
-
-            break;
-          }
-        }
-
-        /*
-         * Find outcomes.
-         */
-
-        const homeOutcome =
-          outcomes.find(
-            outcome =>
-              outcome.name === game.home_team
-          );
-
-        const awayOutcome =
-          outcomes.find(
-            outcome =>
-              outcome.name === game.away_team
-          );
-
-        const drawOutcome =
-          outcomes.find(
-            outcome =>
-              String(outcome.name)
-                .toLowerCase() === "draw"
-          );
-
-        const homeOdd =
-          homeOutcome
-            ? Number(homeOutcome.price)
-            : null;
-
-        const awayOdd =
-          awayOutcome
-            ? Number(awayOutcome.price)
-            : null;
-
-        const drawOdd =
-          drawOutcome
-            ? Number(drawOutcome.price)
-            : null;
-
-        /*
-         * Ignore games without odds.
-         */
-
-        if (
-          homeOdd === null &&
-          awayOdd === null &&
-          drawOdd === null
-        ) {
-          return;
-        }
-
-        /*
-         * Determine sport.
-         */
-
-        let sport = "Sports";
-
-        if (
-          String(game.sport_key)
-            .toLowerCase()
-            .startsWith("soccer")
-        ) {
-          sport = "Football";
-        }
-
-        else if (
-          String(game.sport_key)
-            .toLowerCase()
-            .startsWith("basketball")
-        ) {
-          sport = "Basketball";
-        }
-
-        else if (
-          String(game.sport_key)
-            .toLowerCase()
-            .startsWith("tennis")
-        ) {
-          sport = "Tennis";
-        }
-
-        /*
-         * Add game.
-         */
-
-        combined.push({
-
-          id: String(game.id),
-
-          sport: sport,
-
-          league:
-            game.sport_title ||
-            "Sports",
-
-          time:
-            game.commence_time
-              ? new Date(
-                  game.commence_time
-                ).toLocaleString([], {
-                  month: "short",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit"
-                })
-              : "TBD",
-
-          home:
-            game.home_team,
-
-          away:
-            game.away_team,
-
-          odds: [
-            homeOdd,
-            drawOdd,
-            awayOdd
-          ]
-
-        });
-
-      });
-
-    }
-
-    catch (error) {
-
-      /*
-       * One sport failing should NOT
-       * stop the other sports.
-       */
-
-      console.error(
-        "SPORT LOAD ERROR:",
-        sportKey,
-        error
-      );
-
-    }
-
-  }
-
-  /*
-   * REMOVE DUPLICATES
-   */
-
-  const seen = new Set();
-
-  games = combined.filter(game => {
-
-    const id = String(game.id);
-
-    if (seen.has(id)) {
-      return false;
-    }
-
-    seen.add(id);
-
-    return true;
-
-  });
-
-  console.log(
-    "FINAL GAMES:",
-    games
-  );
-
-  /*
-   * NOW RENDER.
-   *
-   * Rendering is deliberately outside
-   * the network try/catch.
-   */
-
-  try {
-
-    renderAll();
-
-  }
-
-  catch (renderError) {
-
-    console.error(
-      "FRONTEND RENDER ERROR:",
-      renderError
-    );
-
-    toast(
-      "Matches loaded, but display has an error"
-    );
-
-    return;
-  }
-
-  /*
-   * STATUS
-   */
-
-  const status =
-    document.getElementById(
-      "homeStatus"
-    );
-
-  if (status) {
-
-    status.textContent =
-      `${games.length} matches`;
-
-  }
-
-  /*
-   * RESULT
-   */
-
-  if (!games.length) {
-
-    toast(
-      "No matches available right now"
-    );
-
-  } else {
-
-    toast(
-      `${games.length} matches loaded`
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   RENDER MATCHES
-========================================================= */
-
-function renderMatches(containerId){
-
-  const box =
-    document.getElementById(
-      containerId
-    );
-
-  if(!box){
-    return;
-  }
-
-
-  const list =
-    games.filter(
-      g =>
-        selectedSport === "All" ||
-        g.sport === selectedSport
-    );
-
-
-  if(!list.length){
-
-    box.innerHTML =
-      `<div class="empty">
-        No ${selectedSport === "All" ? "" : selectedSport + " "}matches available.
-      </div>`;
-
-    return;
-  }
-
-
-  box.innerHTML =
-    list.map(g => {
-
-      const hasDraw =
-        g.odds[1] !== null &&
-        Number.isFinite(
-          Number(g.odds[1])
-        );
-
-
-      return `
-
-      <article class="match-card">
-
-        <div class="match-head">
-
-          <span>
-            ${escapeHtml(g.sport)}
-            •
-            ${escapeHtml(g.league)}
-          </span>
-
-          <span>
-            ${escapeHtml(g.time)}
-          </span>
-
-        </div>
-
-
-        <div class="match-body">
-
-          <div class="teams">
-
-            <div class="team">
-              ${escapeHtml(g.home)}
-            </div>
-
-            <div class="vs">
-              VS
-            </div>
-
-            <div class="team">
-              ${escapeHtml(g.away)}
-            </div>
-
-          </div>
-
-
-          <div class="odds">
-
-            <button
-              class="odd ${isPicked(g.id,0) ? "selected" : ""}"
-              onclick="pick('${escapeAttr(g.id)}',0)">
-
-              <small>
-                1
-              </small>
-
-              <b>
-                ${money(g.odds[0])}
-              </b>
-
-            </button>
-
-
-            <button
-              class="odd ${isPicked(g.id,1) ? "selected" : ""}"
-              onclick="pick('${escapeAttr(g.id)}',1)"
-              ${!hasDraw ? "disabled" : ""}>
-
-              <small>
-                ${hasDraw ? "X" : "-"}
-              </small>
-
-              <b>
-                ${hasDraw ? money(g.odds[1]) : "-"}
-              </b>
-
-            </button>
-
-
-            <button
-              class="odd ${isPicked(g.id,2) ? "selected" : ""}"
-              onclick="pick('${escapeAttr(g.id)}',2)">
-
-              <small>
-                2
-              </small>
-
-              <b>
-                ${money(g.odds[2])}
-              </b>
-
-            </button>
-
-          </div>
-
-
-          ${
-            g.bookmaker
-              ? `<div style="font-size:9px;color:var(--muted);margin-top:8px">
-                   Odds: ${escapeHtml(g.bookmaker)}
-                 </div>`
-              : ""
-          }
-
-        </div>
-
-      </article>
-
-      `;
-
-    }).join("");
-}
-
-
-/* =========================================================
-   RENDER EVERYTHING
-========================================================= */
-
-function renderAll(){
-
-  renderMatches(
-    "homeMatches"
-  );
-
-  renderMatches(
-    "sportsMatches"
-  );
-
-  renderSlip();
-
-  renderHistory();
-
-  renderTransactions();
-
-  updateBalance();
-}
-
-
-/* =========================================================
-   PICK ODDS
-========================================================= */
-
-function pick(id, market) {
-  const game = games.find(g => String(g.id) === String(id));
-
-  if (!game) {
-    toast("Game not found");
-    return;
-  }
-
-  const odd = Number(game.odds[market]);
-
-  if (!odd || odd <= 0) {
-    toast("This odd is unavailable");
-    return;
-  }
-
-  // Remove an existing selection from this match
-  picks = picks.filter(p => String(p.gameId) !== String(game.id));
-
-  let selection;
-
-  if (market === 0) {
-    selection = game.home;
-  } else if (market === 1) {
-    selection = "Draw";
-  } else {
-    selection = game.away;
-  }
-
-  picks.push({
-    gameId: game.id,
-    market: market,
-    name: game.home + " vs " + game.away,
-    pick: selection,
-    odd: odd
-  });
-
-  // Immediately update the betslip
-  renderSlip();
-
-  // Update the odds buttons
-  renderMatches("homeMatches");
-  renderMatches("sportsMatches");
-
-  toast(selection + " @ " + odd.toFixed(2) + " added");
-    }
-
-
-/* =========================================================
-   REMOVE PICK
-========================================================= */
-
-function removePick(id){
-
-  picks =
-    picks.filter(
-      p =>
-        String(p.gameId) !== String(id)
-    );
-
-  renderAll();
-
-  toast(
-    "Selection removed"
-  );
-}
-
-
-/* =========================================================
-   TOTAL ODDS
-========================================================= */
-
-function totalOdds(){
-
-  if(!picks.length){
-    return 0;
-  }
-
-
-  return picks.reduce(
-    (total,p) =>
-      total * Number(p.odd),
-    1
-  );
-}
-
-
-/* =========================================================
-   BETSLIP
-========================================================= */
-
-function renderSlip(){
-
-  const box =
-    document.getElementById(
-      "homeSlip"
-    );
-
-  if(!box){
-    return;
-  }
-
-
-  if(!picks.length){
-
-    box.innerHTML = `
-
-      <div class="slip-head">
-
-        <h3>
-          Bet Slip
-        </h3>
-
-        <span class="badge">
-          0
-        </span>
-
-      </div>
-
-      <div class="empty">
-        Select odds above to build your bet.
-      </div>
-
-    `;
-
-    return;
-  }
-
-
-  const odds =
-    totalOdds();
-
-
-  box.innerHTML = `
-
-    <div class="slip-head">
-
-      <h3>
-        Bet Slip
-      </h3>
-
-      <span class="badge">
-        ${picks.length}
-      </span>
-
-    </div>
-
-
-    ${picks.map(p => `
-
-      <div class="pick">
-
-        <div>
-
-          <div class="pick-name">
-            ${escapeHtml(p.name)}
-          </div>
-
-          <small style="color:var(--muted)">
-            ${escapeHtml(p.pick)}
-          </small>
-
-        </div>
-
-
-        <div>
-
-          <span class="pick-odd">
-            ${money(p.odd)}
-          </span>
-
-          <button
-            class="remove"
-            onclick="removePick('${escapeAttr(p.gameId)}')">
-            ×
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("")}
-
-
-    <input
-      id="stake"
-      class="stake"
-      type="number"
-      min="1"
-      step="1"
-      placeholder="Stake (KES)"
-      oninput="calculateReturn()"
-    >
-
-
-    <div class="return-row">
-
-      <span>
-        Total odds
-      </span>
-
-      <strong>
-        ${money(odds)}
-      </strong>
-
-    </div>
-
-
-    <div class="return-row">
-
-      <span>
-        Potential return
-      </span>
-
-      <strong id="potentialReturn">
-        KES 0.00
-      </strong>
-
-    </div>
-
-
-    <button
-      class="btn full"
-      onclick="placeBet()">
-
-      Place bet
-
-    </button>
-
-  `;
-}
-
-
-/* =========================================================
-   CALCULATE RETURN
-========================================================= */
-
-function calculateReturn(){
-
-  const input =
-    document.getElementById(
-      "stake"
-    );
-
-
-  const stake =
-    Number(
-      input?.value || 0
-    );
-
-
-  const ret =
-    stake * totalOdds();
-
-
-  const el =
-    document.getElementById(
-      "potentialReturn"
-    );
-
-
-  if(el){
-
-    el.textContent =
-      "KES " +
-      money(ret);
-  }
-}
-
-
-/* =========================================================
-   PLACE BET
-========================================================= */
-
-function placeBet(){
-
-  if(!picks.length){
-
-    toast(
-      "Select at least one odd"
-    );
-
-    return;
-  }
-
-
-  const stake =
-    Number(
-      document.getElementById(
-        "stake"
-      )?.value || 0
-    );
-
-
-  if(
-    !Number.isFinite(stake) ||
-    stake <= 0
-  ){
-
-    toast(
-      "Enter a valid stake"
-    );
-
-    return;
-  }
-
-
-  if(stake > balance){
-
-    toast(
-      "Insufficient balance. Deposit first."
-    );
-
-    return;
-  }
-
-
-  const odds =
-    totalOdds();
-
-
-  balance -= stake;
-
-
-  const bet = {
-
-    date:
-      new Date()
-      .toLocaleString(),
-
-    stake,
-
-    odds,
-
-    returnValue:
-      stake * odds,
-
-    selections:
-      picks.map(
-        p =>
-          p.name +
-          " - " +
-          p.pick
-      )
-
-  };
-
-
-  history.unshift(
-    bet
-  );
-
-
-  transactions.unshift({
-
-    date:
-      new Date()
-      .toLocaleString(),
-
-    type:
-      "Bet",
-
-    amount:
-      -stake
-
-  });
-
-
-  localStorage.setItem(
-    "quoraHistory",
-    JSON.stringify(history)
-  );
-
-
-  localStorage.setItem(
-    "quoraTransactions",
-    JSON.stringify(transactions)
-  );
-
-
-  picks = [];
-
-
-  renderAll();
-
-  go("bets");
-
-  toast(
-    "Bet placed"
-  );
-}
-
-
-/* =========================================================
-   BET HISTORY
-========================================================= */
-
-function renderHistory(){
-
-  const box =
-    document.getElementById(
-      "betHistory"
-    );
-
-  if(!box){
-    return;
-  }
-
-
-  if(!history.length){
-
-    box.innerHTML =
-      `<div class="empty">
-        No bets yet.
-      </div>`;
-
-    return;
-  }
-
-
-  box.innerHTML =
-    history.map(
-      b => `
-
-      <div class="transaction">
-
-        <div>
-
-          <b>
-            ${b.selections.length}
-            selection(s)
-          </b>
-
-          <div style="color:var(--muted)">
-            ${escapeHtml(b.date)}
-          </div>
-
-        </div>
-
-
-        <div style="text-align:right">
-
-          <b>
-            KES ${money(b.stake)}
-          </b>
-
-          <div style="color:var(--muted)">
-            Odds ${money(b.odds)}
-          </div>
-
-        </div>
-
-      </div>
-
-      `
-    ).join("");
-}
-
-
-/* =========================================================
-   TRANSACTIONS
-========================================================= */
-
-function renderTransactions(){
-
-  const box =
-    document.getElementById(
-      "transactions"
-    );
-
-  if(!box){
-    return;
-  }
-
-
-  if(!transactions.length){
-
-    box.innerHTML =
-      `<div class="empty">
-        No transactions yet.
-      </div>`;
-
-    return;
-  }
-
-
-  box.innerHTML =
-    transactions.map(
-      t => `
-
-      <div class="transaction">
-
-        <div>
-
-          <b>
-            ${escapeHtml(t.type)}
-          </b>
-
-          <div style="color:var(--muted)">
-            ${escapeHtml(t.date)}
-          </div>
-
-        </div>
-
-
-        <span
-          class="${t.amount >= 0 ? "plus" : "minus"}">
-
-          ${t.amount >= 0 ? "+" : "-"}
-          KES ${money(Math.abs(t.amount))}
-
-        </span>
-
-      </div>
-
-      `
-    ).join("");
-}
-
-
-/* =========================================================
-   CHANGE SPORT
-========================================================= */
-
-async function changeSport(sport,btn){
-
-  selectedSport =
-    sport;
-
-
-  document
-    .querySelectorAll(".sport-tab")
-    .forEach(
-      b => b.classList.remove("active")
-    );
-
-
-  if(btn){
-    btn.classList.add("active");
-  }
-
-
-  /*
-    Fetch a different competition
-    when a sport is selected.
-  */
-
-  if(sport === "Football"){
-
-    await loadGames(
-      "soccer_epl"
-    );
-
-    return;
-  }
-
-
-  if(sport === "Basketball"){
-
-    await loadGames(
-      "basketball_nba"
-    );
-
-    return;
-  }
-
-
-  if(sport === "Tennis"){
-
-    /*
-      Tennis competitions change
-      depending on the current schedule.
-      We request a common tennis key.
-    */
-
-    await loadGames(
-      "tennis_atp"
-    );
-
-    return;
-  }
-
-
-  if(sport === "All"){
-
-    await loadAllSports();
-
-    return;
-  }
-
-
-  renderAll();
-}
-
-
-/* =========================================================
-   LOAD ALL SPORTS
-========================================================= */
-
-async function loadAllSports() {
-
-  const sportKeys = [
-    "soccer_epl",
-    "basketball_nba",
-    "tennis_atp"
-  ];
-
-  selectedSport = "All";
-
-  const homeBox = document.getElementById("homeMatches");
-
-  if (homeBox) {
-    homeBox.innerHTML = `
-      <div class="loading">
-        Loading football, basketball and tennis...
-      </div>
-    `;
-  }
-
-  try {
-
-    const combined = [];
-
-    /*
-     * Load each sport independently.
-     * If one sport fails, the others can still load.
-     */
-
-    for (const sportKey of sportKeys) {
-
-      try {
-
-        const url =
-          `${API_URL}/api/odds?sport=${encodeURIComponent(sportKey)}`;
-
-        console.log("Loading:", url);
-
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Accept": "application/json"
-          }
-        });
-
-        if (!response.ok) {
-          console.error(
-            `HTTP ${response.status} for ${sportKey}`
-          );
-          continue;
-        }
-
-        const data = await response.json();
-
-        console.log(
-          "API RESPONSE:",
-          sportKey,
-          data
-        );
-
-        if (
-          !data ||
-          data.success !== true ||
-          !Array.isArray(data.games)
-        ) {
-          console.error(
-            "Invalid API response:",
-            sportKey,
-            data
-          );
-          continue;
-        }
-
-        /*
-         * Convert every API game.
-         */
-
-        data.games.forEach(game => {
-
-          if (
-            !game ||
-            !game.id ||
-            !game.home_team ||
-            !game.away_team
-          ) {
-            return;
-          }
-
-          let outcomes = [];
-
-          /*
-           * Find the first bookmaker with
-           * a normal h2h market.
-           */
-
-          for (const bookmaker of (game.bookmakers || [])) {
-
-            const market =
-              (bookmaker.markets || []).find(
-                market => market.key === "h2h"
-              );
-
-            if (
-              market &&
-              Array.isArray(market.outcomes) &&
-              market.outcomes.length
-            ) {
-
-              outcomes = market.outcomes;
-
-              break;
-            }
-          }
-
-          /*
-           * Find home, away and draw odds.
-           */
-
-          const homeOutcome =
-            outcomes.find(
-              outcome =>
-                outcome.name === game.home_team
-            );
-
-          const awayOutcome =
-            outcomes.find(
-              outcome =>
-                outcome.name === game.away_team
-            );
-
-          const drawOutcome =
-            outcomes.find(
-              outcome =>
-                String(outcome.name).toLowerCase() === "draw"
-            );
-
-          const homeOdd =
-            homeOutcome &&
-            Number.isFinite(Number(homeOutcome.price))
-              ? Number(homeOutcome.price)
-              : null;
-
-          const drawOdd =
-            drawOutcome &&
-            Number.isFinite(Number(drawOutcome.price))
-              ? Number(drawOutcome.price)
-              : null;
-
-          const awayOdd =
-            awayOutcome &&
-            Number.isFinite(Number(awayOutcome.price))
-              ? Number(awayOutcome.price)
-              : null;
-
-          /*
-           * Only show matches that have
-           * usable odds.
-           */
-
-          if (
-            homeOdd === null &&
-            drawOdd === null &&
-            awayOdd === null
-          ) {
-            return;
-          }
-
-          /*
-           * Determine sport.
-           */
-
-          let sport = "Sports";
-
-          if (
-            String(game.sport_key)
-              .toLowerCase()
-              .startsWith("soccer")
-          ) {
-            sport = "Football";
-          }
-
-          else if (
-            String(game.sport_key)
-              .toLowerCase()
-              .startsWith("basketball")
-          ) {
-            sport = "Basketball";
-          }
-
-          else if (
-            String(game.sport_key)
-              .toLowerCase()
-              .startsWith("tennis")
-          ) {
-            sport = "Tennis";
-          }
-
-          /*
-           * Format match for Quora Bets.
-           */
-
-          combined.push({
-
-            id: String(game.id),
-
-            sport: sport,
-
-            league:
-              game.sport_title ||
-              "Sports",
-
-            time:
-              game.commence_time
-                ? new Date(
-                    game.commence_time
-                  ).toLocaleString(
-                    [],
-                    {
-                      month: "short",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit"
-                    }
-                  )
-                : "TBD",
-
-            home:
-              game.home_team,
-
-            away:
-              game.away_team,
-
-            odds: [
-              homeOdd,
-              drawOdd,
-              awayOdd
-            ]
-
-          });
-
-        });
-
-      }
-
-      catch (sportError) {
-
-        console.error(
-          `Failed loading ${sportKey}:`,
-          sportError
-        );
-
-        /*
-         * Continue loading the other sports.
-         */
-
-      }
-
-    }
-
-    /*
-     * Remove duplicate matches.
-     */
-
-    const seen = new Set();
-
-    games = combined.filter(game => {
-
-      const id = String(game.id);
-
-      if (seen.has(id)) {
-        return false;
-      }
-
-      seen.add(id);
-
-      return true;
-
-    });
-
-    console.log(
-      "FINAL GAMES:",
-      games
-    );
-
-    /*
-     * Render matches and betslip.
-     */
-
-    renderAll();
-
-    /*
-     * Update optional home status.
-     */
-
-    const status =
-      document.getElementById("homeStatus");
-
-    if (status) {
-
-      status.textContent =
-        `${games.length} matches`;
-
-    }
-
-    /*
-     * Tell the user what happened.
-     */
-
-    if (!games.length) {
-
-      toast(
-        "No matches available right now"
-      );
-
-    }
-
-    else {
-
-      toast(
-        `${games.length} matches loaded`
-      );
-
-    }
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "Fatal sports loading error:",
-      error
-    );
-
-    games = [];
-
-    renderAll();
-
-    toast(
-      "Unable to connect to sports server"
-    );
-
-  }
-
-}
-
-        
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openModal(type){
-
-  const modal =
-    document.getElementById(
-      "modal"
-    );
-
-  const content =
-    document.getElementById(
-      "modalContent"
-    );
-
-
-  if(type === "auth"){
-
-    content.innerHTML = `
-
-      <h2>
-        Welcome to Quora Bets
-      </h2>
-
-      <div class="form">
-
-        <label>
-          Phone or email
-        </label>
-
-        <input
-          id="authPhone"
-          placeholder="e.g. 0712345678"
-        >
-
-
-        <label>
-          Password
-        </label>
-
-        <input
-          id="authPassword"
-          type="password"
-          placeholder="Password"
-        >
-
-
-        <button
-          class="btn full"
-          onclick="demoLogin()">
-
-          Log in
-
-        </button>
-
-
-        <button
-          class="btn secondary full"
-          onclick="closeModal()">
-
-          Close
-
-        </button>
-
-      </div>
-
-    `;
-  }
-
-
-  if(type === "deposit"){
-
-    content.innerHTML = `
-
-      <h2>
-        Deposit
-      </h2>
-
-      <p style="color:var(--muted)">
-        Enter the amount you want to deposit.
-      </p>
-
-      <div class="form">
-
-        <label>
-          Amount (KES)
-        </label>
-
-        <input
-          id="depositAmount"
-          type="number"
-          min="1"
-          placeholder="100"
-        >
-
-
-        <label>
-          M-PESA phone number
-        </label>
-
-        <input
-          id="depositPhone"
-          placeholder="07XXXXXXXX"
-        >
-
-
-        <button
-          class="btn full"
-          onclick="demoDeposit()">
-
-          Continue
-
-        </button>
-
-      </div>
-
-    `;
-  }
-
-
-  if(type === "withdraw"){
-
-    content.innerHTML = `
-
-      <h2>
-        Withdraw
-      </h2>
-
-      <p style="color:var(--muted)">
-        Enter your withdrawal details.
-      </p>
-
-      <div class="form">
-
-        <label>
-          Amount (KES)
-        </label>
-
-        <input
-          id="withdrawAmount"
-          type="number"
-          min="1"
-          placeholder="100"
-        >
-
-
-        <label>
-          M-PESA phone number
-        </label>
-
-        <input
-          id="withdrawPhone"
-          placeholder="07XXXXXXXX"
-        >
-
-
-        <button
-          class="btn full"
-          onclick="demoWithdraw()">
-
-          Request withdrawal
-
-        </button>
-
-      </div>
-
-    `;
-  }
-
-
-  if(type === "profile"){
-
-    content.innerHTML = `
-
-      <div style="text-align:center">
-
-        <div class="avatar"
-             style="margin:auto;width:70px;height:70px;display:grid;place-items:center">
-          Q
-        </div>
-
-        <h2>
-          Quora Bets Account
-        </h2>
-
-        <p style="color:var(--muted)">
-          Account settings
-        </p>
-
-        <button
-          class="btn full"
-          onclick="closeModal()">
-
-          Close
-
-        </button>
-
-      </div>
-
-    `;
-  }
-
-
-  modal.classList.add(
-    "show"
-  );
-}
-
-
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
-
-function closeModal(){
-
-  const modal =
-    document.getElementById(
-      "modal"
-    );
-
-  if(modal){
-
-    modal.classList.remove(
-      "show"
-    );
-  }
-}
-
-
-/* =========================================================
-   LOGIN DEMO
-========================================================= */
-
-function demoLogin(){
-
-  const phone =
-    document.getElementById(
-      "authPhone"
-    )?.value.trim();
-
-
-  const password =
-    document.getElementById(
-      "authPassword"
-    )?.value.trim();
-
-
-  if(!phone || !password){
-
-    toast(
-      "Enter your phone/email and password"
-    );
-
-    return;
-  }
-
-
-  toast(
-    "Login form is working"
-  );
-
-
-  closeModal();
-}
-
-
-/* =========================================================
-   DEPOSIT DEMO
-========================================================= */
-
-function demoDeposit(){
-
-  const amount =
-    Number(
-      document.getElementById(
-        "depositAmount"
-      )?.value || 0
-    );
-
-
-  const phone =
-    document.getElementById(
-      "depositPhone"
-    )?.value.trim();
-
-
-  if(
-    !amount ||
-    amount <= 0 ||
-    !phone
-  ){
-
-    toast(
-      "Enter amount and phone number"
-    );
-
-    return;
-  }
-
-
-  /*
-    This is still a frontend demo.
-
-    Real M-PESA deposits should be connected
-    to a secure backend/payment provider.
-  */
-
-
-  toast(
-    "Deposit request received"
-  );
-
-
-  closeModal();
-}
-
-
-/* =========================================================
-   WITHDRAW DEMO
-========================================================= */
-
-function demoWithdraw(){
-
-  const amount =
-    Number(
-      document.getElementById(
-        "withdrawAmount"
-      )?.value || 0
-    );
-
-
-  const phone =
-    document.getElementById(
-      "withdrawPhone"
-    )?.value.trim();
-
-
-  if(
-    !amount ||
-    amount <= 0 ||
-    !phone
-  ){
-
-    toast(
-      "Enter amount and phone number"
-    );
-
-    return;
-  }
-
-
-  if(amount > balance){
-
-    toast(
-      "Insufficient balance"
-    );
-
-    return;
-  }
-
-
-  toast(
-    "Withdrawal request received"
-  );
-
-
-  closeModal();
-}
-
-
-/* =========================================================
-   SAFE HTML HELPERS
-========================================================= */
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-
-function escapeAttr(value){
-
-  return String(value ?? "")
-    .replaceAll("\\","\\\\")
-    .replaceAll("'","\\'");
-}
-
-
-/* =========================================================
-   MODAL OUTSIDE CLICK
-========================================================= */
-
-window.addEventListener(
-  "click",
-  event => {
-
-    if(
-      event.target &&
-      event.target.id === "modal"
-    ){
-
-      closeModal();
-    }
-
-  }
-);
-
-
-/* =========================================================
-   START APPLICATION
-========================================================= */
-
-renderAll();
-
-loadAllSports();
-
-</script>
-
-</body>
-  </html>
+.pick-odd{
+  color:var(--
