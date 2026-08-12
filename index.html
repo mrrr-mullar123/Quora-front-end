@@ -2286,146 +2286,112 @@ async function loadAllSports() {
   try {
 
     const responses = await Promise.all(
+      sportKeys.map(async (sportKey) => {
 
-      sportKeys.map(async key => {
+        const url =
+          `${API_URL}/api/odds?sport=${encodeURIComponent(sportKey)}`;
 
-        const response = await fetch(
-          `${API_URL}/api/odds?sport=${encodeURIComponent(key)}`
-        );
+        const response = await fetch(url);
 
         if (!response.ok) {
           throw new Error(
-            `${key} returned HTTP ${response.status}`
+            `HTTP ${response.status} for ${sportKey}`
           );
         }
 
         const data = await response.json();
 
-        return {
-          key,
+        console.log(
+          "API RESPONSE:",
+          sportKey,
           data
-        };
+        );
 
+        return data;
       })
-
     );
+
 
     const combined = [];
 
-    responses.forEach(result => {
 
-      const data = result.data;
-
-      /*
-       * Your backend may return:
-       *
-       * { success:true, games:[...] }
-       *
-       * OR directly:
-       *
-       * [...]
-       */
-
-      let apiGames = [];
+    responses.forEach(data => {
 
       if (
-        data &&
-        data.success &&
-        Array.isArray(data.games)
+        !data ||
+        data.success !== true ||
+        !Array.isArray(data.games)
       ) {
-
-        apiGames = data.games;
-
-      } else if (Array.isArray(data)) {
-
-        apiGames = data;
-
-      } else if (
-        data &&
-        Array.isArray(data.data)
-      ) {
-
-        apiGames = data.data;
-
+        return;
       }
 
-      apiGames.forEach((game, index) => {
 
-        if (!game) return;
+      data.games.forEach(game => {
 
-        const home =
-          game.home_team ||
-          game.home ||
-          "";
+        if (
+          !game ||
+          !game.home_team ||
+          !game.away_team
+        ) {
+          return;
+        }
 
-        const away =
-          game.away_team ||
-          game.away ||
-          "";
-
-        if (!home || !away) return;
-
-
-        /*
-         * Find the first bookmaker
-         * containing a normal h2h market.
-         */
 
         let outcomes = [];
 
-        const bookmakers =
-          Array.isArray(game.bookmakers)
-            ? game.bookmakers
-            : [];
 
+        /*
+         * Get the first bookmaker containing
+         * a normal h2h market.
+         */
 
-        for (const bookmaker of bookmakers) {
+        for (
+          const bookmaker
+          of (game.bookmakers || [])
+        ) {
 
-          const markets =
-            Array.isArray(bookmaker.markets)
-              ? bookmaker.markets
-              : [];
+          const market =
+            (bookmaker.markets || [])
+              .find(
+                m => m.key === "h2h"
+              );
 
-          const h2h =
-            markets.find(
-              market => market.key === "h2h"
-            );
 
           if (
-            h2h &&
-            Array.isArray(h2h.outcomes)
+            market &&
+            Array.isArray(market.outcomes)
           ) {
 
-            outcomes = h2h.outcomes;
+            outcomes =
+              market.outcomes;
 
             break;
           }
-
         }
 
 
         /*
-         * Find the three normal 1X2 outcomes.
+         * Find the three outcomes.
          */
 
         const homeOutcome =
           outcomes.find(
-            outcome =>
-              outcome.name === home
+            o =>
+              o.name === game.home_team
           );
 
 
         const awayOutcome =
           outcomes.find(
-            outcome =>
-              outcome.name === away
+            o =>
+              o.name === game.away_team
           );
 
 
         const drawOutcome =
           outcomes.find(
-            outcome =>
-              String(outcome.name).toLowerCase() === "draw"
+            o =>
+              String(o.name).toLowerCase() === "draw"
           );
 
 
@@ -2448,28 +2414,25 @@ async function loadAllSports() {
 
 
         /*
-         * Convert API game into the format
-         * your existing frontend expects.
+         * Convert into the format
+         * your betting interface uses.
          */
 
         combined.push({
 
-          id:
-            game.id ||
-            `${result.key}-${index}-${home}-${away}`,
+          id: String(game.id),
 
           sport:
-            result.key.startsWith("soccer")
+            game.sport_key.startsWith("soccer")
               ? "Football"
-              : result.key.startsWith("basketball")
+              : game.sport_key.startsWith("basketball")
                 ? "Basketball"
-                : result.key.startsWith("tennis")
+                : game.sport_key.startsWith("tennis")
                   ? "Tennis"
-                  : game.sport_title || "Sports",
+                  : "Sports",
 
           league:
-            game.sport_title ||
-            result.key,
+            game.sport_title || "Sports",
 
           time:
             game.commence_time
@@ -2484,9 +2447,11 @@ async function loadAllSports() {
                 )
               : "TBD",
 
-          home: home,
+          home:
+            game.home_team,
 
-          away: away,
+          away:
+            game.away_team,
 
           odds: [
             homeOdd,
@@ -2502,42 +2467,18 @@ async function loadAllSports() {
 
 
     /*
-     * Remove games that don't have
-     * at least one usable odd.
-     */
-
-    games = combined.filter(game => {
-
-      return (
-        game.home &&
-        game.away &&
-        Array.isArray(game.odds) &&
-        game.odds.some(
-          odd =>
-            Number.isFinite(odd) &&
-            odd > 0
-        )
-      );
-
-    });
-
-
-    /*
      * Remove duplicate matches.
      */
 
     const seen = new Set();
 
-    games = games.filter(game => {
+    games = combined.filter(game => {
 
-      const id =
-        String(game.id);
-
-      if (seen.has(id)) {
+      if (seen.has(game.id)) {
         return false;
       }
 
-      seen.add(id);
+      seen.add(game.id);
 
       return true;
 
@@ -2545,14 +2486,10 @@ async function loadAllSports() {
 
 
     console.log(
-      "LIVE GAMES:",
+      "FINAL GAMES:",
       games
     );
 
-
-    /*
-     * Render the live games.
-     */
 
     renderAll();
 
@@ -2575,7 +2512,7 @@ async function loadAllSports() {
     if (!games.length) {
 
       toast(
-        "No matches available right now"
+        "No matches available"
       );
 
     } else {
@@ -2602,12 +2539,14 @@ async function loadAllSports() {
 
 
     toast(
-      "Unable to load sports"
+      "Connection error while loading odds & matches"
     );
 
   }
 
 }
+
+        
 
 
 /* =========================================================
