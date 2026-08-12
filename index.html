@@ -1312,177 +1312,355 @@ function convertApiGame(game,index){
    LOAD SPORTS
 ========================================================= */
 
-async function loadGames(sportKey="soccer_epl"){
+async function loadAllSports() {
 
-  const homeBox =
-    document.getElementById(
-      "homeMatches"
+  const sportKeys = [
+    "soccer_epl",
+    "basketball_nba",
+    "tennis_atp"
+  ];
+
+  selectedSport = "All";
+
+  const homeBox = document.getElementById("homeMatches");
+
+  if (homeBox) {
+    homeBox.innerHTML = `
+      <div class="loading">
+        Loading football, basketball and tennis...
+      </div>
+    `;
+  }
+
+  const combined = [];
+
+  /*
+   * LOAD EACH SPORT
+   */
+  for (const sportKey of sportKeys) {
+
+    try {
+
+      const url =
+        `${API_URL}/api/odds?sport=${encodeURIComponent(sportKey)}`;
+
+      console.log("REQUEST:", url);
+
+      const response = await fetch(url);
+
+      console.log(
+        sportKey,
+        "HTTP STATUS:",
+        response.status
+      );
+
+      if (!response.ok) {
+
+        console.error(
+          sportKey,
+          "HTTP ERROR:",
+          response.status
+        );
+
+        continue;
+      }
+
+      const data = await response.json();
+
+      console.log(
+        sportKey,
+        "BACKEND DATA:",
+        data
+      );
+
+      if (
+        !data ||
+        data.success !== true ||
+        !Array.isArray(data.games)
+      ) {
+
+        console.error(
+          sportKey,
+          "INVALID RESPONSE:",
+          data
+        );
+
+        continue;
+      }
+
+      /*
+       * CONVERT GAMES
+       */
+
+      data.games.forEach(game => {
+
+        if (
+          !game ||
+          !game.id ||
+          !game.home_team ||
+          !game.away_team
+        ) {
+          return;
+        }
+
+        let outcomes = [];
+
+        /*
+         * Find first bookmaker
+         * containing h2h.
+         */
+
+        for (
+          const bookmaker
+          of (game.bookmakers || [])
+        ) {
+
+          const market =
+            (bookmaker.markets || []).find(
+              market =>
+                market.key === "h2h"
+            );
+
+          if (
+            market &&
+            Array.isArray(market.outcomes) &&
+            market.outcomes.length > 0
+          ) {
+
+            outcomes =
+              market.outcomes;
+
+            break;
+          }
+        }
+
+        /*
+         * Find outcomes.
+         */
+
+        const homeOutcome =
+          outcomes.find(
+            outcome =>
+              outcome.name === game.home_team
+          );
+
+        const awayOutcome =
+          outcomes.find(
+            outcome =>
+              outcome.name === game.away_team
+          );
+
+        const drawOutcome =
+          outcomes.find(
+            outcome =>
+              String(outcome.name)
+                .toLowerCase() === "draw"
+          );
+
+        const homeOdd =
+          homeOutcome
+            ? Number(homeOutcome.price)
+            : null;
+
+        const awayOdd =
+          awayOutcome
+            ? Number(awayOutcome.price)
+            : null;
+
+        const drawOdd =
+          drawOutcome
+            ? Number(drawOutcome.price)
+            : null;
+
+        /*
+         * Ignore games without odds.
+         */
+
+        if (
+          homeOdd === null &&
+          awayOdd === null &&
+          drawOdd === null
+        ) {
+          return;
+        }
+
+        /*
+         * Determine sport.
+         */
+
+        let sport = "Sports";
+
+        if (
+          String(game.sport_key)
+            .toLowerCase()
+            .startsWith("soccer")
+        ) {
+          sport = "Football";
+        }
+
+        else if (
+          String(game.sport_key)
+            .toLowerCase()
+            .startsWith("basketball")
+        ) {
+          sport = "Basketball";
+        }
+
+        else if (
+          String(game.sport_key)
+            .toLowerCase()
+            .startsWith("tennis")
+        ) {
+          sport = "Tennis";
+        }
+
+        /*
+         * Add game.
+         */
+
+        combined.push({
+
+          id: String(game.id),
+
+          sport: sport,
+
+          league:
+            game.sport_title ||
+            "Sports",
+
+          time:
+            game.commence_time
+              ? new Date(
+                  game.commence_time
+                ).toLocaleString([], {
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit"
+                })
+              : "TBD",
+
+          home:
+            game.home_team,
+
+          away:
+            game.away_team,
+
+          odds: [
+            homeOdd,
+            drawOdd,
+            awayOdd
+          ]
+
+        });
+
+      });
+
+    }
+
+    catch (error) {
+
+      /*
+       * One sport failing should NOT
+       * stop the other sports.
+       */
+
+      console.error(
+        "SPORT LOAD ERROR:",
+        sportKey,
+        error
+      );
+
+    }
+
+  }
+
+  /*
+   * REMOVE DUPLICATES
+   */
+
+  const seen = new Set();
+
+  games = combined.filter(game => {
+
+    const id = String(game.id);
+
+    if (seen.has(id)) {
+      return false;
+    }
+
+    seen.add(id);
+
+    return true;
+
+  });
+
+  console.log(
+    "FINAL GAMES:",
+    games
+  );
+
+  /*
+   * NOW RENDER.
+   *
+   * Rendering is deliberately outside
+   * the network try/catch.
+   */
+
+  try {
+
+    renderAll();
+
+  }
+
+  catch (renderError) {
+
+    console.error(
+      "FRONTEND RENDER ERROR:",
+      renderError
     );
 
-  const sportsBox =
-    document.getElementById(
-      "sportsMatches"
+    toast(
+      "Matches loaded, but display has an error"
     );
+
+    return;
+  }
+
+  /*
+   * STATUS
+   */
 
   const status =
     document.getElementById(
       "homeStatus"
     );
 
-
-  if(homeBox){
-
-    homeBox.innerHTML =
-      `<div class="loading">
-        Loading real matches...
-      </div>`;
-  }
-
-
-  if(sportsBox){
-
-    sportsBox.innerHTML =
-      `<div class="loading">
-        Loading sports...
-      </div>`;
-  }
-
-
-  if(status){
+  if (status) {
 
     status.textContent =
-      "Loading...";
+      `${games.length} matches`;
+
   }
 
+  /*
+   * RESULT
+   */
 
-  try{
-
-    const response = await fetch(
-  `${API_URL}/api/odds?sport=${encodeURIComponent(key)}`
-);
-
-
-    const result =
-      await response.json();
-
-
-    if(
-      !response.ok ||
-      !result.success
-    ){
-
-      throw new Error(
-        result?.details?.message ||
-        result?.error ||
-        "Unable to load sports"
-      );
-    }
-
-
-    const apiGames =
-      Array.isArray(result.games)
-        ? result.games
-        : [];
-
-
-    games =
-      apiGames
-      .map(convertApiGame)
-      .filter(Boolean);
-
-
-    if(status){
-
-      status.textContent =
-        games.length +
-        " matches";
-    }
-
-
-    renderAll();
-
-
-    if(!games.length){
-
-      if(homeBox){
-
-        homeBox.innerHTML =
-          `<div class="empty">
-            No matches available for this sport right now.
-          </div>`;
-      }
-
-
-      if(sportsBox){
-
-        sportsBox.innerHTML =
-          `<div class="empty">
-            No matches available right now.
-          </div>`;
-      }
-
-      toast(
-        "No matches available right now"
-      );
-
-      return;
-    }
-
+  if (!games.length) {
 
     toast(
-      `${games.length} real matches loaded`
+      "No matches available right now"
     );
 
-  }catch(error){
-
-    console.error(
-      "Sports API error:",
-      error
-    );
-
-
-    games = [];
-
-
-    if(status){
-
-      status.textContent =
-        "Connection error";
-    }
-
-
-    const errorHTML =
-      `<div class="empty">
-
-        Unable to load sports.
-
-        <br><br>
-
-        <button
-          class="btn"
-          onclick="loadGames('${sportKey}')">
-          Try again
-        </button>
-
-      </div>`;
-
-
-    if(homeBox){
-      homeBox.innerHTML =
-        errorHTML;
-    }
-
-
-    if(sportsBox){
-      sportsBox.innerHTML =
-        errorHTML;
-    }
-
+  } else {
 
     toast(
-      "Unable to load sports"
+      `${games.length} matches loaded`
     );
+
   }
+
 }
 
 
