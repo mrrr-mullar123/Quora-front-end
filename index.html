@@ -1,0 +1,4163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quora Bets</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#07121c;
+  color:#f5f8fa;
+  min-height:100vh;
+  padding-bottom:90px;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+button:disabled{
+  cursor:not-allowed;
+}
+
+/* ================= HEADER ================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:500;
+  background:#101d29;
+  border-bottom:1px solid #233442;
+}
+
+.header-inner{
+  max-width:1250px;
+  margin:auto;
+  min-height:76px;
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.logo-box{
+  width:47px;
+  height:47px;
+  border-radius:13px;
+  background:#9ee01a;
+  color:#07121c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:29px;
+  font-weight:900;
+}
+
+.logo span{
+  color:#9ee01a;
+}
+
+.header-buttons{
+  display:flex;
+  gap:9px;
+}
+
+.btn{
+  border:none;
+  border-radius:12px;
+  padding:12px 19px;
+  font-weight:800;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  background:#9ee01a;
+  color:#07121c;
+}
+
+.btn-secondary{
+  background:#1b2b38;
+  color:#fff;
+  border:1px solid #334654;
+}
+
+.user-bar{
+  display:none;
+  align-items:center;
+  gap:10px;
+}
+
+.user-bar.show{
+  display:flex;
+}
+
+.user-name{
+  color:#9ee01a;
+  font-weight:800;
+}
+
+/* ================= SPORTS ================= */
+
+.sports{
+  background:#142330;
+  border-bottom:1px solid #263847;
+  overflow-x:auto;
+}
+
+.sports-inner{
+  max-width:1250px;
+  margin:auto;
+  display:flex;
+  gap:4px;
+  padding:0 14px;
+}
+
+.sport{
+  min-width:105px;
+  border:none;
+  background:transparent;
+  color:#8e9ba5;
+  padding:14px 15px 13px;
+  font-weight:800;
+  font-size:15px;
+  border-bottom:3px solid transparent;
+}
+
+.sport.active{
+  color:#fff;
+  border-bottom-color:#9ee01a;
+}
+
+.sport-icon{
+  display:block;
+  font-size:24px;
+  margin-bottom:4px;
+}
+
+/* ================= SUBNAV ================= */
+
+.subnav{
+  background:#101d29;
+  border-bottom:1px solid #233442;
+  overflow-x:auto;
+}
+
+.subnav-inner{
+  max-width:1250px;
+  margin:auto;
+  display:flex;
+  gap:28px;
+  padding:16px 20px 13px;
+  white-space:nowrap;
+}
+
+.subnav-btn{
+  border:none;
+  background:transparent;
+  color:#9ba7af;
+  font-size:16px;
+  font-weight:700;
+  padding-bottom:7px;
+  border-bottom:3px solid transparent;
+}
+
+.subnav-btn.active{
+  color:#fff;
+  border-bottom-color:#9ee01a;
+}
+
+/* ================= MAIN ================= */
+
+main{
+  max-width:1250px;
+  margin:auto;
+  padding:18px 18px 100px;
+}
+
+/* ================= TOOLBAR ================= */
+
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  overflow-x:auto;
+  margin-bottom:17px;
+  padding-bottom:3px;
+}
+
+.filter-btn{
+  flex-shrink:0;
+  border:none;
+  background:#1b2b38;
+  color:#f1f5f7;
+  border-radius:22px;
+  padding:11px 17px;
+  font-weight:700;
+  border:1px solid #263c4b;
+}
+
+.filter-btn.active{
+  background:#9ee01a;
+  color:#07121c;
+  border-color:#9ee01a;
+}
+
+/* ================= SEARCH ================= */
+
+.search-wrap{
+  position:relative;
+  margin-bottom:17px;
+}
+
+.search{
+  width:100%;
+  padding:16px 18px 16px 48px;
+  border-radius:14px;
+  border:1px solid #2b4050;
+  background:#101e2a;
+  color:white;
+  outline:none;
+}
+
+.search::placeholder{
+  color:#7d8992;
+}
+
+.search:focus{
+  border-color:#9ee01a;
+}
+
+.search-icon{
+  position:absolute;
+  left:17px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#8796a0;
+  font-size:19px;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+  background:linear-gradient(135deg,#183728,#10251d);
+  border:1px solid #314f40;
+  border-radius:17px;
+  padding:24px;
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:31px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  color:#aab7b2;
+  line-height:1.5;
+  font-size:17px;
+}
+
+.hero-stats{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:17px;
+}
+
+.stat{
+  background:rgba(0,0,0,.18);
+  border:1px solid #385747;
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:14px;
+}
+
+.stat strong{
+  color:#9ee01a;
+}
+
+/* ================= PROMO ================= */
+
+.promo{
+  border-radius:15px;
+  padding:18px 20px;
+  margin-bottom:20px;
+  background:linear-gradient(100deg,#39127c,#6817a8,#36106d);
+  border:1px solid #7334b2;
+  overflow:hidden;
+}
+
+.promo h2{
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.promo p{
+  color:#eee;
+  margin-bottom:4px;
+}
+
+.promo strong{
+  color:#ffe600;
+  font-size:25px;
+}
+
+/* ================= STATUS ================= */
+
+.status{
+  padding:14px 17px;
+  border:1px solid #29404e;
+  border-radius:12px;
+  margin-bottom:18px;
+  background:#101e2a;
+  color:#9ee01a;
+}
+
+.status.error{
+  color:#ff7777;
+}
+
+.status.loading{
+  color:#ffd86b;
+}
+
+/* ================= SECTION ================= */
+
+.section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:20px 0 10px;
+}
+
+.section-heading h2{
+  font-size:21px;
+}
+
+.section-heading span{
+  color:#8e9ba5;
+  font-size:14px;
+}
+
+/* ================= LIVE ================= */
+
+.live-banner{
+  display:none;
+  background:#20171a;
+  border:1px solid #5a2d31;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:17px;
+}
+
+.live-banner.show{
+  display:block;
+}
+
+.live-title{
+  color:#ff6464;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+/* ================= LEAGUE ================= */
+
+.league{
+  background:#101e2a;
+  border:1px solid #253a48;
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
+.league-title{
+  padding:14px 16px;
+  background:#152632;
+  border-bottom:1px solid #263c4b;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.league-name{
+  font-weight:800;
+  color:#f2f6f8;
+}
+
+.league-meta{
+  color:#82919b;
+  font-size:13px;
+}
+
+/* ================= MATCH ================= */
+
+.match{
+  padding:16px;
+  border-bottom:1px solid #263743;
+}
+
+.match:last-child{
+  border-bottom:none;
+}
+
+.match-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:#8d9aa3;
+  font-size:13px;
+  margin-bottom:13px;
+}
+
+.match-time.live{
+  color:#ff6262;
+  font-weight:900;
+}
+
+.upcoming{
+  color:#9ee01a;
+  font-weight:800;
+}
+
+.live-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#ff4d4d;
+  margin-right:5px;
+}
+
+.match-content{
+  display:grid;
+  grid-template-columns:minmax(190px,1fr) 1.5fr;
+  gap:18px;
+  align-items:center;
+}
+
+.teams{
+  font-size:16px;
+  font-weight:800;
+  line-height:1.7;
+}
+
+.team{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.team-ball{
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:#1d303d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+}
+
+.vs{
+  color:#667681;
+  font-size:11px;
+  font-weight:500;
+  padding-left:32px;
+}
+
+.odds{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.odd{
+  border:none;
+  border:1px solid #2b4150;
+  background:#1a2c39;
+  color:#fff;
+  border-radius:11px;
+  padding:11px 7px;
+  text-align:center;
+  transition:.2s;
+}
+
+.odd:hover{
+  border-color:#9ee01a;
+  background:#243a48;
+  transform:translateY(-1px);
+}
+
+.odd.selected{
+  background:#9ee01a;
+  color:#07121c;
+  border-color:#9ee01a;
+}
+
+.odd-name{
+  display:block;
+  font-size:12px;
+  color:#9caab3;
+  margin-bottom:5px;
+}
+
+.odd.selected .odd-name{
+  color:#07121c;
+}
+
+.odd-price{
+  font-size:18px;
+  font-weight:900;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+  text-align:center;
+  padding:50px 20px;
+  color:#8e9ba5;
+}
+
+.empty h2{
+  color:#fff;
+  margin-bottom:8px;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-page{
+  display:none;
+}
+
+.profile-page.show{
+  display:block;
+}
+
+.profile-card{
+  background:#101e2a;
+  border:1px solid #2a4050;
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.profile-top{
+  background:linear-gradient(135deg,#183728,#10251d);
+  padding:30px 24px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.profile-avatar{
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  background:#9ee01a;
+  color:#07121c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  font-weight:900;
+}
+
+.profile-top h1{
+  font-size:25px;
+  margin-bottom:5px;
+}
+
+.profile-top p{
+  color:#a9b8b1;
+}
+
+.profile-details{
+  padding:20px;
+}
+
+.detail{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:17px 5px;
+  border-bottom:1px solid #263743;
+}
+
+.detail:last-child{
+  border-bottom:none;
+}
+
+.detail-label{
+  color:#8f9da6;
+}
+
+.detail-value{
+  color:#fff;
+  font-weight:800;
+  text-align:right;
+  word-break:break-word;
+}
+
+.balance-card{
+  margin:20px;
+  padding:20px;
+  border-radius:15px;
+  background:#152d22;
+  border:1px solid #315843;
+}
+
+.balance-card small{
+  color:#9baaa3;
+}
+
+.balance-card strong{
+  display:block;
+  color:#9ee01a;
+  font-size:30px;
+  margin-top:6px;
+}
+
+/* ================= LOGIN MODAL ================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(0,0,0,.78);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal.open{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:#101e2a;
+  border:1px solid #2b4352;
+  border-radius:18px;
+  padding:25px;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+}
+
+.modal-header h2{
+  font-size:25px;
+}
+
+.close{
+  border:none;
+  background:transparent;
+  color:white;
+  font-size:28px;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:7px;
+  color:#a8b6bf;
+}
+
+.form-group input{
+  width:100%;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid #2b4352;
+  background:#08151f;
+  color:white;
+  outline:none;
+}
+
+.form-group input:focus{
+  border-color:#9ee01a;
+}
+
+.form-submit{
+  width:100%;
+  margin-top:8px;
+}
+
+.form-message{
+  margin-top:15px;
+  color:#ff7777;
+  text-align:center;
+}
+
+/* ================= BET SLIP ================= */
+
+.slip{
+  position:fixed;
+  right:20px;
+  bottom:85px;
+  width:370px;
+  max-width:calc(100% - 40px);
+  background:#101e2a;
+  border:1px solid #2b4352;
+  border-radius:18px;
+  z-index:800;
+  box-shadow:0 15px 50px rgba(0,0,0,.5);
+  display:none;
+}
+
+.slip.open{
+  display:block;
+}
+
+.slip-header{
+  padding:17px;
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #263743;
+  font-weight:900;
+}
+
+.slip-count{
+  background:#9ee01a;
+  color:#07121c;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.slip-body{
+  max-height:330px;
+  overflow-y:auto;
+  padding:14px;
+}
+
+.slip-item{
+  background:#192c39;
+  border-radius:11px;
+  padding:12px;
+  margin-bottom:9px;
+}
+
+.slip-item strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.slip-item small{
+  color:#a1afb7;
+}
+
+.remove{
+  margin-top:8px;
+  border:none;
+  background:transparent;
+  color:#ff7777;
+  font-size:13px;
+}
+
+.slip-footer{
+  border-top:1px solid #263743;
+  padding:15px;
+}
+
+.slip-row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+  color:#a8b6bf;
+}
+
+.slip-row strong{
+  color:white;
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:76px;
+  background:#101e2a;
+  border-top:1px solid #2a3d4b;
+  z-index:700;
+  display:flex;
+  justify-content:center;
+}
+
+.bottom-inner{
+  width:100%;
+  max-width:700px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+}
+
+.bottom-btn{
+  border:none;
+  background:transparent;
+  color:#87949e;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.bottom-btn span:first-child{
+  font-size:24px;
+}
+
+.bottom-btn.active{
+  color:#9ee01a;
+}
+
+.floating-slip{
+  position:fixed;
+  right:20px;
+  bottom:92px;
+  z-index:750;
+  display:none;
+  border:none;
+  border-radius:25px;
+  padding:13px 19px;
+  background:#9ee01a;
+  color:#07121c;
+  font-weight:900;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:700px){
+
+  body{
+    padding-bottom:80px;
+  }
+
+  .header-inner{
+    min-height:68px;
+    padding:10px 14px;
+  }
+
+  .logo{
+    font-size:20px;
+  }
+
+  .logo-box{
+    width:44px;
+    height:44px;
+    font-size:27px;
+  }
+
+  .header-buttons .btn{
+    padding:11px 14px;
+    font-size:13px;
+  }
+
+  .user-name{
+    display:none;
+  }
+
+  .sports-inner{
+    padding:0 8px;
+  }
+
+  .sport{
+    min-width:90px;
+    padding:12px 10px;
+  }
+
+  .subnav-inner{
+    gap:27px;
+    padding:15px 18px 12px;
+  }
+
+  main{
+    padding:15px 14px 100px;
+  }
+
+  .toolbar{
+    margin-left:-2px;
+  }
+
+  .hero{
+    padding:22px 20px;
+  }
+
+  .hero h1{
+    font-size:29px;
+  }
+
+  .hero p{
+    font-size:16px;
+  }
+
+  .promo{
+    padding:17px;
+  }
+
+  .promo h2{
+    font-size:20px;
+  }
+
+  .promo strong{
+    font-size:22px;
+  }
+
+  .match-content{
+    display:block;
+  }
+
+  .teams{
+    margin-bottom:14px;
+  }
+
+  .odds{
+    gap:6px;
+  }
+
+  .odd{
+    padding:10px 5px;
+  }
+
+  .odd-name{
+    font-size:11px;
+  }
+
+  .odd-price{
+    font-size:17px;
+  }
+
+  .slip{
+    right:10px;
+    bottom:82px;
+    max-width:calc(100% - 20px);
+  }
+
+  .floating-slip{
+    right:12px;
+    bottom:87px;
+  }
+
+  .profile-top{
+    padding:24px 18px;
+  }
+
+  .profile-avatar{
+    width:62px;
+    height:62px;
+    font-size:28px;
+  }
+
+  .detail{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .detail-value{
+    text-align:left;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+  <div class="header-inner">
+
+    <div class="logo">
+      <div class="logo-box">Q</div>
+      <div>QUORA <span>BETS</span></div>
+    </div>
+
+    <div class="header-buttons" id="authButtons">
+      <button class="btn btn-primary" id="loginBtn">
+        Login
+      </button>
+
+      <button class="btn btn-secondary" id="registerBtn">
+        Register
+      </button>
+    </div>
+
+    <div class="user-bar" id="userBar">
+      <span class="user-name" id="userName"></span>
+
+      <button class="btn btn-secondary" id="logoutBtn">
+        Logout
+      </button>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- ================= SPORTS ================= -->
+
+<nav class="sports">
+
+  <div class="sports-inner">
+
+    <button class="sport active" data-sport="soccer_epl">
+      <span class="sport-icon">⚽</span>
+      Football
+    </button>
+
+    <button class="sport" data-sport="basketball_nba">
+      <span class="sport-icon">🏀</span>
+      Basketball
+    </button>
+
+    <button class="sport" data-sport="tennis_atp_us_open">
+      <span class="sport-icon">🎾</span>
+      Tennis
+    </button>
+
+    <button class="sport" data-sport="icehockey_nhl">
+      <span class="sport-icon">🏒</span>
+      Hockey
+    </button>
+
+  </div>
+
+</nav>
+
+
+<!-- ================= SECOND NAV ================= -->
+
+<nav class="subnav">
+
+  <div class="subnav-inner">
+
+    <button class="subnav-btn active" data-view="highlights">
+      Highlights
+    </button>
+
+    <button class="subnav-btn" data-view="upcoming">
+      Upcoming
+    </button>
+
+    <button class="subnav-btn" data-view="live">
+      Live
+    </button>
+
+    <button class="subnav-btn" data-view="countries">
+      Countries
+    </button>
+
+    <button class="subnav-btn" data-view="leagues">
+      Leagues
+    </button>
+
+  </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main id="mainContent">
+
+  <!-- TOOLBAR -->
+
+  <div class="toolbar">
+
+    <button class="filter-btn active" data-filter="all">
+      ⚙ All
+    </button>
+
+    <button class="filter-btn" data-filter="today">
+      Today
+    </button>
+
+    <button class="filter-btn" data-filter="tomorrow">
+      Tomorrow
+    </button>
+
+    <button class="filter-btn" id="refreshBtn">
+      ↻ Refresh
+    </button>
+
+  </div>
+
+
+  <!-- SEARCH -->
+
+  <div class="search-wrap">
+
+    <span class="search-icon">⌕</span>
+
+    <input
+      id="searchInput"
+      class="search"
+      type="search"
+      placeholder="Search teams, leagues..."
+      autocomplete="off"
+    >
+
+  </div>
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <h1>Bet on today's games</h1>
+
+    <p>
+      Follow football, basketball, tennis and hockey
+      fixtures with live odds and available markets.
+    </p>
+
+    <div class="hero-stats">
+
+      <div class="stat">
+        Games:
+        <strong id="gamesStat">0</strong>
+      </div>
+
+      <div class="stat">
+        Live:
+        <strong id="liveStat">0</strong>
+      </div>
+
+      <div class="stat">
+        Sports:
+        <strong>4</strong>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROMO -->
+
+  <section class="promo">
+
+    <h2>🔥 QUORA BETS DAILY</h2>
+
+    <p>
+      Explore today's matches and available markets.
+    </p>
+
+    <strong>
+      PLAY SMART • BET RESPONSIBLY
+    </strong>
+
+  </section>
+
+
+  <!-- STATUS -->
+
+  <div class="status loading" id="status">
+    ● Connecting to Quora Bets...
+  </div>
+
+
+  <!-- LIVE BANNER -->
+
+  <div class="live-banner" id="liveBanner">
+
+    <div class="live-title">
+      🔴 LIVE GAMES
+    </div>
+
+    <div id="liveBannerText">
+      Live matches are currently available.
+    </div>
+
+  </div>
+
+
+  <!-- GAMES -->
+
+  <section id="gamesContainer">
+
+    <div class="empty">
+
+      <h2>Loading games...</h2>
+
+      <p>
+        Connecting to the odds service.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROFILE -->
+
+  <section class="profile-page" id="profilePage">
+
+    <div class="section-heading">
+
+      <h2>My Profile</h2>
+
+      <span>Account information</span>
+
+    </div>
+
+    <div class="profile-card">
+
+      <div class="profile-top">
+
+        <div class="profile-avatar" id="profileAvatar">
+          Q
+        </div>
+
+        <div>
+
+          <h1 id="profileName">
+            User
+          </h1>
+
+          <p id="profileEmail">
+            -
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="balance-card">
+
+        <small>Wallet Balance</small>
+
+        <strong id="profileBalance">
+          KES 0.00
+        </strong>
+
+      </div>
+
+
+      <div class="profile-details">
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Full Name
+          </span>
+
+          <span
+            class="detail-value"
+            id="detailName"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Email
+          </span>
+
+          <span
+            class="detail-value"
+            id="detailEmail"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Phone
+          </span>
+
+          <span
+            class="detail-value"
+            id="detailPhone"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Account ID
+          </span>
+
+          <span
+            class="detail-value"
+            id="detailId"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Account Created
+          </span>
+
+          <span
+            class="detail-value"
+            id="detailCreated"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Account Status
+          </span>
+
+          <span
+            class="detail-value"
+            style="color:#9ee01a;"
+            id="detailStatus"
+          >
+            Active
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div style="margin-top:18px;">
+
+      <button
+        class="btn btn-secondary"
+        style="width:100%;"
+        id="profileLogoutBtn"
+      >
+        🚪 Logout
+      </button>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- ================= BET SLIP FLOATING ================= -->
+
+<button
+  class="floating-slip"
+  id="floatingSlip"
+>
+  🧾 Bet Slip
+  (<span id="floatingCount">0</span>)
+</button>
+
+
+<!-- ================= BET SLIP ================= -->
+
+<div class="slip" id="betSlip">
+
+  <div class="slip-header">
+
+    <span>
+      Bet Slip
+    </span>
+
+    <div style="display:flex;align-items:center;gap:10px;">
+
+      <span
+        class="slip-count"
+        id="slipCount"
+      >
+        0
+      </span>
+
+      <button
+        class="close"
+        id="closeSlip"
+      >
+        ×
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div
+    class="slip-body"
+    id="slipBody"
+  >
+
+    <div
+      class="empty"
+      style="padding:30px 10px;"
+    >
+      Your bet slip is empty.
+    </div>
+
+  </div>
+
+
+  <div class="slip-footer">
+
+    <div class="slip-row">
+
+      <span>
+        Total Odds
+      </span>
+
+      <strong id="totalOdds">
+        0.00
+      </strong>
+
+    </div>
+
+
+    <div class="slip-row">
+
+      <span>
+        Selections
+      </span>
+
+      <strong id="selectionCount">
+        0
+      </strong>
+
+    </div>
+
+
+    <button
+      class="btn btn-primary"
+      style="width:100%;"
+      id="continueBetBtn"
+    >
+      Continue
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ================= LOGIN MODAL ================= -->
+
+<div
+  class="modal"
+  id="loginModal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2>Login</h2>
+
+      <button
+        class="close"
+        data-close="loginModal"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="loginForm">
+
+      <div class="form-group">
+
+        <label>
+          Email
+        </label>
+
+        <input
+          id="loginEmail"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@example.com"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          id="loginPassword"
+          type="password"
+          required
+          autocomplete="current-password"
+          placeholder="Password"
+        >
+
+      </div>
+
+
+      <button
+        class="btn btn-primary form-submit"
+        type="submit"
+      >
+        Login
+      </button>
+
+
+      <div
+        class="form-message"
+        id="loginMessage"
+      ></div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- ================= REGISTER MODAL ================= -->
+
+<div
+  class="modal"
+  id="registerModal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2>Create Account</h2>
+
+      <button
+        class="close"
+        data-close="registerModal"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="registerForm">
+
+      <div class="form-group">
+
+        <label>
+          Name
+        </label>
+
+        <input
+          id="registerName"
+          type="text"
+          required
+          placeholder="Your name"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Email
+        </label>
+
+        <input
+          id="registerEmail"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@example.com"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Phone
+        </label>
+
+        <input
+          id="registerPhone"
+          type="tel"
+          required
+          placeholder="0712345678"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          id="registerPassword"
+          type="password"
+          required
+          minlength="8"
+          autocomplete="new-password"
+          placeholder="At least 8 characters"
+        >
+
+      </div>
+
+
+      <button
+        class="btn btn-primary form-submit"
+        type="submit"
+      >
+        Register
+      </button>
+
+
+      <div
+        class="form-message"
+        id="registerMessage"
+      ></div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<nav class="bottom-nav">
+
+  <div class="bottom-inner">
+
+    <button
+      class="bottom-btn active"
+      data-bottom="home"
+    >
+      <span>🏠</span>
+      <span>Home</span>
+    </button>
+
+
+    <button
+      class="bottom-btn"
+      data-bottom="live"
+    >
+      <span>▶</span>
+      <span>Live</span>
+    </button>
+
+
+    <button
+      class="bottom-btn"
+      data-bottom="slip"
+    >
+      <span>🧾</span>
+      <span>Bet Slip</span>
+    </button>
+
+
+    <button
+      class="bottom-btn"
+      data-bottom="bets"
+    >
+      <span>☷</span>
+      <span>My Bets</span>
+    </button>
+
+
+    <button
+      class="bottom-btn"
+      data-bottom="profile"
+    >
+      <span>♙</span>
+      <span>Profile</span>
+    </button>
+
+  </div>
+
+</nav>
+
+
+<script>
+
+/* =========================================================
+   QUORA BETS FRONTEND
+========================================================= */
+
+const API_BASE =
+  "https://quora-bets-back-end1.onrender.com";
+
+const REQUEST_TIMEOUT = 30000;
+
+let currentSport = "soccer_epl";
+
+let allGames = [];
+
+let selections = [];
+
+let currentFilter = "all";
+
+let currentView = "highlights";
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const gamesContainer =
+  document.getElementById("gamesContainer");
+
+const profilePage =
+  document.getElementById("profilePage");
+
+const mainContent =
+  document.getElementById("mainContent");
+
+const statusBox =
+  document.getElementById("status");
+
+const refreshBtn =
+  document.getElementById("refreshBtn");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const gamesStat =
+  document.getElementById("gamesStat");
+
+const liveStat =
+  document.getElementById("liveStat");
+
+const liveBanner =
+  document.getElementById("liveBanner");
+
+const liveBannerText =
+  document.getElementById("liveBannerText");
+
+const loginBtn =
+  document.getElementById("loginBtn");
+
+const registerBtn =
+  document.getElementById("registerBtn");
+
+const loginModal =
+  document.getElementById("loginModal");
+
+const registerModal =
+  document.getElementById("registerModal");
+
+const loginForm =
+  document.getElementById("loginForm");
+
+const registerForm =
+  document.getElementById("registerForm");
+
+const authButtons =
+  document.getElementById("authButtons");
+
+const userBar =
+  document.getElementById("userBar");
+
+const userName =
+  document.getElementById("userName");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
+const profileLogoutBtn =
+  document.getElementById("profileLogoutBtn");
+
+const betSlip =
+  document.getElementById("betSlip");
+
+const floatingSlip =
+  document.getElementById("floatingSlip");
+
+const closeSlip =
+  document.getElementById("closeSlip");
+
+const slipBody =
+  document.getElementById("slipBody");
+
+const slipCount =
+  document.getElementById("slipCount");
+
+const floatingCount =
+  document.getElementById("floatingCount");
+
+const totalOdds =
+  document.getElementById("totalOdds");
+
+const selectionCount =
+  document.getElementById("selectionCount");
+
+const continueBetBtn =
+  document.getElementById("continueBetBtn");
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function apiFetch(path, options = {}) {
+
+  const controller =
+    new AbortController();
+
+  const timeout =
+    setTimeout(
+      () => controller.abort(),
+      REQUEST_TIMEOUT
+    );
+
+  try {
+
+    const token =
+      localStorage.getItem("quora_token");
+
+    const headers = {
+      "Content-Type":"application/json",
+      ...(options.headers || {})
+    };
+
+    if(token){
+      headers.Authorization =
+        `Bearer ${token}`;
+    }
+
+    const response =
+      await fetch(
+        API_BASE + path,
+        {
+          ...options,
+          headers,
+          signal:controller.signal
+        }
+      );
+
+    let data = {};
+
+    try{
+      data = await response.json();
+    }catch{
+      data = {};
+    }
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        `Server returned HTTP ${response.status}`
+      );
+
+    }
+
+    return data;
+
+  }catch(error){
+
+    if(error.name === "AbortError"){
+
+      throw new Error(
+        "The backend took too long to respond. Tap Refresh and try again."
+      );
+
+    }
+
+    throw error;
+
+  }finally{
+
+    clearTimeout(timeout);
+
+  }
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(message,type=""){
+
+  statusBox.className =
+    "status " + type;
+
+  statusBox.textContent =
+    "● " + message;
+
+}
+
+
+/* =========================================================
+   LOAD GAMES
+========================================================= */
+
+async function loadGames(){
+
+  refreshBtn.disabled = true;
+
+  refreshBtn.textContent =
+    "↻ Loading...";
+
+  setStatus(
+    "Connecting to Quora Bets...",
+    "loading"
+  );
+
+  gamesContainer.innerHTML = `
+    <div class="empty">
+      <h2>Loading games...</h2>
+      <p>Connecting to the odds service.</p>
+    </div>
+  `;
+
+  try{
+
+    const data =
+      await apiFetch(
+        `/api/odds?sport=${encodeURIComponent(currentSport)}`
+      );
+
+    if(!data ||
+       !Array.isArray(data.games)){
+
+      throw new Error(
+        "The backend returned an invalid games response."
+      );
+
+    }
+
+    allGames =
+      data.games;
+
+    updateStats();
+
+    if(allGames.length === 0){
+
+      setStatus(
+        "Connected — no games found.",
+        ""
+      );
+
+      gamesContainer.innerHTML = `
+        <div class="empty">
+          <h2>No games available</h2>
+          <p>
+            There are currently no available games for this sport.
+          </p>
+        </div>
+      `;
+
+      return;
+
+    }
+
+    setStatus(
+      `Connected — ${allGames.length} games loaded`,
+      ""
+    );
+
+    renderGames();
+
+  }catch(error){
+
+    console.error(
+      "LOAD GAMES:",
+      error
+    );
+
+    setStatus(
+      "Connection error",
+      "error"
+    );
+
+    gamesContainer.innerHTML = `
+      <div class="empty">
+
+        <h2>Unable to load games</h2>
+
+        <p style="margin-bottom:20px;">
+          ${escapeHtml(error.message)}
+        </p>
+
+        <button
+          class="btn btn-primary"
+          onclick="loadGames()"
+        >
+          Try Again
+        </button>
+
+      </div>
+    `;
+
+  }finally{
+
+    refreshBtn.disabled = false;
+
+    refreshBtn.textContent =
+      "↻ Refresh";
+
+  }
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  gamesStat.textContent =
+    allGames.length;
+
+  const liveGames =
+    allGames.filter(
+      isGameLive
+    );
+
+  liveStat.textContent =
+    liveGames.length;
+
+  if(liveGames.length > 0){
+
+    liveBanner.classList.add("show");
+
+    liveBannerText.textContent =
+      `${liveGames.length} live game${liveGames.length === 1 ? "" : "s"} available now.`;
+
+  }else{
+
+    liveBanner.classList.remove("show");
+
+  }
+
+}
+
+
+/* =========================================================
+   GAME LIVE CHECK
+========================================================= */
+
+function isGameLive(game){
+
+  const commence =
+    game.commence_time;
+
+  if(!commence) return false;
+
+  /*
+    The Odds API fixture response may not contain
+    live score information. This function only uses
+    explicit live fields if they exist.
+  */
+
+  if(game.live === true) return true;
+
+  if(
+    game.status &&
+    String(game.status).toLowerCase() === "live"
+  ){
+    return true;
+  }
+
+  if(
+    game.completed === false &&
+    game.scores &&
+    Array.isArray(game.scores) &&
+    game.scores.length > 0
+  ){
+    return true;
+  }
+
+  return false;
+
+}
+
+
+/* =========================================================
+   FILTER GAMES
+========================================================= */
+
+function getFilteredGames(){
+
+  const query =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  let games =
+    [...allGames];
+
+  if(currentView === "live"){
+
+    games =
+      games.filter(
+        isGameLive
+      );
+
+  }
+
+  if(currentView === "upcoming"){
+
+    games =
+      games.filter(
+        game => !isGameLive(game)
+      );
+
+  }
+
+  if(currentFilter === "today"){
+
+    games =
+      games.filter(
+        game =>
+          isSameDay(
+            new Date(game.commence_time),
+            new Date()
+          )
+      );
+
+  }
+
+  if(currentFilter === "tomorrow"){
+
+    const tomorrow =
+      new Date();
+
+    tomorrow.setDate(
+      tomorrow.getDate() + 1
+    );
+
+    games =
+      games.filter(
+        game =>
+          isSameDay(
+            new Date(game.commence_time),
+            tomorrow
+          )
+      );
+
+  }
+
+  if(query){
+
+    games =
+      games.filter(game => {
+
+        const home =
+          String(
+            game.home_team || ""
+          ).toLowerCase();
+
+        const away =
+          String(
+            game.away_team || ""
+          ).toLowerCase();
+
+        const league =
+          String(
+            game.sport_title ||
+            game.sport_key ||
+            ""
+          ).toLowerCase();
+
+        return(
+          home.includes(query) ||
+          away.includes(query) ||
+          league.includes(query)
+        );
+
+      });
+
+  }
+
+  return games;
+
+}
+
+
+/* =========================================================
+   RENDER GAMES
+========================================================= */
+
+function renderGames(){
+
+  const games =
+    getFilteredGames();
+
+  if(games.length === 0){
+
+    gamesContainer.innerHTML = `
+      <div class="empty">
+
+        <h2>No matching games</h2>
+
+        <p>
+          Try another sport, filter or search.
+        </p>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+  /*
+    Group games by league.
+  */
+
+  const groups = {};
+
+  games.forEach(game => {
+
+    const league =
+      game.sport_title ||
+      game.league ||
+      game.sport_key ||
+      "Other Games";
+
+    if(!groups[league]){
+      groups[league] = [];
+    }
+
+    groups[league].push(game);
+
+  });
+
+
+  gamesContainer.innerHTML =
+    Object.entries(groups)
+      .map(
+        ([league,games]) => `
+
+          <section class="league">
+
+            <div class="league-title">
+
+              <div class="league-name">
+                🏆 ${escapeHtml(league)}
+              </div>
+
+              <div class="league-meta">
+                ${games.length}
+                ${games.length === 1 ? "match" : "matches"}
+              </div>
+
+            </div>
+
+            ${games
+              .map(renderMatch)
+              .join("")}
+
+          </section>
+
+        `
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   RENDER MATCH
+========================================================= */
+
+function renderMatch(game){
+
+  const bookmakers =
+    Array.isArray(game.bookmakers)
+      ? game.bookmakers
+      : [];
+
+  let outcomes = [];
+
+
+  /*
+    Search all bookmakers for h2h.
+  */
+
+  for(
+    const bookmaker of bookmakers
+  ){
+
+    const markets =
+      Array.isArray(
+        bookmaker.markets
+      )
+        ? bookmaker.markets
+        : [];
+
+    const h2h =
+      markets.find(
+        market =>
+          market.key === "h2h"
+      );
+
+    if(
+      h2h &&
+      Array.isArray(h2h.outcomes) &&
+      h2h.outcomes.length
+    ){
+
+      outcomes =
+        h2h.outcomes;
+
+      break;
+
+    }
+
+  }
+
+
+  /*
+    Fallback: search any market with outcomes.
+  */
+
+  if(outcomes.length === 0){
+
+    for(
+      const bookmaker of bookmakers
+    ){
+
+      for(
+        const market of (
+          bookmaker.markets || []
+        )
+      ){
+
+        if(
+          Array.isArray(
+            market.outcomes
+          ) &&
+          market.outcomes.length
+        ){
+
+          outcomes =
+            market.outcomes;
+
+          break;
+
+        }
+
+      }
+
+      if(outcomes.length) break;
+
+    }
+
+  }
+
+
+  const homeOutcome =
+    outcomes.find(
+      x =>
+        x.name ===
+        game.home_team
+    );
+
+  const awayOutcome =
+    outcomes.find(
+      x =>
+        x.name ===
+        game.away_team
+    );
+
+  const drawOutcome =
+    outcomes.find(
+      x =>
+        String(x.name)
+          .toLowerCase() ===
+        "draw"
+    );
+
+
+  const live =
+    isGameLive(game);
+
+  const date =
+    game.commence_time
+      ? new Date(
+          game.commence_time
+        ).toLocaleString(
+          undefined,
+          {
+            weekday:"short",
+            month:"short",
+            day:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+          }
+        )
+      : "Time unavailable";
+
+
+  return `
+
+    <article class="match">
+
+      <div class="match-top">
+
+        <span class="${live ? "match-time live" : ""}">
+
+          ${
+            live
+              ? `<span class="live-dot"></span>LIVE`
+              : escapeHtml(date)
+          }
+
+        </span>
+
+        <span class="${
+          live
+            ? "match-time live"
+            : "upcoming"
+        }">
+
+          ${
+            live
+              ? "● LIVE"
+              : "UPCOMING"
+          }
+
+        </span>
+
+      </div>
+
+
+      <div class="match-content">
+
+        <div class="teams">
+
+          <div class="team">
+
+            <span class="team-ball">
+              ${getSportIcon()}
+            </span>
+
+            <span>
+              ${escapeHtml(
+                game.home_team ||
+                "Home"
+              )}
+            </span>
+
+          </div>
+
+
+          <div class="vs">
+            VS
+          </div>
+
+
+          <div class="team">
+
+            <span class="team-ball">
+              ${getSportIcon()}
+            </span>
+
+            <span>
+              ${escapeHtml(
+                game.away_team ||
+                "Away"
+              )}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="odds">
+
+          ${renderOdd(
+            game,
+            homeOutcome,
+            game.home_team ||
+            "Home"
+          )}
+
+          ${renderOdd(
+            game,
+            drawOutcome,
+            "Draw"
+          )}
+
+          ${renderOdd(
+            game,
+            awayOutcome,
+            game.away_team ||
+            "Away"
+          )}
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   RENDER ODD
+========================================================= */
+
+function renderOdd(
+  game,
+  outcome,
+  label
+){
+
+  if(!outcome){
+
+    return `
+
+      <button
+        class="odd"
+        disabled
+        style="opacity:.4;"
+      >
+
+        <span class="odd-name">
+          ${escapeHtml(label)}
+        </span>
+
+        <span class="odd-price">
+          -
+        </span>
+
+      </button>
+
+    `;
+
+  }
+
+
+  const price =
+    Number(outcome.price);
+
+  const selected =
+    selections.some(
+      selection =>
+        selection.eventId ===
+          String(game.id) &&
+        selection.outcomeName ===
+          outcome.name
+    );
+
+
+  return `
+
+    <button
+      class="odd ${selected ? "selected" : ""}"
+      onclick='addSelection(
+        ${JSON.stringify(
+          game
+        )},
+        ${JSON.stringify(
+          outcome
+        )}
+      )'
+    >
+
+      <span class="odd-name">
+
+        ${escapeHtml(
+          label || outcome.name
+        )}
+
+      </span>
+
+      <span class="odd-price">
+
+        ${
+          Number.isFinite(price)
+            ? price.toFixed(2)
+            : "-"
+        }
+
+      </span>
+
+    </button>
+
+  `;
+
+}
+
+
+/* =========================================================
+   ADD SELECTION
+========================================================= */
+
+function addSelection(
+  game,
+  outcome
+){
+
+  if(!game || !outcome){
+    return;
+  }
+
+  const eventId =
+    String(game.id || "");
+
+  const existingIndex =
+    selections.findIndex(
+      selection =>
+        selection.eventId ===
+          eventId &&
+        selection.outcomeName ===
+          outcome.name
+    );
+
+
+  if(existingIndex !== -1){
+
+    selections.splice(
+      existingIndex,
+      1
+    );
+
+  }else{
+
+    /*
+      One selection per match.
+    */
+
+    selections =
+      selections.filter(
+        selection =>
+          selection.eventId !==
+          eventId
+      );
+
+
+    selections.push({
+
+      eventId,
+
+      sportKey:
+        game.sport_key ||
+        currentSport,
+
+      sportTitle:
+        game.sport_title ||
+        "",
+
+      homeTeam:
+        game.home_team ||
+        "Home",
+
+      awayTeam:
+        game.away_team ||
+        "Away",
+
+      commenceTime:
+        game.commence_time ||
+        null,
+
+      outcomeName:
+        outcome.name,
+
+      odds:
+        Number(outcome.price)
+
+    });
+
+  }
+
+
+  updateSlip();
+
+  renderGames();
+
+
+  if(selections.length > 0){
+
+    betSlip.classList.add(
+      "open"
+    );
+
+    floatingSlip.style.display =
+      "none";
+
+  }else{
+
+    betSlip.classList.remove(
+      "open"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE SLIP
+========================================================= */
+
+function updateSlip(){
+
+  const count =
+    selections.length;
+
+  slipCount.textContent =
+    count;
+
+  floatingCount.textContent =
+    count;
+
+  selectionCount.textContent =
+    count;
+
+
+  if(count === 0){
+
+    totalOdds.textContent =
+      "0.00";
+
+    slipBody.innerHTML = `
+
+      <div
+        class="empty"
+        style="padding:30px 10px;"
+      >
+        Your bet slip is empty.
+      </div>
+
+    `;
+
+    floatingSlip.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  let odds = 1;
+
+
+  slipBody.innerHTML =
+    selections
+      .map(
+        (selection,index) => {
+
+          const value =
+            Number(
+              selection.odds
+            );
+
+          if(
+            Number.isFinite(value)
+          ){
+            odds *= value;
+          }
+
+
+          return `
+
+            <div class="slip-item">
+
+              <strong>
+
+                ${escapeHtml(
+                  selection.homeTeam
+                )}
+
+                vs
+
+                ${escapeHtml(
+                  selection.awayTeam
+                )}
+
+              </strong>
+
+              <small>
+
+                ${escapeHtml(
+                  selection.outcomeName
+                )}
+
+                @
+
+                ${
+                  Number.isFinite(value)
+                    ? value.toFixed(2)
+                    : "-"
+                }
+
+              </small>
+
+              <br>
+
+              <button
+                class="remove"
+                onclick="removeSelection(${index})"
+              >
+                Remove
+              </button>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+
+  totalOdds.textContent =
+    odds.toFixed(2);
+
+  floatingSlip.style.display =
+    "block";
+
+}
+
+
+/* =========================================================
+   REMOVE SELECTION
+========================================================= */
+
+function removeSelection(index){
+
+  if(
+    index < 0 ||
+    index >= selections.length
+  ){
+    return;
+  }
+
+  selections.splice(
+    index,
+    1
+  );
+
+  updateSlip();
+
+  renderGames();
+
+}
+
+
+/* =========================================================
+   AUTH UI
+========================================================= */
+
+function updateAuthUI(){
+
+  const token =
+    localStorage.getItem(
+      "quora_token"
+    );
+
+  const savedUser =
+    localStorage.getItem(
+      "quora_user"
+    );
+
+
+  if(token && savedUser){
+
+    try{
+
+      const user =
+        JSON.parse(
+          savedUser
+        );
+
+      authButtons.style.display =
+        "none";
+
+      userBar.classList.add(
+        "show"
+      );
+
+      userName.textContent =
+        user.name ||
+        user.email ||
+        "Account";
+
+    }catch{
+
+      clearLogin();
+
+    }
+
+  }else{
+
+    authButtons.style.display =
+      "flex";
+
+    userBar.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+  const token =
+    localStorage.getItem(
+      "quora_token"
+    );
+
+
+  if(!token){
+
+    showLogin();
+
+    return;
+
+  }
+
+
+  /*
+    Show locally stored details immediately.
+  */
+
+  const savedUser =
+    localStorage.getItem(
+      "quora_user"
+    );
+
+  if(savedUser){
+
+    try{
+
+      const user =
+        JSON.parse(
+          savedUser
+        );
+
+      displayProfile(
+        user,
+        null
+      );
+
+    }catch{}
+
+  }
+
+
+  /*
+    Then get fresh information
+    from the backend.
+  */
+
+  try{
+
+    const data =
+      await apiFetch(
+        "/api/me"
+      );
+
+    if(data.user){
+
+      localStorage.setItem(
+        "quora_user",
+        JSON.stringify(
+          data.user
+        )
+      );
+
+      displayProfile(
+        data.user,
+        data.wallet
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "PROFILE:",
+      error
+    );
+
+    if(
+      String(error.message)
+        .toLowerCase()
+        .includes("token")
+    ){
+
+      clearLogin();
+
+      showLogin();
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   DISPLAY PROFILE
+========================================================= */
+
+function displayProfile(
+  user,
+  wallet
+){
+
+  const name =
+    user?.name ||
+    "User";
+
+  const email =
+    user?.email ||
+    "-";
+
+  const phone =
+    user?.phone ||
+    "-";
+
+  const id =
+    user?.id ||
+    "-";
+
+
+  document.getElementById(
+    "profileName"
+  ).textContent =
+    name;
+
+
+  document.getElementById(
+    "profileEmail"
+  ).textContent =
+    email;
+
+
+  document.getElementById(
+    "profileAvatar"
+  ).textContent =
+    name
+      .charAt(0)
+      .toUpperCase();
+
+
+  document.getElementById(
+    "detailName"
+  ).textContent =
+    name;
+
+
+  document.getElementById(
+    "detailEmail"
+  ).textContent =
+    email;
+
+
+  document.getElementById(
+    "detailPhone"
+  ).textContent =
+    phone;
+
+
+  document.getElementById(
+    "detailId"
+  ).textContent =
+    id;
+
+
+  document.getElementById(
+    "detailCreated"
+  ).textContent =
+    formatDate(
+      user?.created_at
+    );
+
+
+  const balance =
+    wallet &&
+    wallet.balance !== undefined
+      ? Number(wallet.balance)
+      : 0;
+
+
+  document.getElementById(
+    "profileBalance"
+  ).textContent =
+    `KES ${Number.isFinite(balance)
+      ? balance.toFixed(2)
+      : "0.00"}`;
+
+}
+
+
+/* =========================================================
+   SHOW PROFILE
+========================================================= */
+
+function showProfile(){
+
+  gamesContainer.style.display =
+    "none";
+
+  document.querySelector(
+    ".hero"
+  ).style.display =
+    "none";
+
+  document.querySelector(
+    ".promo"
+  ).style.display =
+    "none";
+
+  document.querySelector(
+    ".status"
+  ).style.display =
+    "none";
+
+  document.querySelector(
+    ".search-wrap"
+  ).style.display =
+    "none";
+
+  document.querySelector(
+    ".toolbar"
+  ).style.display =
+    "none";
+
+  liveBanner.style.display =
+    "none";
+
+  profilePage.classList.add(
+    "show"
+  );
+
+  loadProfile();
+
+}
+
+
+/* =========================================================
+   SHOW HOME
+========================================================= */
+
+function showHome(){
+
+  profilePage.classList.remove(
+    "show"
+  );
+
+  gamesContainer.style.display =
+    "block";
+
+  document.querySelector(
+    ".hero"
+  ).style.display =
+    "block";
+
+  document.querySelector(
+    ".promo"
+  ).style.display =
+    "block";
+
+  document.querySelector(
+    ".status"
+  ).style.display =
+    "block";
+
+  document.querySelector(
+    ".search-wrap"
+  ).style.display =
+    "block";
+
+  document.querySelector(
+    ".toolbar"
+  ).style.display =
+    "flex";
+
+  if(
+    liveStat.textContent !== "0"
+  ){
+    liveBanner.style.display =
+      "block";
+  }
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+loginBtn.addEventListener(
+  "click",
+  () => {
+
+    loginModal.classList.add(
+      "open"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+registerBtn.addEventListener(
+  "click",
+  () => {
+
+    registerModal.classList.add(
+      "open"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   CLOSE MODALS
+========================================================= */
+
+document
+  .querySelectorAll(
+    "[data-close]"
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const id =
+          button.dataset.close;
+
+        document
+          .getElementById(id)
+          .classList.remove(
+            "open"
+          );
+
+      }
+    );
+
+  });
+
+
+document
+  .querySelectorAll(".modal")
+  .forEach(modal => {
+
+    modal.addEventListener(
+      "click",
+      event => {
+
+        if(
+          event.target === modal
+        ){
+
+          modal.classList.remove(
+            "open"
+          );
+
+        }
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+registerForm.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+    const message =
+      document.getElementById(
+        "registerMessage"
+      );
+
+    message.style.color =
+      "#ffd86b";
+
+    message.textContent =
+      "Creating account...";
+
+
+    try{
+
+      const data =
+        await apiFetch(
+          "/api/auth/register",
+          {
+            method:"POST",
+
+            body:JSON.stringify({
+
+              name:
+                document.getElementById(
+                  "registerName"
+                ).value,
+
+              email:
+                document.getElementById(
+                  "registerEmail"
+                ).value,
+
+              phone:
+                document.getElementById(
+                  "registerPhone"
+                ).value,
+
+              password:
+                document.getElementById(
+                  "registerPassword"
+                ).value
+
+            })
+
+          }
+        );
+
+
+      if(!data.token){
+
+        throw new Error(
+          "Registration succeeded but no token was returned."
+        );
+
+      }
+
+
+      localStorage.setItem(
+        "quora_token",
+        data.token
+      );
+
+
+      localStorage.setItem(
+        "quora_user",
+        JSON.stringify(
+          data.user
+        )
+      );
+
+
+      message.style.color =
+        "#9ee01a";
+
+      message.textContent =
+        "Account created successfully.";
+
+
+      setTimeout(
+        () => {
+
+          registerModal.classList.remove(
+            "open"
+          );
+
+          updateAuthUI();
+
+        },
+        700
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "REGISTER:",
+        error
+      );
+
+      message.style.color =
+        "#ff7777";
+
+      message.textContent =
+        error.message;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+loginForm.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+    const message =
+      document.getElementById(
+        "loginMessage"
+      );
+
+    message.style.color =
+      "#ffd86b";
+
+    message.textContent =
+      "Logging in...";
+
+
+    try{
+
+      const data =
+        await apiFetch(
+          "/api/auth/login",
+          {
+            method:"POST",
+
+            body:JSON.stringify({
+
+              email:
+                document.getElementById(
+                  "loginEmail"
+                ).value,
+
+              password:
+                document.getElementById(
+                  "loginPassword"
+                ).value
+
+            })
+
+          }
+        );
+
+
+      if(!data.token){
+
+        throw new Error(
+          "Login succeeded but no token was returned."
+        );
+
+      }
+
+
+      localStorage.setItem(
+        "quora_token",
+        data.token
+      );
+
+
+      localStorage.setItem(
+        "quora_user",
+        JSON.stringify(
+          data.user
+        )
+      );
+
+
+      message.style.color =
+        "#9ee01a";
+
+      message.textContent =
+        "Login successful.";
+
+
+      setTimeout(
+        () => {
+
+          loginModal.classList.remove(
+            "open"
+          );
+
+          updateAuthUI();
+
+        },
+        700
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "LOGIN:",
+        error
+      );
+
+      message.style.color =
+        "#ff7777";
+
+      message.textContent =
+        error.message;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function clearLogin(){
+
+  localStorage.removeItem(
+    "quora_token"
+  );
+
+  localStorage.removeItem(
+    "quora_user"
+  );
+
+  updateAuthUI();
+
+}
+
+
+logoutBtn.addEventListener(
+  "click",
+  clearLogin
+);
+
+
+profileLogoutBtn.addEventListener(
+  "click",
+  clearLogin
+);
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchInput.addEventListener(
+  "input",
+  renderGames
+);
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+refreshBtn.addEventListener(
+  "click",
+  loadGames
+);
+
+
+/* =========================================================
+   SPORTS
+========================================================= */
+
+document
+  .querySelectorAll(".sport")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+          .querySelectorAll(".sport")
+          .forEach(
+            x =>
+              x.classList.remove(
+                "active"
+              )
+          );
+
+        button.classList.add(
+          "active"
+        );
+
+        currentSport =
+          button.dataset.sport;
+
+        currentView =
+          "highlights";
+
+        document
+          .querySelectorAll(
+            ".subnav-btn"
+          )
+          .forEach(
+            x =>
+              x.classList.remove(
+                "active"
+              )
+          );
+
+        document
+          .querySelector(
+            '[data-view="highlights"]'
+          )
+          .classList.add(
+            "active"
+          );
+
+        searchInput.value = "";
+
+        loadGames();
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   FILTER BUTTONS
+========================================================= */
+
+document
+  .querySelectorAll(
+    ".filter-btn[data-filter]"
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+          .querySelectorAll(
+            ".filter-btn[data-filter]"
+          )
+          .forEach(
+            x =>
+              x.classList.remove(
+                "active"
+              )
+          );
+
+        button.classList.add(
+          "active"
+        );
+
+        currentFilter =
+          button.dataset.filter;
+
+        renderGames();
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   SECOND NAV
+========================================================= */
+
+document
+  .querySelectorAll(
+    ".subnav-btn"
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+          .querySelectorAll(
+            ".subnav-btn"
+          )
+          .forEach(
+            x =>
+              x.classList.remove(
+                "active"
+              )
+          );
+
+        button.classList.add(
+          "active"
+        );
+
+        currentView =
+          button.dataset.view;
+
+        showHome();
+
+        renderGames();
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   BET SLIP
+========================================================= */
+
+floatingSlip.addEventListener(
+  "click",
+  () => {
+
+    betSlip.classList.add(
+      "open"
+    );
+
+    floatingSlip.style.display =
+      "none";
+
+  }
+);
+
+
+closeSlip.addEventListener(
+  "click",
+  () => {
+
+    betSlip.classList.remove(
+      "open"
+    );
+
+    if(
+      selections.length > 0
+    ){
+
+      floatingSlip.style.display =
+        "block";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   CONTINUE BET
+========================================================= */
+
+continueBetBtn.addEventListener(
+  "click",
+  () => {
+
+    if(
+      selections.length === 0
+    ){
+
+      alert(
+        "Add at least one selection to your bet slip."
+      );
+
+      return;
+
+    }
+
+
+    const token =
+      localStorage.getItem(
+        "quora_token"
+      );
+
+
+    if(!token){
+
+      alert(
+        "Please login or register before continuing."
+      );
+
+      loginModal.classList.add(
+        "open"
+      );
+
+      return;
+
+    }
+
+
+    alert(
+      "Your selections are ready. Real-money wager submission should be connected to your compliant betting/payment flow."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+document
+  .querySelectorAll(
+    ".bottom-btn"
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+          .querySelectorAll(
+            ".bottom-btn"
+          )
+          .forEach(
+            x =>
+              x.classList.remove(
+                "active"
+              )
+          );
+
+        button.classList.add(
+          "active"
+        );
+
+
+        const destination =
+          button.dataset.bottom;
+
+
+        if(destination === "profile"){
+
+          showProfile();
+
+          return;
+
+        }
+
+
+        if(destination === "slip"){
+
+          showHome();
+
+          if(
+            selections.length === 0
+          ){
+
+            alert(
+              "Your bet slip is empty."
+            );
+
+          }else{
+
+            betSlip.classList.add(
+              "open"
+            );
+
+            floatingSlip.style.display =
+              "none";
+
+          }
+
+          return;
+
+        }
+
+
+        if(destination === "live"){
+
+          showHome();
+
+          currentView =
+            "live";
+
+          document
+            .querySelectorAll(
+              ".subnav-btn"
+            )
+            .forEach(
+              x =>
+                x.classList.remove(
+                  "active"
+                )
+            );
+
+          const liveButton =
+            document.querySelector(
+              '[data-view="live"]'
+            );
+
+          if(liveButton){
+
+            liveButton.classList.add(
+              "active"
+            );
+
+          }
+
+          renderGames();
+
+          return;
+
+        }
+
+
+        /*
+          Home and My Bets currently
+          return to the main screen.
+        */
+
+        showHome();
+
+        if(destination === "home"){
+
+          currentView =
+            "highlights";
+
+          document
+            .querySelectorAll(
+              ".subnav-btn"
+            )
+            .forEach(
+              x =>
+                x.classList.remove(
+                  "active"
+                )
+            );
+
+          document
+            .querySelector(
+              '[data-view="highlights"]'
+            )
+            .classList.add(
+              "active"
+            );
+
+          renderGames();
+
+        }
+
+
+        if(destination === "bets"){
+
+          alert(
+            "My Bets will show placed bets once the wager/payment system is connected."
+          );
+
+        }
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function isSameDay(
+  date1,
+  date2
+){
+
+  if(
+    Number.isNaN(
+      date1.getTime()
+    ) ||
+    Number.isNaN(
+      date2.getTime()
+    )
+  ){
+
+    return false;
+
+  }
+
+  return(
+    date1.getFullYear() ===
+      date2.getFullYear() &&
+
+    date1.getMonth() ===
+      date2.getMonth() &&
+
+    date1.getDate() ===
+      date2.getDate()
+  );
+
+}
+
+
+function formatDate(value){
+
+  if(!value){
+    return "-";
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "-";
+
+  }
+
+  return date.toLocaleDateString(
+    undefined,
+    {
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  );
+
+}
+
+
+function getSportIcon(){
+
+  if(
+    currentSport.includes(
+      "basketball"
+    )
+  ){
+    return "🏀";
+  }
+
+  if(
+    currentSport.includes(
+      "tennis"
+    )
+  ){
+    return "🎾";
+  }
+
+  if(
+    currentSport.includes(
+      "hockey"
+    )
+  ){
+    return "🏒";
+  }
+
+  return "⚽";
+
+}
+
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+updateAuthUI();
+
+loadGames();
+
+</script>
+
+</body>
+  </html>
