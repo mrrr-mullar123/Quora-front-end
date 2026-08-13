@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quora Bets</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#07121c;
+  color:#f5f8fa;
+  min-height:100vh;
+  padding-bottom:80px;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+button:disabled{
+  cursor:not-allowed;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:500;
+  background:#101d29;
+  border-bottom:1px solid #233442;
+}
+
+.header-inner{
+  max-width:1250px;
+  margin:auto;
+  min-height:76px;
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.logo-box{
+  width:47px;
+  height:47px;
+  border-radius:13px;
+  background:#9ee01a;
+  color:#07121c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:29px;
+  font-weight:900;
+}
+
+.logo span{
+  color:#9ee01a;
+}
+
+.header-buttons{
+  display:flex;
+  gap:9px;
+}
+
+.btn{
+  border:none;
+  border-radius:11px;
+  padding:12px 19px;
+  font-weight:800;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  background:#9ee01a;
+  color:#07121c;
+}
+
+.btn-secondary{
+  background:#1b2b38;
+  color:#fff;
+  border:1px solid #334654;
+}
+
+.user-bar{
+  display:none;
+  align-items:center;
+  gap:10px;
+}
+
+.user-bar.show{
+  display:flex;
+}
+
+.user-name{
+  color:#9ee01a;
+  font-weight:800;
+}
+
+/* =========================
+   MAIN SPORTS NAV
+========================= */
+
+.sports{
+  background:#142330;
+  border-bottom:1px solid #263847;
+  overflow-x:auto;
+}
+
+.sports-inner{
+  max-width:1250px;
+  margin:auto;
+  display:flex;
+  gap:4px;
+  padding:0 14px;
+}
+
+.sport{
+  min-width:105px;
+  border:none;
+  background:transparent;
+  color:#8e9ba5;
+  padding:14px 15px 13px;
+  font-weight:800;
+  font-size:15px;
+  border-bottom:3px solid transparent;
+}
+
+.sport.active{
+  color:#fff;
+  border-bottom-color:#9ee01a;
+}
+
+.sport-icon{
+  display:block;
+  font-size:24px;
+  margin-bottom:4px;
+}
+
+/* =========================
+   SECOND NAV
+========================= */
+
+.subnav{
+  background:#101d29;
+  border-bottom:1px solid #233442;
+  overflow-x:auto;
+}
+
+.subnav-inner{
+  max-width:1250px;
+  margin:auto;
+  display:flex;
+  gap:28px;
+  padding:16px 20px 13px;
+  white-space:nowrap;
+}
+
+.subnav-btn{
+  border:none;
+  background:transparent;
+  color:#9ba7af;
+  font-size:16px;
+  font-weight:700;
+  padding-bottom:7px;
+  border-bottom:3px solid transparent;
+}
+
+.subnav-btn.active{
+  color:#fff;
+  border-bottom-color:#9ee01a;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+  max-width:1250px;
+  margin:auto;
+  padding:18px 18px 100px;
+}
+
+/* =========================
+   TOP TOOLBAR
+========================= */
+
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  overflow-x:auto;
+  margin-bottom:17px;
+  padding-bottom:3px;
+}
+
+.filter-btn{
+  flex-shrink:0;
+  border:none;
+  background:#1b2b38;
+  color:#f1f5f7;
+  border-radius:22px;
+  padding:11px 17px;
+  font-weight:700;
+  border:1px solid #263c4b;
+}
+
+.filter-btn.active{
+  background:#9ee01a;
+  color:#07121c;
+  border-color:#9ee01a;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-wrap{
+  position:relative;
+  margin-bottom:17px;
+}
+
+.search{
+  width:100%;
+  padding:16px 18px 16px 48px;
+  border-radius:14px;
+  border:1px solid #2b4050;
+  background:#101e2a;
+  color:white;
+  outline:none;
+}
+
+.search:focus{
+  border-color:#9ee01a;
+}
+
+.search-icon{
+  position:absolute;
+  left:17px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#8796a0;
+  font-size:19px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  background:linear-gradient(135deg,#183728,#10251d);
+  border:1px solid #314f40;
+  border-radius:17px;
+  padding:24px;
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:31px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  color:#aab7b2;
+  line-height:1.5;
+}
+
+.hero-stats{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:17px;
+}
+
+.stat{
+  background:rgba(0,0,0,.18);
+  border:1px solid #385747;
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:14px;
+}
+
+.stat strong{
+  color:#9ee01a;
+}
+
+/* =========================
+   PROMO
+========================= */
+
+.promo{
+  border-radius:15px;
+  padding:18px 20px;
+  margin-bottom:20px;
+  background:linear-gradient(100deg,#39127c,#6817a8,#36106d);
+  border:1px solid #7334b2;
+  overflow:hidden;
+  position:relative;
+}
+
+.promo h2{
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.promo p{
+  color:#eee;
+}
+
+.promo strong{
+  color:#ffe600;
+  font-size:25px;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+  padding:14px 17px;
+  border:1px solid #29404e;
+  border-radius:12px;
+  margin-bottom:18px;
+  background:#101e2a;
+  color:#9ee01a;
+}
+
+.status.error{
+  color:#ff7777;
+}
+
+.status.loading{
+  color:#ffd86b;
+}
+
+/* =========================
+   SECTION HEADER
+========================= */
+
+.section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:20px 0 10px;
+}
+
+.section-heading h2{
+  font-size:21px;
+}
+
+.section-heading span{
+  color:#8e9ba5;
+  font-size:14px;
+}
+
+/* =========================
+   LIVE BAR
+========================= */
+
+.live-banner{
+  display:none;
+  background:#20171a;
+  border:1px solid #5a2d31;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:17px;
+}
+
+.live-banner.show{
+  display:block;
+}
+
+.live-title{
+  color:#ff6464;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+/* =========================
+   LEAGUE
+========================= */
+
+.league{
+  background:#101e2a;
+  border:1px solid #253a48;
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
+.league-title{
+  padding:14px 16px;
+  background:#152632;
+  border-bottom:1px solid #263c4b;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.league-name{
+  font-weight:800;
+  color:#f2f6f8;
+}
+
+.league-meta{
+  color:#82919b;
+  font-size:13px;
+}
+
+/* =========================
+   MATCH
+========================= */
+
+.match{
+  padding:16px;
+  border-bottom:1px solid #263743;
+}
+
+.match:last-child{
+  border-bottom:none;
+}
+
+.match-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:#8d9aa3;
+  font-size:13px;
+  margin-bottom:13px;
+}
+
+.match-time.live{
+  color:#ff6262;
+  font-weight:900;
+}
+
+.upcoming{
+  color:#9ee01a;
+  font-weight:800;
+}
+
+.live-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#ff4d4d;
+  margin-right:5px;
+}
+
+.match-content{
+  display:grid;
+  grid-template-columns:minmax(190px,1fr) 1.5fr;
+  gap:18px;
+  align-items:center;
+}
+
+.teams{
+  font-size:16px;
+  font-weight:800;
+  line-height:1.7;
+}
+
+.team{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.team-ball{
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:#1d303d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+}
+
+.vs{
+  color:#667681;
+  font-size:11px;
+  font-weight:500;
+  padding-left:32px;
+}
+
+.odds{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px
